@@ -7,10 +7,11 @@ Puppet::Type.type(:rbenv_gem).provide(:rubygems) do
   def rbenv_gem(command)
     env = {
       'RBENV_ROOT'    => @resource[:rbenv_root],
+      'PATH'          => "#{@resource[:rbenv_root]}/shims",
       'RBENV_VERSION' => @resource[:rbenv_version],
     }
     Puppet::Util::SUIDManager.run_and_capture(
-      "#{@resource[:rbenv_root]}/shims/gem #{command}", nil, nil,
+      "#{@resource[:rbenv_root]}/shims/gem #{command}", Facter[:luser].value, nil,
       :custom_environment => env)
   end
 
