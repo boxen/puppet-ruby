@@ -9,15 +9,9 @@ Puppet::Type.type(:rbenv_gem).provide(:rubygems) do
       'RBENV_ROOT'    => @resource[:rbenv_root],
       'RBENV_VERSION' => @resource[:rbenv_version],
     }
-    output = nil
-    status = nil
-    Puppet::Util.withenv env do
-      ENV.delete 'GEM_PATH'
-      output, status = Puppet::Util::SUIDManager.run_and_capture(
-        "#{@resource[:rbenv_root]}/shims/gem #{command}",
-        nil, nil)
-    end
-    [output, status]
+    Puppet::Util::SUIDManager.run_and_capture(
+      "#{@resource[:rbenv_root]}/shims/gem #{command}",
+      :custom_environment => env)
   end
 
   def create
