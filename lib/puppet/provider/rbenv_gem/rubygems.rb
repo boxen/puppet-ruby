@@ -5,14 +5,16 @@ Puppet::Type.type(:rbenv_gem).provide(:rubygems) do
   desc ""
 
   def rbenv_gem(command)
-    env = {
-      'RBENV_ROOT'    => @resource[:rbenv_root],
-      'PATH'          => "#{@resource[:rbenv_root]}/shims",
-      'RBENV_VERSION' => @resource[:rbenv_version],
-    }
-    Puppet::Util::SUIDManager.run_and_capture(
-      "#{@resource[:rbenv_root]}/shims/gem #{command}", Facter[:luser].value, nil,
-      :custom_environment => env)
+    full_command = [
+      "sudo -u #{Facter[:luser].value}",
+      "PATH=#{@resource[:rbenv_root]}/shims:#{Facter[:boxen_home].value}/homebrew/bin:$PATH",
+      "RBENV_VERSION=#{@resource[:rbenv_version]}",
+      "RBENV_ROOT=#{@resource[:rbenv_root]}",
+      "#{@resource[:rbenv_root]}/shims/gem #{command}"
+    ].join(" ")
+
+    output = `#{full_command}`
+    [output, $?]
   end
 
   def create
