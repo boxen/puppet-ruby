@@ -31,6 +31,6 @@ Puppet::Type.newtype(:rbenv_gem) do
   end
 
   autorequire(:exec) do
-    "ruby-install-#{self[:version]}"
+    "ruby-install-#{self[:rbenv_version]}"
   end
 end
