@@ -26,7 +26,7 @@ define ruby($cc        = '/usr/bin/cc',
 
     $archive = "${version}.tar.bz2"
     $os      = $::macosx_productversion_major
-    $url     = "http://s3.amazonaws.com/boxen/rbenv/${os}/${archive}"
+    $url     = "http://s3.amazonaws.com/boxen-downloads/rbenv/${os}/${archive}"
     $curl    = "(curl ${url} | tar xjf -)"
     $install = "(rbenv install $version)"
     $rehash  = '(rbenv rehash || true)' # FIX: rbenv exit value boog
