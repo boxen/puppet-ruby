@@ -1,3 +1,8 @@
+# Installs ruby 1.9.2p320 from rbenv and symlinks it as 1.8.7.
+#
+# Usage:
+#
+#     include ruby::1-9-2
 class ruby::1-9-2 {
   require rbenv
   require ruby::1-9-2-p320

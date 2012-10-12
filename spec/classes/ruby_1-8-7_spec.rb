@@ -9,6 +9,7 @@ describe 'ruby::1-8-7' do
   end
 
   it do
+    should include_class('rbenv')
     should include_class('ruby::1-8-7-p358')
 
     should contain_file('/opt/boxen/rbenv/versions/1.8.7').with({
