@@ -1,3 +1,8 @@
+# Installs ruby 1.8.7p358 from rbenv and symlinks it as 1.8.7.
+#
+# Usage:
+#
+#     include ruby::1-8-7
 class ruby::1-8-7 {
   require rbenv
   require ruby::1-8-7-p358
