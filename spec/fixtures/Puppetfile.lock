@@ -1,0 +1,14 @@
+GITHUBTARBALL
+  remote: boxen/puppet-boxen
+  specs:
+    boxen (0.0.25)
+
+GITHUBTARBALL
+  remote: boxen/puppet-rbenv
+  specs:
+    rbenv (0.0.2)
+
+DEPENDENCIES
+  boxen (= 0.0.25)
+  rbenv (= 0.0.2)
+
