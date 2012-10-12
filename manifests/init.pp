@@ -1,3 +1,9 @@
+# Installs a ruby version via rbenv.
+# Takes cc, ensure, global, conf_opts, and version params.
+#
+# Usage:
+#
+#     ruby { '1.9.3-p194': }
 define ruby($cc        = '/usr/bin/cc',
             $ensure    = 'installed',
             $global    = false,
@@ -15,10 +21,10 @@ define ruby($cc        = '/usr/bin/cc',
     }
   } else {
     if $conf_opts == undef {
-      $env = ["CC=$cc", "RBENV_ROOT=${rbenv::root}"]
+      $env = ["CC=${cc}", "RBENV_ROOT=${rbenv::root}"]
     } else {
       $env = [
-              "CC=$cc",
+              "CC=${cc}",
               "RBENV_ROOT=${rbenv::root}",
               "CONFIGURE_OPTS=${conf_opts}"
               ]
@@ -28,11 +34,11 @@ define ruby($cc        = '/usr/bin/cc',
     $os      = $::macosx_productversion_major
     $url     = "http://s3.amazonaws.com/boxen-downloads/rbenv/${os}/${archive}"
     $curl    = "(curl ${url} | tar xjf -)"
-    $install = "(rbenv install $version)"
+    $install = "(rbenv install ${version})"
     $rehash  = '(rbenv rehash || true)' # FIX: rbenv exit value boog
 
     exec { "ruby-install-${version}":
-      command     => "(${curl} && ${rehash}) || $install",
+      command     => "(${curl} && ${rehash}) || ${install}",
       cwd         => "${rbenv::root}/versions",
       environment => $env,
       provider    => 'shell',
