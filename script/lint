@@ -8,7 +8,7 @@ echo
 echo "puppet-lint"
 echo "-----------"
 
-bin/puppet-lint --fail-on-warnings --with-filename manifests
+bin/puppet-lint --fail-on-warnings --with-filename --no-names_containing_dash-check manifests
 
 [ $? -eq 0 ] && {
   echo "ALL OK"
