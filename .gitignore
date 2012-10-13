@@ -1,2 +1,8 @@
 /.bundle/
 /bin/
+/spec/fixtures/.tmp/
+/spec/fixtures/.librarian/
+/spec/fixtures/vendor/
+/spec/fixtures/modules/boxen/
+/spec/fixtures/modules/rbenv/
+/spec/fixtures/modules/stdlib/
