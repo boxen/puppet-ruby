@@ -13,15 +13,11 @@ describe 'ruby' do
 
   context "ensure => present" do
     context "default params" do
-      let(:curl)    { '(curl http://s3.amazonaws.com/boxen-downloads/rbenv/10.8/1.9.3-p194.tar.bz2 | tar xjf -)' }
-      let(:rehash)  { '(rbenv rehash || true)' }
-      let(:install) { '(rbenv install 1.9.3-p194)' }
-
       it do
         should include_class('rbenv')
 
         should contain_exec('ruby-install-1.9.3-p194').with({
-          :command  => "(#{curl} && #{rehash}) || #{install}",
+          :command  => "rbenv install 1.9.3-p194",
           :cwd      => '/opt/boxen/rbenv/versions',
           :provider => 'shell',
           :require  => [
