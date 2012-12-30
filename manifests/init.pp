@@ -11,6 +11,7 @@ define ruby($cc        = '/usr/bin/cc',
             $version   = $name) {
 
   require rbenv
+  require ruby::definitions
 
   $dest = "${rbenv::root}/versions/${version}"
 
