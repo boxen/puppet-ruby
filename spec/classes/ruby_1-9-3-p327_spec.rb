@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'ruby::1-9-3-p286' do
+describe 'ruby::1-9-3-p327' do
   let(:facts) do
     {
       :boxen_home => '/opt/boxen',
@@ -8,11 +8,11 @@ describe 'ruby::1-9-3-p286' do
   end
 
   it do
-    should contain_ruby('1.9.3-p286').with({
+    should contain_ruby('1.9.3-p327').with({
       :require => 'Class[Rbenv]'
     })
 
-    should_not contain_ruby('1.9.3-p286').with_global(true)
+    should_not contain_ruby('1.9.3-p327').with_global(true)
   end
 end
 
