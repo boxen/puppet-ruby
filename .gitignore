@@ -4,5 +4,5 @@
 /spec/fixtures/.librarian/
 /spec/fixtures/vendor/
 /spec/fixtures/modules/boxen/
-/spec/fixtures/modules/rbenv/
+/spec/fixtures/modules/homebrew/
 /spec/fixtures/modules/stdlib/
