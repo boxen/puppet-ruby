@@ -13,7 +13,7 @@ define ruby::gem($gem, $ruby, $version = '>= 0') {
   rbenv_gem { $name:
     gem           => $gem,
     version       => $version,
-    rbenv_root    => $rbenv::root,
+    rbenv_root    => $ruby::root,
     rbenv_version => $ruby,
   }
 }

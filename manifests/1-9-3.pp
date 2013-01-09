@@ -6,9 +6,9 @@
 class ruby::1-9-3 {
   require ruby::1-9-3-p362
 
-  file { "${rbenv::root}/versions/1.9.3":
+  file { "${ruby::root}/versions/1.9.3":
     ensure  => symlink,
     force   => true,
-    target  => "${rbenv::root}/versions/1.9.3-p362"
+    target  => "${ruby::root}/versions/1.9.3-p362"
   }
 }

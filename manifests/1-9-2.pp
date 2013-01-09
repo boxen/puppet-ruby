@@ -6,9 +6,9 @@
 class ruby::1-9-2 {
   require ruby::1-9-2-p320
 
-  file { "${rbenv::root}/versions/1.9.2":
+  file { "${ruby::root}/versions/1.9.2":
     ensure  => symlink,
     force   => true,
-    target  => "${rbenv::root}/versions/1.9.2-p320"
+    target  => "${ruby::root}/versions/1.9.2-p320"
   }
 }

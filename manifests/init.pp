@@ -1,5 +1,6 @@
 class ruby {
   require boxen::config
+  require homebrew
 
   $root = "${boxen::config::home}/rbenv"
 

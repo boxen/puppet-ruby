@@ -13,7 +13,6 @@ describe 'ruby::1-8-7-p358' do
       should contain_ruby__version('1.8.7-p358').with({
         :cc        => '/usr/local/bin/gcc-4.2',
         :conf_opts => '--disable-tk --disable-tcl --disable-tcltk-framework',
-        :require   => 'Package[boxen/brews/apple-gcc42]',
       })
     end
   end
@@ -30,7 +29,6 @@ describe 'ruby::1-8-7-p358' do
       should contain_ruby__version('1.8.7-p358').with({
         :cc        => '/usr/local/bin/gcc-4.2',
         :conf_opts => nil,
-        :require   => 'Package[boxen/brews/apple-gcc42]'
       })
     end
   end

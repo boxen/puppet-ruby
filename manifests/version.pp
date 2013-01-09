@@ -13,7 +13,7 @@ define ruby::version(
 ) {
   require ruby
 
-  $dest = "${rbenv::root}/versions/${version}"
+  $dest = "${ruby::root}/versions/${version}"
 
   if $ensure == 'absent' {
     file { $dest:
@@ -22,11 +22,11 @@ define ruby::version(
     }
   } else {
     if $conf_opts == undef {
-      $env = ["CC=${cc}", "RBENV_ROOT=${rbenv::root}"]
+      $env = ["CC=${cc}", "RBENV_ROOT=${ruby::root}"]
     } else {
       $env = [
               "CC=${cc}",
-              "RBENV_ROOT=${rbenv::root}",
+              "RBENV_ROOT=${ruby::root}",
               "CONFIGURE_OPTS=${conf_opts}"
               ]
     }
@@ -34,7 +34,7 @@ define ruby::version(
 
     exec { "ruby-install-${version}":
       command     => "rbenv install ${version}",
-      cwd         => "${rbenv::root}/versions",
+      cwd         => "${ruby::root}/versions",
       environment => $env,
       provider    => 'shell',
       timeout     => 0,
@@ -42,7 +42,7 @@ define ruby::version(
     }
 
     if $global {
-      file { "${rbenv::root}/version":
+      file { "${ruby::root}/version":
         ensure  => present,
         owner   => $::luser,
         mode    => '0644',
