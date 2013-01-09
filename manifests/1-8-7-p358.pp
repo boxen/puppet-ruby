@@ -5,10 +5,9 @@
 #
 #     include ruby::1-8-7-p358
 class ruby::1-8-7-p358 {
-  if $::macosx_productversion_major == 10.8 {
-    $opts = '--disable-tk --disable-tcl --disable-tcltk-framework'
-  } else {
-    $opts = undef
+  $opts = $::macosx_productversion_major ? {
+    '10.8'  => '--disable-tk --disable-tcl --disable-tcltk-framework',
+    default => undef
   }
 
   ruby::version { '1.8.7-p358':
