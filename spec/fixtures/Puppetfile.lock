@@ -4,17 +4,11 @@ GITHUBTARBALL
     boxen (0.0.25)
 
 GITHUBTARBALL
-  remote: boxen/puppet-rbenv
-  specs:
-    rbenv (0.0.3)
-
-GITHUBTARBALL
   remote: puppetlabs/puppetlabs-stdlib
   specs:
     stdlib (3.0.0)
 
 DEPENDENCIES
   boxen (= 0.0.25)
-  rbenv (= 0.0.3)
   stdlib (= 3.0.0)
 

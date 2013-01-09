@@ -8,10 +8,7 @@ describe 'ruby::1-9-3-p262' do
   end
 
   it do
-    should contain_ruby('1.9.3-p362').with({
-      :global  => true,
-      :require => 'Class[Rbenv]'
-    })
+    should contain_ruby__version('1.9.3-p362').with_global(true)
   end
 end
 

@@ -4,5 +4,5 @@
 #
 #     include ruby::1-9-3-p125
 class ruby::1-9-3-p125 {
-  ruby { '1.9.3-p125': }
+  ruby::version { '1.9.3-p125': }
 }

@@ -5,5 +5,5 @@
 #     include ruby::1-9-3-p286
 
 class ruby::1-9-3-p286 {
-  ruby { '1.9.3-p286': }
+  ruby::version { '1.9.3-p286': }
 }

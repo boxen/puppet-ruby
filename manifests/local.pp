@@ -9,9 +9,12 @@ define ruby::local($version = undef, $ensure = present) {
     require join(['ruby', join(split($version, '[.]'), '-')], '::')
   }
 
-  file { "${name}/.rbenv-version":
-    ensure  => $ensure,
-    content => "${version}\n",
-    replace => true
+  file {
+    "${name}/.ruby-version":
+      ensure  => $ensure,
+      content => "${version}\n",
+      replace => true ;
+    "${name}/.rbenv-version":
+      ensure  => absent ;
   }
 }

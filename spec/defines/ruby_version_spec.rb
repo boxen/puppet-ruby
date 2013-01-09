@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'ruby' do
+describe 'ruby::version' do
   let(:facts) do
     {
       :boxen_home                  => '/opt/boxen',
@@ -14,17 +14,12 @@ describe 'ruby' do
   context "ensure => present" do
     context "default params" do
       it do
-        should include_class('rbenv')
+        should include_class('ruby')
 
         should contain_exec('ruby-install-1.9.3-p194').with({
           :command  => "rbenv install 1.9.3-p194",
           :cwd      => '/opt/boxen/rbenv/versions',
           :provider => 'shell',
-          :require  => [
-            'Package[rbenv]',
-            'File[/opt/boxen/rbenv/versions]'
-          ],
-          :returns  => [0, 1],
           :timeout  => 0,
           :creates  => '/opt/boxen/rbenv/versions/1.9.3-p194'
         })

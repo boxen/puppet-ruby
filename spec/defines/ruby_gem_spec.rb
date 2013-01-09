@@ -18,7 +18,7 @@ describe 'ruby::gem' do
   end
 
   it do
-    should include_class('rbenv')
+    should include_class('ruby')
 
     should contain_rbenv_gem('bundler for 1.9.3-p194').with({
       :gem           => 'bundler',

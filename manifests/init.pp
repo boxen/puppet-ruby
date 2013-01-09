@@ -1,67 +1,23 @@
-# Installs a ruby version via rbenv.
-# Takes cc, ensure, global, conf_opts, and version params.
-#
-# Usage:
-#
-#     ruby { '1.9.3-p194': }
-define ruby($cc        = '/usr/bin/cc',
-            $ensure    = 'installed',
-            $global    = false,
-            $conf_opts = undef,
-            $version   = $name) {
+class ruby {
+  require boxen::config
 
-  require rbenv
-  require ruby::definitions
+  $root = "${boxen::config::home}/rbenv"
 
-  $dest = "${rbenv::root}/versions/${version}"
+  file {
+    [$root, "${root}/versions", "${root}/rbenv.d", "${root}/rbenv.d/install"]:
+      ensure => directory;
+    "${root}/rbenv.d/install/00_try_to_download_ruby_version.bash":
+      ensure => present,
+      mode   => '0755',
+      source => 'puppet:///modules/ruby/try_to_download_ruby_version.bash';
+  }
 
-  if $ensure == 'absent' {
-    file { $dest:
-      ensure => absent,
-      force  => true
-    }
-  } else {
-    if $conf_opts == undef {
-      $env = ["CC=${cc}", "RBENV_ROOT=${rbenv::root}"]
-    } else {
-      $env = [
-              "CC=${cc}",
-              "RBENV_ROOT=${rbenv::root}",
-              "CONFIGURE_OPTS=${conf_opts}"
-              ]
-    }
+  package {
+    'rbenv':      ensure => '0.4.0' ;
+    'ruby-build': ensure => '20130104' ;
+  }
 
-
-    exec { "ruby-install-${version}":
-      command     => "rbenv install ${version}",
-      cwd         => "${rbenv::root}/versions",
-      environment => $env,
-      provider    => 'shell',
-      require     => [Package['rbenv'], File["${rbenv::root}/versions"]],
-      returns     => [0, 1], # FIX: rbenv boog: $? is 1 on successful install
-      timeout     => 0,
-      creates     => $dest
-    }
-
-    if $global {
-      file { "${rbenv::root}/version":
-        ensure  => present,
-        owner   => $::luser,
-        mode    => '0644',
-        content => "${version}\n",
-        require => Exec["ruby-install-${version}"]
-      }
-    }
-
-    ruby::gem {
-      "bundler for ${version}":
-        gem     => 'bundler',
-        ruby    => $version,
-        version => '~> 1.2.0';
-
-      "rbenv-autohash for ${version}":
-        gem  => 'rbenv-autohash',
-        ruby => $version
-    }
+  file { "${boxen::config::envdir}/rbenv.sh":
+    source  => 'puppet:///modules/ruby/rbenv.sh'
   }
 }

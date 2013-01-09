@@ -4,7 +4,6 @@
 #
 #     include ruby::1-9-3
 class ruby::1-9-3 {
-  require rbenv
   require ruby::1-9-3-p362
 
   file { "${rbenv::root}/versions/1.9.3":
