@@ -10,7 +10,6 @@ describe 'ruby::1-9-2-p290' do
   it do
     should contain_ruby__version('1.9.2-p290').with({
       :cc        => '/usr/local/bin/gcc-4.2',
-      :require   => 'Package[boxen/brews/apple-gcc42]',
     })
   end
 end

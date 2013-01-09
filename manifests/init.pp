@@ -1,3 +1,7 @@
+# Class: ruby
+#
+# This module installs a full rbenv-driven ruby stack
+#
 class ruby {
   require boxen::config
   require homebrew

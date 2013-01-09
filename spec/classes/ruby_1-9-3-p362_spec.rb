@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'ruby::1-9-3-p262' do
+describe 'ruby::1-9-3-p362' do
   let(:facts) do
     {
       :boxen_home => '/opt/boxen',

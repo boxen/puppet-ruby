@@ -3,7 +3,7 @@
 Requires the following boxen modules:
 
 * `boxen`
-* `rbenv`
+* `homebrew`
 
 ## Usage
 
@@ -22,7 +22,7 @@ ruby::gem { "bundler for ${version}":
 }
 
 # install a ruby version
-ruby { '1.9.3-p194':
+ruby::version { '1.9.3-p194':
   global => true
 }
 

@@ -4,6 +4,7 @@
 #
 #     include ruby::1-9-2
 class ruby::1-9-2 {
+  require ruby
   require ruby::1-9-2-p320
 
   file { "${ruby::root}/versions/1.9.2":

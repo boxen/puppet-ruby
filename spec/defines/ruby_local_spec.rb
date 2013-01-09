@@ -21,7 +21,8 @@ describe 'ruby::local' do
     it do
       should include_class('ruby::1-9-3-p194')
 
-      should contain_file('/tmp/.rbenv-version').with({
+      should contain_file('/tmp/.rbenv-version').with_ensure('absent')
+      should contain_file('/tmp/.ruby-version').with({
         :ensure  => 'present',
         :content => "1.9.3-p194\n",
         :replace => true
@@ -38,6 +39,7 @@ describe 'ruby::local' do
 
     it do
       should contain_file('/tmp/.rbenv-version').with_ensure('absent')
+      should contain_file('/tmp/.ruby-version').with_ensure('absent')
     end
   end
 end
