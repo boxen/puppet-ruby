@@ -21,16 +21,17 @@ define ruby::version(
       force  => true
     }
   } else {
-    if $conf_opts == undef {
-      $env = ["CC=${cc}", "RBENV_ROOT=${ruby::root}"]
-    } else {
-      $env = [
-              "CC=${cc}",
-              "RBENV_ROOT=${ruby::root}",
-              "CONFIGURE_OPTS=${conf_opts}"
-              ]
+    $env = $conf_opts ? {
+      undef   => [
+        "CC=${cc}",
+        "RBENV_ROOT=${ruby::root}"
+      ],
+      default => [
+        "CC=${cc}",
+        "RBENV_ROOT=${ruby::root}",
+        "CONFIGURE_OPTS=${conf_opts}"
+      ],
     }
-
 
     exec { "ruby-install-${version}":
       command     => "rbenv install ${version}",
