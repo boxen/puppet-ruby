@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'ruby::1-9-3-p362' do
+describe 'ruby::1-9-3-p374' do
   let(:facts) do
     {
       :boxen_home => '/opt/boxen',
@@ -8,7 +8,7 @@ describe 'ruby::1-9-3-p362' do
   end
 
   it do
-    should contain_ruby__version('1.9.3-p362').with_global(false)
+    should contain_ruby__version('1.9.3-p374').with_global(true)
   end
 end
 

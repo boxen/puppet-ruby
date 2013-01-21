@@ -23,7 +23,7 @@ describe 'ruby' do
       :source => 'puppet:///modules/ruby/try_to_download_ruby_version.bash'
     })
 
-    should contain_package('ruby-build').with_ensure('20130104')
+    should contain_package('ruby-build').with_ensure('20130118')
     should contain_package('rbenv').with_ensure('0.4.0')
 
     should contain_file('/opt/boxen/env.d/rbenv.sh').
