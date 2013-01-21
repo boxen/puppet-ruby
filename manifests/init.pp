@@ -19,7 +19,7 @@ class ruby {
 
   package {
     'rbenv':      ensure => '0.4.0' ;
-    'ruby-build': ensure => '20130104' ;
+    'ruby-build': ensure => '20130118' ;
   }
 
   file { "${boxen::config::envdir}/rbenv.sh":
