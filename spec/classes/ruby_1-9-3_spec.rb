@@ -8,7 +8,8 @@ describe 'ruby::1-9-3' do
   end
 
   it do
-    should include_class('ruby::1-9-3-p374')
+    should include_class('ruby::1-9-3-p231-github1')
+    should_not include_class('ruby::1-9-3-p374')
     should_not include_class('ruby::1-9-3-p362')
     should_not include_class('ruby::1-9-3-p194')
     should_not include_class('ruby::1-9-3-p286')
@@ -16,7 +17,7 @@ describe 'ruby::1-9-3' do
     should contain_file('/opt/boxen/rbenv/versions/1.9.3').with({
       :ensure => 'symlink',
       :force  => true,
-      :target => '/opt/boxen/rbenv/versions/1.9.3-p374'
+      :target => '/opt/boxen/rbenv/versions/1.9.3-p231-github1'
     })
   end
 end

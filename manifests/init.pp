@@ -7,6 +7,8 @@ class ruby {
   require homebrew
 
   $root = "${boxen::config::home}/rbenv"
+  $rbenv_version = '0.4.0'
+  $ruby_build_version = '20130118'
 
   file {
     [$root, "${root}/versions", "${root}/rbenv.d", "${root}/rbenv.d/install"]:
@@ -18,11 +20,13 @@ class ruby {
   }
 
   package {
-    'rbenv':      ensure => '0.4.0' ;
-    'ruby-build': ensure => '20130118' ;
+    'rbenv':      ensure => $rbenv_version ;
+    'ruby-build': ensure => $ruby_build_version ;
   }
 
   file { "${boxen::config::envdir}/rbenv.sh":
     source  => 'puppet:///modules/ruby/rbenv.sh'
   }
+
+  Ruby::Definition <| |> -> Ruby::Version <| |>
 }
