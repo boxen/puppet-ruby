@@ -1,2 +1,0 @@
-install_package "yaml-0.1.4" "http://pyyaml.org/download/libyaml/yaml-0.1.4.tar.gz#36c852831d02cf90508c29852361d01b"
-install_package "ruby-1.9.3-p194-github1" "https://s3.amazonaws.com/boxen-downloads/ruby-build/ruby-1.9.3-p194-github1.tar.gz#d2259d81e56d36d9b9e893482b79bfb6" autoconf standard
