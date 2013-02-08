@@ -4,10 +4,20 @@ Puppet::Type.type(:rbenv_gem).provide(:rubygems) do
   include Puppet::Util::Execution
   desc ""
 
+  def path
+    [
+      "#{@resource[:rbenv_root]}/bin",
+      "#{@resource[:rbenv_root]}/plugins/ruby-build/bin",
+      "#{@resource[:rbenv_root]}/shims"
+      "#{Facter[:boxen_home].value}/homebrew/bin",
+      "$PATH"
+    ].join(':')
+  end
+
   def rbenv_gem(command)
     full_command = [
       "sudo -u #{Facter[:luser].value}",
-      "PATH=#{@resource[:rbenv_root]}/shims:#{Facter[:boxen_home].value}/homebrew/bin:$PATH",
+      "PATH=#{path}",
       "RBENV_VERSION=#{@resource[:rbenv_version]}",
       "RBENV_ROOT=#{@resource[:rbenv_root]}",
       "#{@resource[:rbenv_root]}/shims/gem #{command}"
