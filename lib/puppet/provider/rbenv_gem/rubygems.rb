@@ -8,7 +8,7 @@ Puppet::Type.type(:rbenv_gem).provide(:rubygems) do
     [
       "#{@resource[:rbenv_root]}/bin",
       "#{@resource[:rbenv_root]}/plugins/ruby-build/bin",
-      "#{@resource[:rbenv_root]}/shims"
+      "#{@resource[:rbenv_root]}/shims",
       "#{Facter[:boxen_home].value}/homebrew/bin",
       "$PATH"
     ].join(':')
