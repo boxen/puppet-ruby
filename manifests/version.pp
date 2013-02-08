@@ -36,11 +36,12 @@ define ruby::version(
     exec { "ruby-install-${version}":
       command     => "rbenv install ${version}",
       cwd         => "${ruby::root}/versions",
-      environment => $env,
       provider    => 'shell',
       timeout     => 0,
       creates     => $dest
     }
+
+    Exec["ruby-install-${version}"] { environment +> $env }
 
     if $global {
       file { "${ruby::root}/version":
