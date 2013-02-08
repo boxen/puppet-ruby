@@ -33,6 +33,9 @@ class ruby {
     "${root}/shims/gem":
       mode   => '0755',
       source => 'puppet:///modules/ruby/shims/gem' ;
+    "${root}/shims/ruby":
+      mode   => '0755',
+      source => 'puppet:///modules/ruby/shims/ruby' ;
   }
 
   $git_init   = 'git init .'
