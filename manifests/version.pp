@@ -34,7 +34,7 @@ define ruby::version(
     }
 
     exec { "ruby-install-${version}":
-      command     => "rbenv install ${version}",
+      command     => "${ruby::root}/bin/rbenv install ${version}",
       cwd         => "${ruby::root}/versions",
       provider    => 'shell',
       timeout     => 0,
