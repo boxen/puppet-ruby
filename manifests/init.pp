@@ -4,7 +4,6 @@
 #
 class ruby {
   include boxen::config
-  include boxen
   include homebrew
 
   $root = "${boxen::config::home}/rbenv"
