@@ -19,6 +19,7 @@ class ruby {
       "${root}/plugins",
       "${root}/rbenv.d",
       "${root}/rbenv.d/install",
+      "${root}/shims",
       "${root}/versions",
     ]:
       ensure  => directory,
@@ -28,7 +29,9 @@ class ruby {
       mode   => '0755',
       source => 'puppet:///modules/ruby/try_to_download_ruby_version.bash';
     "${boxen::config::envdir}/rbenv.sh":
-      source  => 'puppet:///modules/ruby/rbenv.sh'
+      source => 'puppet:///modules/ruby/rbenv.sh' ;
+    "${root}/shims/gem":
+      source => 'puppet:///modules/ruby/shims/gem' ;
   }
 
   $git_init   = 'git init .'
