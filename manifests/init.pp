@@ -31,6 +31,7 @@ class ruby {
     "${boxen::config::envdir}/rbenv.sh":
       source => 'puppet:///modules/ruby/rbenv.sh' ;
     "${root}/shims/gem":
+      mode   => '0755',
       source => 'puppet:///modules/ruby/shims/gem' ;
   }
 
