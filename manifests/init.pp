@@ -30,12 +30,6 @@ class ruby {
       source => 'puppet:///modules/ruby/try_to_download_ruby_version.bash';
     "${boxen::config::envdir}/rbenv.sh":
       source => 'puppet:///modules/ruby/rbenv.sh' ;
-    "${root}/shims/gem":
-      mode   => '0755',
-      source => 'puppet:///modules/ruby/shims/gem' ;
-    "${root}/shims/ruby":
-      mode   => '0755',
-      source => 'puppet:///modules/ruby/shims/ruby' ;
   }
 
   $git_init   = 'git init .'
@@ -61,6 +55,12 @@ class ruby {
     unless  => "git describe --tags --exact-match `git rev-parse HEAD` | grep ${rbenv_version}",
     cwd     => $root,
     require => Exec['rbenv-setup-root-repo'],
+    notify  => Exec['rbenv-rehash-post-install']
+  }
+
+  exec { 'rbenv-rehash-post-install':
+    refreshonly => true,
+    command     => "rm -rf ${root}/shims && ${root}/bin/rbenv rehash"
   }
 
   exec { "ensure-ruby-build-version-${ruby_build_version}":
