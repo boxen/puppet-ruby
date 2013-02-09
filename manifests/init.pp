@@ -54,14 +54,13 @@ class ruby {
     command => "${git_fetch} && git reset --hard ${rbenv_version}",
     unless  => "git describe --tags --exact-match `git rev-parse HEAD` | grep ${rbenv_version}",
     cwd     => $root,
-    notify  => Exec['rbenv-rehash-post-install'],
     require => Exec['rbenv-setup-root-repo']
   }
 
   exec { 'rbenv-rehash-post-install':
-    refreshonly => true,
-    command     => "/bin/rm -rf ${root}/shims && ${root}/bin/rbenv rehash",
-    provider    => 'shell',
+    command => "/bin/rm -rf ${root}/shims && RBENV_ROOT=${root} ${root}/bin/rbenv rehash",
+    unless  => "grep /opt/boxen/rbenv/libexec ${root}/shims/gem",
+    require => Exec["ensure-rbenv-version-${rbenv_version}"],
   }
 
   exec { "ensure-ruby-build-version-${ruby_build_version}":
