@@ -13,10 +13,9 @@ describe 'ruby::definition' do
     [
       '/opt',
       'boxen',
-      'homebrew',
-      'Cellar',
+      'rbenv',
+      'plugins',
       'ruby-build',
-      '20130118',
       'share',
       'ruby-build',
       title
@@ -42,7 +41,7 @@ describe 'ruby::definition' do
 
     should contain_file(definition_path).with({
       :source  => "puppet:///modules/ruby/definitions/#{title}",
-      :require => 'Package[ruby-build]'
+      :require => 'Exec[ensure-ruby-build-version-v20130206]'
     })
   end
 end

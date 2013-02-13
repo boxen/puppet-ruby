@@ -17,7 +17,7 @@ describe 'ruby::version' do
         should include_class('ruby')
 
         should contain_exec('ruby-install-1.9.3-p194').with({
-          :command  => "rbenv install 1.9.3-p194",
+          :command  => "/opt/boxen/rbenv/bin/rbenv install 1.9.3-p194",
           :cwd      => '/opt/boxen/rbenv/versions',
           :provider => 'shell',
           :timeout  => 0,
