@@ -8,7 +8,7 @@ describe 'ruby::1-9-3-p362' do
   end
 
   it do
-    should contain_ruby__version('1.9.3-p362').with_global(false)
+    should contain_ruby__version('1.9.3-p362')
   end
 end
 

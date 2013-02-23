@@ -1,13 +1,13 @@
 # Installs a ruby version via rbenv.
-# Takes cc, ensure, global, conf_opts, and version params.
+# Takes cc, ensure, conf_opts, and version params.
 #
 # Usage:
 #
 #     ruby::version { '1.9.3-p194': }
+
 define ruby::version(
   $cc        = '/usr/bin/cc',
   $ensure    = 'installed',
-  $global    = false,
   $conf_opts = undef,
   $version   = $name
 ) {
@@ -42,16 +42,6 @@ define ruby::version(
     }
 
     Exec["ruby-install-${version}"] { environment +> $env }
-
-    if $global {
-      file { "${ruby::root}/version":
-        ensure  => present,
-        owner   => $::luser,
-        mode    => '0644',
-        content => "${version}\n",
-        require => Exec["ruby-install-${version}"]
-      }
-    }
 
     ruby::gem {
       "bundler for ${version}":

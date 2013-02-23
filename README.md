@@ -8,6 +8,9 @@ Requires the following boxen modules:
 ## Usage
 
 ```puppet
+# Set the global default ruby (auto-installs it if it can)
+class { 'ruby::global': version => '1.9.3' }
+
 # ensure a certain ruby version is used in a dir
 ruby::local { '/path/to/some/project':
   version => '1.9.3-p194'
@@ -22,9 +25,7 @@ ruby::gem { "bundler for ${version}":
 }
 
 # install a ruby version
-ruby::version { '1.9.3-p194':
-  global => true
-}
+ruby::version { '1.9.3-p194': }
 
 # we provide a ton of predefined ones for you though
 require ruby::1-9-3-p194

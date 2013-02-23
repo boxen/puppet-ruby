@@ -61,30 +61,6 @@ describe 'ruby::version' do
         ])
       end
     end
-
-    context "when global is true" do
-      let(:params) do
-        {
-          :global => true
-        }
-      end
-
-      it do
-        should contain_file('/opt/boxen/rbenv/version').with({
-          :ensure  => 'present',
-          :owner   => 'wfarr',
-          :mode    => '0644',
-          :content => "1.9.3-p194\n",
-          :require => 'Exec[ruby-install-1.9.3-p194]'
-        })
-      end
-    end
-
-    context "when global is false" do
-      it do
-        should_not contain_file('/opt/boxen/rbenv/version')
-      end
-    end
   end
 
   context "ensure => absent" do
