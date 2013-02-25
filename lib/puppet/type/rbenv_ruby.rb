@@ -25,7 +25,9 @@ Puppet::Type.newtype(:rbenv_ruby) do
 
   newparam(:environment) do
     validate do |value|
-      value.is_a? Array
+      value.is_a?(Array) && value.all? do |e|
+        e.is_a?(String) && e =~ /\A\w+=\w+\z/
+      end
     end
   end
 end
