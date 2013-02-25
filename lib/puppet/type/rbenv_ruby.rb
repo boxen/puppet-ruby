@@ -1,6 +1,10 @@
 Puppet::Type.newtype(:rbenv_ruby) do
   @doc = "Manage ruby versions via rbenv"
 
+  validate do
+    raise Puppet::Error unless self[:rbenv_root] && self[:environment]
+  end
+
   ensurable do
     newvalue :present do
       provider.create
@@ -19,14 +23,34 @@ Puppet::Type.newtype(:rbenv_ruby) do
 
   newparam(:rbenv_root) do
     validate do |value|
-      File.directory?(value)
+      unless value.is_a? String
+        raise Puppet::Error, \
+          "Rbenv root must be a string, not a #{value.class.name}"
+      end
+
+      unless File.directory?(value)
+        raise Puppet::Error, \
+          "Rbenv root must exist but doesn't: #{value}"
+      end
     end
   end
 
   newparam(:environment) do
     validate do |value|
-      value.is_a?(Array) && value.all? do |e|
-        e.is_a?(String) && e =~ /\A\w+=\w+\z/
+
+      unless value.is_a?(Array)
+        raise Puppet::Error, \
+          "Environment must be an array, not a #{value.class.name}"
+      end
+
+      unless value.all? { |e| e.is_a?(String) }
+        raise Puppet::Error, \
+          "Environment must be an array of strings, not #{value.inspect}"
+      end
+
+      unless value.all? { |e| e =~ /\A\w+=\w+\z/ }
+        raise Puppet::Error, \
+          "Environment values must be in form KEY=value, not #{value.inspect}"
       end
     end
   end
