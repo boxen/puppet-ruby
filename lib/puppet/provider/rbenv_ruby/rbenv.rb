@@ -21,7 +21,7 @@ Puppet::Type.type(:rbenv_ruby).provide(:rbenv) do
       o.split('=')
     end.flatten
 
-    given_environment.merge(Hash.new(default_environment))
+    default_environment.merge(Hash.new(given_environment))
   end
 
   def install_dir
