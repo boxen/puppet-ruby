@@ -17,11 +17,11 @@ Puppet::Type.type(:rbenv_ruby).provide(:rbenv) do
   end
 
   def command_environment
-    supplied_conf_opts = @resource[:environment].map do |o|
+    given_environment = @resource[:environment].map do |o|
       o.split('=')
     end.flatten
 
-    default_config_opts.merge(Hash.new(supplied_conf_opts))
+    given_environment.merge(Hash.new(default_environment))
   end
 
   def install_dir
