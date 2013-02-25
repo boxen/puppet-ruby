@@ -23,7 +23,7 @@ Puppet::Type.newtype(:rbenv_ruby) do
     end
   end
 
-  newparam(:configure_opts) do
+  newparam(:environment) do
     validate do |value|
       value.is_a? Array
     end

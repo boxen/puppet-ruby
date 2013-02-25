@@ -5,15 +5,19 @@ Puppet::Type.type(:rbenv_ruby).provide(:rbenv) do
 
   desc "Default and only provider"
 
-  def default_configure_opts
+  def rbenv_root
+    @rbenv_root ||= @resource[:rbenv_root]
+  end
+
+  def default_environment
     {
       "CC"         => "/usr/bin/cc",
-      "RBENV_ROOT" => "#{@resource[:rbenv_root]}"
+      "RBENV_ROOT" => rbenv_root
     }
   end
 
-  def configure_opts
-    supplied_conf_opts = @resource[:conf_opts].map do |o|
+  def command_environment
+    supplied_conf_opts = @resource[:environment].map do |o|
       o.split('=')
     end.flatten
 
@@ -21,12 +25,12 @@ Puppet::Type.type(:rbenv_ruby).provide(:rbenv) do
   end
 
   def install_dir
-    "#{@resource[:rbenv_root]}/versions/#{@resource[:version]}"
+    @install_dir ||= "#{rbenv_root}/versions/#{@resource[:version]}"
   end
 
   def create
     command = [
-      "#{@resource[:rbenv_root]}/rbenv",
+      "#{rbenv_root}/rbenv",
       "install",
       "#{@resource[:version]}"
     ].join(" ")
@@ -34,7 +38,7 @@ Puppet::Type.type(:rbenv_ruby).provide(:rbenv) do
     command_opts = {
       :failonfail         => false,
       :uid                => Facter[:boxen_user].value,
-      :custom_environment => configure_opts
+      :custom_environment => command_environment
     }
 
     execute command, command_opts

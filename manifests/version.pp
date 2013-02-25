@@ -14,9 +14,9 @@ define ruby::version(
   require ruby
 
   rbenv_ruby { $version:
-    ensure         => $ensure,
-    rbenv_root     => $ruby::root,
-    configure_opts => $conf_opts,
+    ensure      => $ensure,
+    environment => $conf_opts,
+    rbenv_root  => $ruby::root,
   }
 
   Ruby::Gem {
