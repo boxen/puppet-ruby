@@ -29,11 +29,7 @@ Puppet::Type.type(:rbenv_ruby).provide(:rbenv) do
   end
 
   def create
-    command = [
-      "#{rbenv_root}/rbenv",
-      "install",
-      "#{@resource[:version]}"
-    ].join(" ")
+    command = "#{rbenv_root}/rbenv install #{@resource[:version]}"
 
     command_opts = {
       :failonfail         => false,
