@@ -8,50 +8,27 @@
 define ruby::version(
   $cc        = '/usr/bin/cc',
   $ensure    = 'installed',
-  $conf_opts = undef,
+  $conf_opts = [],
   $version   = $name
 ) {
   require ruby
 
-  $dest = "${ruby::root}/versions/${version}"
+  rbenv_ruby { $version:
+    ensure         => $ensure,
+    rbenv_root     => $ruby::root,
+    configure_opts => $conf_opts,
+  }
 
-  if $ensure == 'absent' {
-    file { $dest:
-      ensure => absent,
-      force  => true
-    }
-  } else {
-    $env = $conf_opts ? {
-      undef   => [
-        "CC=${cc}",
-        "RBENV_ROOT=${ruby::root}"
-      ],
-      default => [
-        "CC=${cc}",
-        "RBENV_ROOT=${ruby::root}",
-        "CONFIGURE_OPTS=${conf_opts}"
-      ],
-    }
+  Ruby::Gem {
+    ruby => $version
+  }
 
-    exec { "ruby-install-${version}":
-      command     => "${ruby::root}/bin/rbenv install ${version}",
-      cwd         => "${ruby::root}/versions",
-      provider    => 'shell',
-      timeout     => 0,
-      creates     => $dest
-    }
+  ruby::gem {
+    "bundler for ${version}":
+      gem     => 'bundler',
+      version => '~> 1.3.0';
 
-    Exec["ruby-install-${version}"] { environment +> $env }
-
-    ruby::gem {
-      "bundler for ${version}":
-        gem     => 'bundler',
-        ruby    => $version,
-        version => '~> 1.2.0';
-
-      "rbenv-autohash for ${version}":
-        gem  => 'rbenv-autohash',
-        ruby => $version
-    }
+    "rbenv-autohash for ${version}":
+      gem  => 'rbenv-autohash' ;
   }
 }

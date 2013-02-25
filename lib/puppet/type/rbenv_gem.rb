@@ -1,6 +1,10 @@
 Puppet::Type.newtype(:rbenv_gem) do
   @doc = ""
 
+  autorequire(:rbenv_ruby) do
+    "#{self[:rbenv_version]}"
+  end
+
   ensurable do
     newvalue :present do
       provider.create
@@ -28,9 +32,5 @@ Puppet::Type.newtype(:rbenv_gem) do
   end
 
   newparam(:rbenv_root) do
-  end
-
-  autorequire(:exec) do
-    "ruby-install-#{self[:rbenv_version]}"
   end
 end
