@@ -47,7 +47,7 @@ define ruby::version(
       "bundler for ${version}":
         gem     => 'bundler',
         ruby    => $version,
-        version => '~> 1.2.0';
+        version => '~> 1.3.0';
 
       "rbenv-autohash for ${version}":
         gem  => 'rbenv-autohash',
