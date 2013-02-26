@@ -22,7 +22,7 @@ ruby::local { '/path/to/some/project':
 ruby::gem { "bundler for ${version}":
   gem     => 'bundler',
   ruby    => $version,
-  version => '~> 1.3.0'
+  version => '~> 1.2.0'
 }
 
 # install a ruby version
