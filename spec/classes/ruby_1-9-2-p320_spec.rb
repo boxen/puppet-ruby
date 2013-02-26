@@ -8,8 +8,6 @@ describe 'ruby::1-9-2-p320' do
   end
 
   it do
-    should contain_ruby__version('1.9.2-p320').with({
-      :cc        => '/usr/local/bin/gcc-4.2',
-    })
+    should contain_ruby__version('1.9.2-p320')
   end
 end

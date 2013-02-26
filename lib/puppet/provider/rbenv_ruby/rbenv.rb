@@ -25,12 +25,12 @@ Puppet::Type.type(:rbenv_ruby).provide(:rbenv) do
   def conf_opts
     @command_conf_opts ||= (
       default_conf_opts + [@resource[:conf_opts]]
-    ).flatten.compact
+    ).flatten.compact.uniq
   end
 
   def cc
     @cc ||= case @resource[:version]
-      when /^1\.8\.7/
+      when /^1\.8\.7/, /^1\.9\.2/
         "/usr/local/bin/gcc-4.2"
       else
         "/usr/bin/cc"

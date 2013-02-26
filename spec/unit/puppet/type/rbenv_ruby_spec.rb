@@ -28,6 +28,12 @@ describe 'rbenv_ruby' do
       }.not_to raise_error
     end
 
+    it "accepts installed as a value" do
+      expect {
+        rbenv_ruby.call(:ensure => :installed)
+      }.not_to raise_error
+    end
+
     it "accepts absent as a value" do
       expect {
         rbenv_ruby.call(:ensure => :absent)
