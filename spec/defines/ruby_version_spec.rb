@@ -27,7 +27,7 @@ describe 'ruby::version' do
         should contain_ruby__gem('bundler for 1.9.3-p194').with({
           :gem     => 'bundler',
           :ruby    => '1.9.3-p194',
-          :version => '~> 1.3.0'
+          :version => '~> 1.2.0'
         })
 
         should contain_ruby__gem('rbenv-autohash for 1.9.3-p194').with({
