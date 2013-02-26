@@ -45,8 +45,8 @@ class ruby {
   }
 
   repository { "${root}/plugins/ruby-build":
-    source => 'sstephenson/ruby-build',
-    extra  => "-b ${ruby_build_version}",
+    source  => 'sstephenson/ruby-build',
+    extra   => "-b ${ruby_build_version}",
     require => File["${root}/plugins"]
   }
 

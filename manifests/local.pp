@@ -4,9 +4,10 @@
 # Usage:
 #
 #     ruby::local { '/path/to/a/thing': version => '1.9.3-p194' }
+
 define ruby::local($version = undef, $ensure = present) {
   if $version != 'system' and $ensure == present {
-    require join(['ruby', join(split($version, '[.]'), '-')], '::')
+    require join(['ruby', join(split($version, '[.-]'), '_')], '::')
   }
 
   file {

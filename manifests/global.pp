@@ -4,9 +4,9 @@
 #
 #   class { 'ruby::global': version => '1.9.3' }
 
-class ruby::global($version) {
+class ruby::global($version = '1.9.3') {
   if $version != 'system' {
-    require join(['ruby', join(split($version, '[.]'), '-')], '::')
+    require join(['ruby', join(split($version, '[.-]'), '_')], '::')
   }
 
   file { "${ruby::root}/version":

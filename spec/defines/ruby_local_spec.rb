@@ -19,7 +19,7 @@ describe 'ruby::local' do
     end
 
     it do
-      should include_class('ruby::1-9-3-p194')
+      should include_class('ruby::1_9_3_p194')
 
       should contain_file('/tmp/.rbenv-version').with_ensure('absent')
       should contain_file('/tmp/.ruby-version').with({
