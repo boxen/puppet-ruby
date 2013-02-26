@@ -3,13 +3,14 @@
 Requires the following boxen modules:
 
 * `boxen`
-* `homebrew`
 
 ## Usage
 
 ```puppet
 # Set the global default ruby (auto-installs it if it can)
-class { 'ruby::global': version => '1.9.3' }
+class { 'ruby::global':
+  version => '1.9.3'
+}
 
 # ensure a certain ruby version is used in a dir
 ruby::local { '/path/to/some/project':
