@@ -2,7 +2,9 @@ Puppet::Type.newtype(:rbenv_ruby) do
   @doc = "Manage ruby versions via rbenv"
 
   validate do
-    raise Puppet::Error unless self[:rbenv_root] && self[:environment]
+    unless :rbenv_root
+      raise Puppet:Error, "rbenv_root is a required parameter"
+    end
   end
 
   ensurable do
@@ -13,6 +15,8 @@ Puppet::Type.newtype(:rbenv_ruby) do
     newvalue :absent do
       provider.destroy
     end
+
+    aliasvalue(:installed, :present)
 
     defaultto :present
   end
@@ -35,22 +39,20 @@ Puppet::Type.newtype(:rbenv_ruby) do
     end
   end
 
-  newparam(:environment) do
+  newparam(:conf_opts) do
     validate do |value|
-
       unless value.is_a?(Array)
         raise Puppet::Error, \
-          "Environment must be an array, not a #{value.class.name}"
+          "Environment must be an Array, not a #{value.class.name}"
       end
+    end
+  end
 
-      unless value.all? { |e| e.is_a?(String) }
+  newparam(:environment) do
+    validate do |value|
+      unless value.is_a?(Hash)
         raise Puppet::Error, \
-          "Environment must be an array of strings, not #{value.inspect}"
-      end
-
-      unless value.all? { |e| e =~ /\A\w+=\w+\z/ }
-        raise Puppet::Error, \
-          "Environment values must be in form KEY=value, not #{value.inspect}"
+          "Environment must be an Hash, not a #{value.class.name}"
       end
     end
   end

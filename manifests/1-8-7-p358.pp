@@ -5,13 +5,7 @@
 #
 #     include ruby::1-8-7-p358
 class ruby::1-8-7-p358 {
-  $opts = $::macosx_productversion_major ? {
-    '10.8'  => '--disable-tk --disable-tcl --disable-tcltk-framework',
-    default => undef
-  }
-
   ruby::version { '1.8.7-p358':
-    cc        => '/usr/local/bin/gcc-4.2',
-    conf_opts => $opts,
+    conf_opts => $conf_opts,
   }
 }

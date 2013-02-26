@@ -9,19 +9,44 @@ Puppet::Type.type(:rbenv_ruby).provide(:rbenv) do
     @rbenv_root ||= @resource[:rbenv_root]
   end
 
+  def default_conf_opts
+    @default_conf_opts ||= case @resource[:version]
+      when /^1\.8\.7/
+        [
+          "--disable-tk",
+          "--disable-tcl",
+          "--disable-tcltk-framework"
+        ]
+      else
+        []
+      end
+  end
+
+  def conf_opts
+    @command_conf_opts ||= (
+      default_conf_opts + [@resource[:conf_opts]]
+    ).flatten.compact
+  end
+
+  def cc
+    @cc ||= case @resource[:version]
+      when /^1\.8\.7/
+        "/usr/local/bin/gcc-4.2"
+      else
+        "/usr/bin/cc"
+      end
+  end
+
   def default_environment
-    {
-      "CC"         => "/usr/bin/cc",
-      "RBENV_ROOT" => rbenv_root
+    @default_environment ||= {
+      "CC"             => cc,
+      "RBENV_ROOT"     => rbenv_root,
+      "CONFIGURE_OPTS" => conf_opts,
     }
   end
 
   def command_environment
-    given_environment = @resource[:environment].map do |o|
-      o.split('=')
-    end.flatten
-
-    default_environment.merge(Hash.new(given_environment))
+    default_environment.merge(@resource[:environment])
   end
 
   def install_dir

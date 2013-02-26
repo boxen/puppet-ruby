@@ -6,16 +6,17 @@
 #     ruby::version { '1.9.3-p194': }
 
 define ruby::version(
-  $cc        = '/usr/bin/cc',
-  $ensure    = 'installed',
-  $conf_opts = [],
-  $version   = $name
+  $ensure      = 'installed',
+  $environment = undef,
+  $conf_opts   = undef,
+  $version     = $name
 ) {
   require ruby
 
   rbenv_ruby { $version:
     ensure      => $ensure,
-    environment => $conf_opts,
+    conf_opts   => $conf_opts,
+    environment => $environment,
     rbenv_root  => $ruby::root,
   }
 
