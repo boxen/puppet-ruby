@@ -39,16 +39,17 @@ Puppet::Type.type(:rbenv_gem).provide(:rubygems) do
     gem_dir = rbenv_gem("env gemdir").first.strip
     requirement = Gem::Requirement.new(@resource[:version])
 
-    exists = false
     Dir["#{gem_dir}/gems/#{@resource[:gem]}-*"].each do |path|
       gem_with_version = File.basename(path)
+
+      # skip gems that start with @resource[:gem] to avoid false positives
+      # eg. heroku / heroku-api
+      next unless gem_with_version =~ /^#{@resource[:gem]}-\d/
+
       version = gem_with_version.gsub(/^#{@resource[:gem]}-/, '')
-      if requirement.satisfied_by? Gem::Version.new(version)
-        exists = true
-        break
-      end
+      return true if requirement.satisfied_by? Gem::Version.new(version)
     end
 
-    exists
+    false
   end
 end
