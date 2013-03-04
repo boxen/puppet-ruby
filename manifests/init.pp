@@ -8,7 +8,7 @@ class ruby {
 
   $root = "${boxen::config::home}/rbenv"
   $rbenv_version = 'v0.4.0'
-  $ruby_build_version = 'v20130224'
+  $ruby_build_version = 'v20130227'
 
   package { ['rbenv', 'ruby-build']: ensure => absent; }
 
