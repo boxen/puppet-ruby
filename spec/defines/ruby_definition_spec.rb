@@ -41,7 +41,7 @@ describe 'ruby::definition' do
 
     should contain_file(definition_path).with({
       :source  => "puppet:///modules/ruby/definitions/#{title}",
-      :require => 'Exec[ensure-ruby-build-version-v20130224]'
+      :require => 'Exec[ensure-ruby-build-version-v20130227]'
     })
   end
 end
