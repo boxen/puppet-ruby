@@ -1,3 +1,11 @@
-mod "boxen",    "0.1.8",  :github_tarball => "boxen/puppet-boxen"
-mod "homebrew", "0.0.17", :github_tarball => "boxen/puppet-homebrew"
-mod "stdlib",   "3.0.0",  :github_tarball => "puppetlabs/puppetlabs-stdlib"
+def github(name, version, options = nil)
+  options ||= {}
+  options[:repo] ||= "boxen/puppet-#{name}"
+  mod name, version, :github_tarball => options[:repo]
+end
+
+
+github "boxen",    "1.2.0"
+github "homebrew", "1.1.0"
+github "java",     "1.0.6"
+github "stdlib",   "3.0.0", :repo => "puppetlabs/puppetlabs-stdlib"

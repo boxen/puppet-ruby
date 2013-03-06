@@ -3,6 +3,8 @@
 Requires the following boxen modules:
 
 * `boxen`
+* `java` (only if using JRuby)
+* `stdlib`
 
 ## Usage
 

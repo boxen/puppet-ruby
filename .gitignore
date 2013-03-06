@@ -5,4 +5,5 @@
 /spec/fixtures/vendor/
 /spec/fixtures/modules/boxen/
 /spec/fixtures/modules/homebrew/
+/spec/fixtures/modules/java/
 /spec/fixtures/modules/stdlib/

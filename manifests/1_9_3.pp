@@ -7,9 +7,5 @@ class ruby::1_9_3 {
   require ruby
   require ruby::1_9_3_p392
 
-  file { "${ruby::root}/versions/1.9.3":
-    ensure  => symlink,
-    force   => true,
-    target  => "${ruby::root}/versions/1.9.3-p392"
-  }
+  ruby::alias { '1.9.3': target => '1.9.3-p392' }
 }
