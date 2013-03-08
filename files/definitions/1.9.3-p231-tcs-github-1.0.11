@@ -1,2 +1,2 @@
 install_package "yaml-0.1.4" "http://pyyaml.org/download/libyaml/yaml-0.1.4.tar.gz#36c852831d02cf90508c29852361d01b"
-install_package "ruby-1.9.3-p231-tcs-github-1.0.11" "https://s3.amazonaws.com/boxen-downloads/ruby-build/ruby-1.9.3-p231-tcs-github-1.0.11.tar.gz#bcc81668e768c83fd214c6fce2ee11b2" autoconf standard
+install_package "ruby-1.9.3-p231-tcs-github-1.0.11" "https://s3.amazonaws.com/boxen-downloads/ruby-build/ruby-1.9.3-p231-tcs-github-1.0.11.tar.gz#8351cf74fd238053720d5eea578938f6" autoconf standard
