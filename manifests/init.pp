@@ -44,12 +44,6 @@ class ruby {
     require => [ File[$root], Class['git'] ]
   }
 
-  repository { "${root}/plugins/ruby-build":
-    source  => 'sstephenson/ruby-build',
-    extra   => "-b ${ruby_build_version}",
-    require => File["${root}/plugins"]
-  }
-
   exec { "ensure-rbenv-version-${rbenv_version}":
     command => "${git_fetch} && git reset --hard ${rbenv_version}",
     unless  => "git describe --tags --exact-match `git rev-parse HEAD` | grep ${rbenv_version}",
@@ -63,11 +57,9 @@ class ruby {
     require => Exec["ensure-rbenv-version-${rbenv_version}"],
   }
 
-  exec { "ensure-ruby-build-version-${ruby_build_version}":
-    command => "${git_fetch} && git reset --hard ${ruby_build_version}",
-    unless  => "git describe --tags --exact-match `git rev-parse HEAD` | grep ${ruby_build_version}",
-    cwd     => "${root}/plugins/ruby-build",
-    require => Repository["${root}/plugins/ruby-build"],
+  ruby::plugin { 'ruby-build':
+    version => $ruby_build_version,
+    source  => 'sstephenson/ruby-build'
   }
 
   Ruby::Definition <| |> -> Ruby::Version <| |>
