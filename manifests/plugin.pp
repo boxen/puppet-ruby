@@ -16,7 +16,7 @@ define ruby::plugin($version, $source) {
 
   repository { "${ruby::root}/plugins/${name}":
     source  => $source,
-    extra   => "-b ${version}",
+    extra   => "-b '${version}'",
     require => File["${ruby::root}/plugins"]
   }
 

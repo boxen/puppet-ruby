@@ -17,7 +17,7 @@ describe "ruby::plugin" do
 
     should contain_repository("/test/boxen/rbenv/plugins/rbenv-vars").with({
       :source  => "sstephenson/rbenv-vars",
-      :extra   => "-b v1.2.0",
+      :extra   => "-b 'v1.2.0'",
       :require => "File[/test/boxen/rbenv/plugins]"
     })
 
