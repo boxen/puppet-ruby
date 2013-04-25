@@ -9,6 +9,7 @@ class ruby {
   $root = "${boxen::config::home}/rbenv"
   $rbenv_version = 'v0.4.0'
   $ruby_build_version = 'v20130408'
+  $rbenv_gem_rehash_version = 'v1.0.0'
 
   package { ['rbenv', 'ruby-build']: ensure => absent; }
 
@@ -57,9 +58,14 @@ class ruby {
     require => Exec["ensure-rbenv-version-${rbenv_version}"],
   }
 
-  ruby::plugin { 'ruby-build':
-    version => $ruby_build_version,
-    source  => 'sstephenson/ruby-build'
+  ruby::plugin {
+    'rbenv-gem-rehash':
+      version => $rbenv_gem_rehash_version,
+      source  => 'sstephenson/rbenv-gem-rehash' ;
+
+    'ruby-build':
+      version => $ruby_build_version,
+      source  => 'sstephenson/ruby-build' ;
   }
 
   Ruby::Definition <| |> -> Ruby::Version <| |>

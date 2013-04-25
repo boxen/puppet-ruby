@@ -44,8 +44,9 @@ define ruby::version(
         version => '~> 1.3';
 
       "rbenv-autohash for ${version}":
-        gem  => 'rbenv-autohash',
-        ruby => $version
+        ensure => absent,
+        gem    => 'rbenv-autohash',
+        ruby   => $version
     }
   }
 }
