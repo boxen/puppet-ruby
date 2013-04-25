@@ -7,7 +7,7 @@
 #       ruby    => '1.9.3-p194',
 #       version => '~> 1.2.0'
 #     }
-define ruby::gem($ensure = 'present', $gem, $ruby, $version = '>= 0') {
+define ruby::gem($gem, $ruby, $ensure = 'present', $version = '>= 0') {
   require ruby
 
   rbenv_gem { $name:
