@@ -57,7 +57,7 @@ describe 'ruby::version' do
         should contain_exec('ruby-install-1.9.3-p194').with_environment([
           "CC=/usr/bin/cc",
           "RBENV_ROOT=/opt/boxen/rbenv",
-          "SOME_VAR=flocka"
+          "SOME_VAR=flocka",
         ])
       end
     end

@@ -34,7 +34,7 @@ define ruby::version(
     }
 
     Exec["ruby-install-${version}"] {
-      environment +> join_keys_to_values(merge($default_env, $env), "=")
+      environment +> sort(join_keys_to_values(merge($default_env, $env), '='))
     }
 
     ruby::gem {
