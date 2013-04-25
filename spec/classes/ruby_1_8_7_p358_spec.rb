@@ -10,9 +10,11 @@ describe 'ruby::1_8_7_p358' do
     end
 
     it do
-      should contain_ruby__version('1.8.7-p358').with({
-        :cc        => '/usr/local/bin/gcc-4.2',
-        :conf_opts => '--disable-tk --disable-tcl --disable-tcltk-framework',
+      should include_class('gcc')
+
+      should contain_ruby__version('1.8.7-p358').with_env({
+        'CC'             => '/opt/boxen/homebrew/bin/gcc-4.2',
+        'CONFIGURE_OPTS' => '--disable-tk --disable-tcl --disable-tcltk-framework'
       })
     end
   end
@@ -26,9 +28,8 @@ describe 'ruby::1_8_7_p358' do
     end
 
     it do
-      should contain_ruby__version('1.8.7-p358').with({
-        :cc        => '/usr/local/bin/gcc-4.2',
-        :conf_opts => nil,
+      should contain_ruby__version('1.8.7-p358').with_env({
+        'CC' => '/opt/boxen/homebrew/bin/gcc-4.2',
       })
     end
   end

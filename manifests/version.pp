@@ -1,15 +1,14 @@
 # Installs a ruby version via rbenv.
-# Takes cc, ensure, conf_opts, and version params.
+# Takes ensure, env, and version params.
 #
 # Usage:
 #
 #     ruby::version { '1.9.3-p194': }
 
 define ruby::version(
-  $cc        = '/usr/bin/cc',
-  $ensure    = 'installed',
-  $conf_opts = undef,
-  $version   = $name
+  $ensure  = 'installed',
+  $env     = {},
+  $version = $name
 ) {
   require ruby
 
@@ -21,16 +20,9 @@ define ruby::version(
       force  => true
     }
   } else {
-    $env = $conf_opts ? {
-      undef   => [
-        "CC=${cc}",
-        "RBENV_ROOT=${ruby::root}"
-      ],
-      default => [
-        "CC=${cc}",
-        "RBENV_ROOT=${ruby::root}",
-        "CONFIGURE_OPTS=${conf_opts}"
-      ],
+    $default_env = {
+      'CC'         => '/usr/bin/cc',
+      'RBENV_ROOT' => $ruby::root
     }
 
     exec { "ruby-install-${version}":
@@ -41,7 +33,9 @@ define ruby::version(
       creates     => $dest
     }
 
-    Exec["ruby-install-${version}"] { environment +> $env }
+    Exec["ruby-install-${version}"] {
+      environment +> join_keys_to_values(merge($default_env, $env), "=")
+    }
 
     ruby::gem {
       "bundler for ${version}":

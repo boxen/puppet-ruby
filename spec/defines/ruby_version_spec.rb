@@ -37,7 +37,7 @@ describe 'ruby::version' do
       end
     end
 
-    context "when conf_opts is nil" do
+    context "when env is default" do
       it do
         should contain_exec('ruby-install-1.9.3-p194').with_environment([
           "CC=/usr/bin/cc",
@@ -46,10 +46,10 @@ describe 'ruby::version' do
       end
     end
 
-    context "when conf_opts is not nil" do
+    context "when env is not nil" do
       let(:params) do
         {
-          :conf_opts => "flocka"
+          :env => {'SOME_VAR' => "flocka"}
         }
       end
 
@@ -57,7 +57,7 @@ describe 'ruby::version' do
         should contain_exec('ruby-install-1.9.3-p194').with_environment([
           "CC=/usr/bin/cc",
           "RBENV_ROOT=/opt/boxen/rbenv",
-          "CONFIGURE_OPTS=flocka"
+          "SOME_VAR=flocka"
         ])
       end
     end

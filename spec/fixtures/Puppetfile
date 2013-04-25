@@ -1,3 +1,5 @@
-mod "boxen",    "0.1.8",  :github_tarball => "boxen/puppet-boxen"
-mod "homebrew", "0.0.17", :github_tarball => "boxen/puppet-homebrew"
-mod "stdlib",   "3.0.0",  :github_tarball => "puppetlabs/puppetlabs-stdlib"
+mod "boxen",    "1.3.2", :github_tarball => "boxen/puppet-boxen"
+mod "gcc",      "1.0.0", :github_tarball => "boxen/puppet-gcc"
+mod "homebrew", "1.1.2", :github_tarball => "boxen/puppet-homebrew"
+mod "stdlib",   "4.0.0", :github_tarball => "puppetlabs/puppetlabs-stdlib"
+mod "xquartz",  "1.1.0", :github_tarball => "boxen/puppet-xquartz"

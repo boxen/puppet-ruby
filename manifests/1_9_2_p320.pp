@@ -4,7 +4,11 @@
 #
 #     include ruby::1_9_2_p320
 class ruby::1_9_2_p320 {
+  require gcc
+
   ruby::version { '1.9.2-p320':
-    cc      => '/usr/local/bin/gcc-4.2',
+    env => {
+      'CC' => '/opt/boxen/homebrew/bin/gcc-4.2'
+    }
   }
 }
