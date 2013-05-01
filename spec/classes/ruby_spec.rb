@@ -9,7 +9,6 @@ describe 'ruby' do
 
   it do
     should include_class('boxen::config')
-    should include_class('homebrew')
 
     should contain_file('/opt/boxen/rbenv').with_ensure('directory')
     should contain_file('/opt/boxen/rbenv/versions').with_ensure('directory')
