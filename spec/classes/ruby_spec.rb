@@ -22,9 +22,6 @@ describe 'ruby' do
       :source => 'puppet:///modules/ruby/try_to_download_ruby_version.bash'
     })
 
-    should contain_package('ruby-build').with_ensure('absent')
-    should contain_package('rbenv').with_ensure('absent')
-
     should contain_file('/opt/boxen/env.d/rbenv.sh').
       with_source('puppet:///modules/ruby/rbenv.sh')
   end
