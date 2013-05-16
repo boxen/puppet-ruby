@@ -13,6 +13,5 @@ define ruby::plugin($ensure, $source) {
   repository { "${ruby::root}/plugins/${name}":
     ensure  => $ensure,
     source  => $source,
-    require => File["${ruby::root}/plugins"]
   }
 }
