@@ -1,3 +1,4 @@
+# Public: Configuration values for ruby
 class ruby::params {
   case $::osfamily {
     'Darwin': {
