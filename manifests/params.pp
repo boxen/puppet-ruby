@@ -4,16 +4,16 @@ class ruby::params {
       include boxen::config
 
       $rbenv_root = "${boxen::config::home}/rbenv"
-    },
+    }
 
     default: {
       $rbenv_root = '/usr/local/share/rbenv'
     }
   }
 
-  $rbenv_version = 'v0.4.0',
+  $rbenv_version = 'v0.4.0'
 
-  $default_gems = ['bundler ~>1.3'],
+  $default_gems = ['bundler ~>1.3']
 
   $rbenv_plugins = {
     'ruby-build' => {
