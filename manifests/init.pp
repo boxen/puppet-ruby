@@ -8,6 +8,7 @@ class ruby(
   $rbenv_version = $ruby::params::rbenv_version,
   $root          = $ruby::params::rbenv_root,
 ) inherits ruby::params {
+
   if $::osfamily == 'Darwin' {
     include boxen::config
 
