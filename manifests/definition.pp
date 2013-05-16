@@ -5,7 +5,6 @@
 #     puppet:///modules/ruby/definitions/${name}.
 
 define ruby::definition($source = undef) {
-  include homebrew
   include ruby
 
   $source_path = $source ? {
@@ -13,8 +12,7 @@ define ruby::definition($source = undef) {
     default => $source
   }
 
-  file { "${ruby::root}/plugins/ruby-build/share/ruby-build/${name}":
-    source  => $source_path,
-    require => Exec["ensure-ruby-build-version-${ruby::ruby_build_version}"]
+  file { "${ruby::rbenv_root}/plugins/ruby-build/share/ruby-build/${name}":
+    source  => $source_path
   }
 }

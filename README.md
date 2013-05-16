@@ -3,6 +3,7 @@
 Requires the following boxen modules:
 
 * `boxen`
+* `repository >= 2.1`
 
 ## Usage
 
@@ -37,3 +38,27 @@ ruby::plugin { 'rbenv-vars':
   source  => 'sstephenson/rbenv-vars'
 }
 ```
+
+## Hiera configuration
+
+The following variables may be automatically overridden with Hiera:
+
+``` yaml
+---
+"ruby::default_gems":
+  - "bundler ~>1.3"
+  - "pry"
+"ruby::rbenv_plugins":
+  "rbenv-gem-rehash":
+    "ensure": "v1.0.0"
+    "source": "sstephenson/rbenv-gem-rehash"
+
+"ruby::rbenv_version": "v0.4.0"
+
+"ruby::rbenv_root": "/home/deploy/rbenv"
+
+"ruby::user": "deploy"
+```
+
+You can also use JSON if your Hiera is configured for that.
+

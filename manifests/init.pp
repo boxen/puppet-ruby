@@ -2,68 +2,60 @@
 #
 # This module installs a full rbenv-driven ruby stack
 #
-class ruby {
-  include boxen::config
+class ruby(
+  $default_gems  = $ruby::params::default_gems,
+  $rbenv_plugins = {},
+  $rbenv_version = $ruby::params::rbenv_version,
+  $rbenv_root    = $ruby::params::rbenv_root,
+  $user          = $ruby::params::user
+) inherits ruby::params {
 
-  $root = "${boxen::config::home}/rbenv"
-  $rbenv_version = 'v0.4.0'
-  $ruby_build_version = 'v20130514'
-  $rbenv_gem_rehash_version = 'v1.0.0'
+  if $::osfamily == 'Darwin' {
+    include boxen::config
+
+    file { "${boxen::config::envdir}/rbenv.sh":
+      source => 'puppet:///modules/ruby/rbenv.sh' ;
+    }
+  }
+
+  repository { $rbenv_root:
+    ensure => $rbenv_version,
+    source => 'sstephenson/rbenv',
+    user   => $user
+  }
 
   file {
-    $root:
-      ensure => directory;
     [
-      "${root}/plugins",
-      "${root}/rbenv.d",
-      "${root}/rbenv.d/install",
-      "${root}/shims",
-      "${root}/versions",
+      "${rbenv_root}/plugins",
+      "${rbenv_root}/rbenv.d",
+      "${rbenv_root}/rbenv.d/install",
+      "${rbenv_root}/shims",
+      "${rbenv_root}/versions",
     ]:
       ensure  => directory,
-      require => Exec['rbenv-setup-root-repo'];
-    "${root}/rbenv.d/install/00_try_to_download_ruby_version.bash":
-      ensure => present,
+      require => Repository[$rbenv_root];
+
+    "${rbenv_root}/rbenv.d/install/00_try_to_download_ruby_version.bash":
       mode   => '0755',
       source => 'puppet:///modules/ruby/try_to_download_ruby_version.bash';
-    "${boxen::config::envdir}/rbenv.sh":
-      source => 'puppet:///modules/ruby/rbenv.sh' ;
   }
 
-  $git_init   = 'git init .'
-  $git_remote = 'git remote add origin https://github.com/sstephenson/rbenv.git'
-  $git_fetch  = 'git fetch -q origin'
-  $git_reset  = "git reset --hard ${rbenv_version}"
+  $_real_rbenv_plugins = merge($ruby::params::rbenv_plugins, $rbenv_plugins)
+  create_resources('ruby::plugin', $_real_rbenv_plugins)
 
-  exec { 'rbenv-setup-root-repo':
-    command => "${git_init} && ${git_remote} && ${git_fetch} && ${git_reset}",
-    cwd     => $root,
-    creates => "${root}/bin/rbenv",
-    require => [ File[$root], Class['git'] ]
+
+  if has_key($_real_rbenv_plugins, 'rbenv-default-gems') {
+    $gem_list = join($default_gems, "\n")
+
+    file { "${rbenv_root}/default-gems":
+      content => "${gem_list}\n",
+      tag     => 'ruby_plugin_config'
+    }
   }
 
-  exec { "ensure-rbenv-version-${rbenv_version}":
-    command => "${git_fetch} && git reset --hard ${rbenv_version}",
-    unless  => "git describe --tags --exact-match `git rev-parse HEAD` | grep ${rbenv_version}",
-    cwd     => $root,
-    require => Exec['rbenv-setup-root-repo']
-  }
-
-  exec { 'rbenv-rehash-post-install':
-    command => "/bin/rm -rf ${root}/shims && RBENV_ROOT=${root} ${root}/bin/rbenv rehash",
-    unless  => "grep /opt/boxen/rbenv/libexec ${root}/shims/gem",
-    require => Exec["ensure-rbenv-version-${rbenv_version}"],
-  }
-
-  ruby::plugin {
-    'rbenv-gem-rehash':
-      version => $rbenv_gem_rehash_version,
-      source  => 'sstephenson/rbenv-gem-rehash' ;
-
-    'ruby-build':
-      version => $ruby_build_version,
-      source  => 'sstephenson/ruby-build' ;
-  }
-
-  Ruby::Definition <| |> -> Ruby::Version <| |>
+  Repository[$rbenv_root] ->
+    File <| tag == 'ruby_plugin_config' |> ->
+    Ruby::Plugin <| |> ->
+    Ruby::Definition <| |> ->
+    Ruby::Version <| |>
 }

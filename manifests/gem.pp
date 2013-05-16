@@ -14,7 +14,7 @@ define ruby::gem($gem, $ruby, $ensure = 'present', $version = '>= 0') {
     ensure        => $ensure,
     gem           => $gem,
     version       => $version,
-    rbenv_root    => $ruby::root,
+    rbenv_root    => $ruby::rbenv_root,
     rbenv_version => $ruby,
   }
 }

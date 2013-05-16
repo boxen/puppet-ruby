@@ -1,17 +1,12 @@
 require 'spec_helper'
 
 describe 'ruby::definition' do
-  let(:facts) do
-    {
-      :boxen_home => '/opt/boxen'
-    }
-  end
-
+  let(:facts) { default_test_facts }
   let(:title) { '1.9.3-p231-github1' }
 
   let(:definition_path) do
     [
-      '/opt',
+      '/test',
       'boxen',
       'rbenv',
       'plugins',
@@ -36,12 +31,10 @@ describe 'ruby::definition' do
   end
 
   it do
-    should include_class('homebrew')
     should include_class('ruby')
 
     should contain_file(definition_path).with({
-      :source  => "puppet:///modules/ruby/definitions/#{title}",
-      :require => 'Exec[ensure-ruby-build-version-v20130514]'
+      :source  => "puppet:///modules/ruby/definitions/#{title}"
     })
   end
 end
