@@ -3,17 +3,24 @@
 # This module installs a full rbenv-driven ruby stack
 #
 class ruby(
-  $rbenv_version              = 'v0.4.0',
-  $ruby_build_version         = 'v20130514',
+  $default_gems  = $ruby::params::default_gems,
+  $rbenv_plugins = $ruby::params::rbenv_plugins,
+  $rbenv_version = $ruby::params::rbenv_version,
+  $root          = $ruby::params::rbenv_root,
+) inherits ruby::params {
+  case $::osfamily {
+    'Darwin': {
+      include boxen::config
 
-  $default_gems               = ['bundler ~>1.3'],
+      file { "${boxen::config::envdir}/rbenv.sh":
+        source => 'puppet:///modules/ruby/rbenv.sh' ;
+      }
+    }
 
-  $rbenv_gem_rehash_version   = 'v1.0.0',
-  $rbenv_default_gems_version = 'v1.0.0',
-) {
-  include boxen::config
-
-  $root = "${boxen::config::home}/rbenv"
+    default: {
+      # noop
+    }
+  }
 
   file {
     $root:
@@ -27,12 +34,11 @@ class ruby(
     ]:
       ensure  => directory,
       require => Exec['rbenv-setup-root-repo'];
+
     "${root}/rbenv.d/install/00_try_to_download_ruby_version.bash":
       ensure => present,
       mode   => '0755',
       source => 'puppet:///modules/ruby/try_to_download_ruby_version.bash';
-    "${boxen::config::envdir}/rbenv.sh":
-      source => 'puppet:///modules/ruby/rbenv.sh' ;
   }
 
   $git_init   = 'git init .'
@@ -54,20 +60,8 @@ class ruby(
     require => Exec['rbenv-setup-root-repo']
   }
 
-  ruby::plugin {
-    'rbenv-default-gems':
-      version => $rbenv_default_gems_version,
-      source  => 'sstephenson/rbenv-default-gems' ;
+  create_resources('ruby::plugin', $rbenv_plugins)
 
-    'rbenv-gem-rehash':
-      version => $rbenv_gem_rehash_version,
-      source  => 'sstephenson/rbenv-gem-rehash' ;
-
-    'ruby-build':
-      version => $ruby_build_version,
-      source  => 'sstephenson/ruby-build' ;
-  }
-  
   file { "${root}/default-gems":
     content => template('ruby/default-gems.erb'),
     tag     => 'ruby_plugin_config'
