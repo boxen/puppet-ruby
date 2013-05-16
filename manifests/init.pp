@@ -4,9 +4,9 @@
 #
 class ruby(
   $default_gems  = $ruby::params::default_gems,
-  $rbenv_plugins = $ruby::params::rbenv_plugins,
+  $rbenv_plugins = {},
   $rbenv_version = $ruby::params::rbenv_version,
-  $root          = $ruby::params::rbenv_root,
+  $rbenv_root    = $ruby::params::rbenv_root,
   $user          = $ruby::params::user
 ) inherits ruby::params {
 
@@ -18,7 +18,7 @@ class ruby(
     }
   }
 
-  repository { $root:
+  repository { $rbenv_root:
     ensure => $rbenv_version,
     source => 'sstephenson/rbenv',
     user   => $user
@@ -26,28 +26,34 @@ class ruby(
 
   file {
     [
-      "${root}/plugins",
-      "${root}/rbenv.d",
-      "${root}/rbenv.d/install",
-      "${root}/shims",
-      "${root}/versions",
+      "${rbenv_root}/plugins",
+      "${rbenv_root}/rbenv.d",
+      "${rbenv_root}/rbenv.d/install",
+      "${rbenv_root}/shims",
+      "${rbenv_root}/versions",
     ]:
       ensure  => directory,
-      require => Repository[$root];
+      require => Repository[$rbenv_root];
 
-    "${root}/rbenv.d/install/00_try_to_download_ruby_version.bash":
+    "${rbenv_root}/rbenv.d/install/00_try_to_download_ruby_version.bash":
       mode   => '0755',
       source => 'puppet:///modules/ruby/try_to_download_ruby_version.bash';
   }
 
-  create_resources('ruby::plugin', $rbenv_plugins)
+  $_real_rbenv_plugins = merge($ruby::params::rbenv_plugins, $rbenv_plugins)
+  create_resources('ruby::plugin', $_real_rbenv_plugins)
 
-  file { "${root}/default-gems":
-    content => template('ruby/default-gems.erb'),
-    tag     => 'ruby_plugin_config'
+
+  if has_key($_real_rbenv_plugins, 'rbenv-default-gems') {
+    $gem_list = join($default_gems, "\n")
+
+    file { "${rbenv_root}/default-gems":
+      content => "${gem_list}\n",
+      tag     => 'ruby_plugin_config'
+    }
   }
 
-  Repository[$root] ->
+  Repository[$rbenv_root] ->
     File <| tag == 'ruby_plugin_config' |> ->
     Ruby::Plugin <| |> ->
     Ruby::Definition <| |> ->

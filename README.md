@@ -49,9 +49,9 @@ The following variables may be automatically overridden with Hiera:
   - "bundler ~>1.3"
   - "pry"
 "ruby::rbenv_plugins":
-  "ruby-build":
-    "ensure": "v20130514"
-    "source": "sstephenson/ruby-build"
+  "rbenv-gem-rehash":
+    "ensure": "v1.0.0"
+    "source": "sstephenson/rbenv-gem-rehash"
 
 "ruby::rbenv_version": "v0.4.0"
 

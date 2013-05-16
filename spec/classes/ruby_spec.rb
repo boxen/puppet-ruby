@@ -8,7 +8,7 @@ describe 'ruby' do
       :default_gems  => [],
       :rbenv_plugins => {},
       :rbenv_version => 'v0.4.0',
-      :root          => '/test/boxen/rbenv',
+      :rbenv_root    => '/test/boxen/rbenv',
       :user          => 'boxenuser'
     }
   end
@@ -34,6 +34,21 @@ describe 'ruby' do
 
     should contain_file('/test/boxen/env.d/rbenv.sh').
       with_source('puppet:///modules/ruby/rbenv.sh')
+
+    should contain_ruby__plugin('ruby-build').with({
+      :ensure => 'v20130514',
+      :source => 'sstephenson/ruby-build'
+    })
+
+    should contain_ruby__plugin('rbenv-gem-rehash').with({
+      :ensure => 'v1.0.0',
+      :source => 'sstephenson/rbenv-gem-rehash'
+    })
+
+    should contain_ruby__plugin('rbenv-default-gems').with({
+      :ensure => 'v1.0.0',
+      :source => 'sstephenson/rbenv-default-gems'
+    })
   end
 
   context "not darwin" do
@@ -54,7 +69,7 @@ describe 'ruby' do
 
     it do
       should contain_file("/test/boxen/rbenv/default-gems").with({
-        :content => "\n  bundler ~>1.3\n\n  pry\n\n"
+        :content => "bundler ~>1.3\npry\n"
       })
     end
   end
@@ -63,18 +78,18 @@ describe 'ruby' do
     let(:params) do
       default_params.merge(
         :rbenv_plugins => {
-          'ruby-build' => {
-            'ensure' => 'v20130514',
-            'source' => 'sstephenson/ruby-build'
+          'rbenv-vars' => {
+            'ensure' => 'v1.0.0',
+            'source' => 'sstephenson/rbenv-vars'
           }
         }
       )
     end
 
     it do
-      should contain_ruby__plugin('ruby-build').with({
-        :ensure => 'v20130514',
-        :source => 'sstephenson/ruby-build'
+      should contain_ruby__plugin('rbenv-vars').with({
+        :ensure => 'v1.0.0',
+        :source => 'sstephenson/rbenv-vars'
       })
     end
   end
