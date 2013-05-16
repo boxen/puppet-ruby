@@ -7,16 +7,28 @@
 class ruby::1_8_7_p358 {
   require gcc
 
-  $default_env = {
-    'CC' => '/opt/boxen/homebrew/bin/gcc-4.2'
-  }
+  case $::osfamily {
+    Darwin: {
+      include boxen::config
 
-  if $::macosx_productversion_major == '10.8' {
-    $env = merge($default_env, {
-      'CONFIGURE_OPTS' => '--disable-tk --disable-tcl --disable-tcltk-framework'
-    })
-  } else {
-    $env = $default_env
+      $default_env = {
+        'CC' => "${boxen::config::home}/homebrew/bin/gcc-4.2"
+      }
+
+      if $::macosx_productversion_major == '10.8' {
+        $env = merge($default_env, {
+          'CONFIGURE_OPTS' => '--disable-tk --disable-tcl --disable-tcltk-framework'
+        })
+      } else {
+        $env = $default_env
+      }
+    }
+
+    default: {
+      $env = {
+        'CC' => 'gcc'
+      }
+    }
   }
 
   ruby::version { '1.8.7-p358':
