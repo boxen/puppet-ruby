@@ -1,12 +1,7 @@
 require 'spec_helper'
 
 describe 'ruby::gem' do
-  let(:facts) do
-    {
-      :boxen_home => '/opt/boxen'
-    }
-  end
-
+  let(:facts) { default_test_facts }
   let(:title) { 'bundler for 1.9.3-p194' }
 
   let(:params) do
@@ -23,7 +18,7 @@ describe 'ruby::gem' do
     should contain_rbenv_gem('bundler for 1.9.3-p194').with({
       :gem           => 'bundler',
       :version       => '~> 1.2.0',
-      :rbenv_root    => '/opt/boxen/rbenv',
+      :rbenv_root    => '/test/boxen/rbenv',
       :rbenv_version => '1.9.3-p194'
     })
   end
