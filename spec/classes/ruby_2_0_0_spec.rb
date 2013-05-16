@@ -8,12 +8,12 @@ describe 'ruby::2_0_0' do
   end
 
   it do
-    should include_class('ruby::2_0_0_p0')
+    should include_class('ruby::2_0_0_p195')
 
     should contain_file('/opt/boxen/rbenv/versions/2.0.0').with({
       :ensure => 'symlink',
       :force  => true,
-      :target => '/opt/boxen/rbenv/versions/2.0.0-p0'
+      :target => '/opt/boxen/rbenv/versions/2.0.0-p195'
     })
   end
 end

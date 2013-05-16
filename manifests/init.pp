@@ -7,7 +7,7 @@ class ruby {
 
   $root = "${boxen::config::home}/rbenv"
   $rbenv_version = 'v0.4.0'
-  $ruby_build_version = 'v20130501'
+  $ruby_build_version = 'v20130514'
   $rbenv_gem_rehash_version = 'v1.0.0'
 
   file {
