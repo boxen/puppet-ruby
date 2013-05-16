@@ -12,6 +12,7 @@ define ruby::plugin($ensure, $source) {
 
   repository { "${ruby::rbenv_root}/plugins/${name}":
     ensure => $ensure,
+    force  => true,
     source => $source,
     user   => $ruby::user
   }
