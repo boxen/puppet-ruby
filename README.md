@@ -55,7 +55,9 @@ The following variables may be automatically overridden with Hiera:
 
 "ruby::rbenv_version": "v0.4.0"
 
-"ruby::rbenv_root": "%{boxen::config::home}/rbenv"
+"ruby::rbenv_root": "/home/deploy/rbenv"
+
+"ruby::user": "deploy"
 ```
 
 You can also use JSON if your Hiera is configured for that.
