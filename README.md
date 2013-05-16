@@ -58,3 +58,5 @@ The following variables may be automatically overridden with Hiera:
 "ruby::root": "%{boxen::config::home}/rbenv"
 ```
 
+You can also use JSON if your Hiera is configured for that.
+
