@@ -36,17 +36,5 @@ define ruby::version(
     Exec["ruby-install-${version}"] {
       environment +> sort(join_keys_to_values(merge($default_env, $env), '='))
     }
-
-    ruby::gem {
-      "bundler for ${version}":
-        gem     => 'bundler',
-        ruby    => $version,
-        version => '~> 1.3';
-
-      "rbenv-autohash for ${version}":
-        ensure => absent,
-        gem    => 'rbenv-autohash',
-        ruby   => $version
-    }
   }
 }

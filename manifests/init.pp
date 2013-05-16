@@ -2,13 +2,18 @@
 #
 # This module installs a full rbenv-driven ruby stack
 #
-class ruby {
+class ruby(
+  $rbenv_version              = 'v0.4.0',
+  $ruby_build_version         = 'v20130514',
+
+  $default_gems               = ['bundler ~>1.3'],
+
+  $rbenv_gem_rehash_version   = 'v1.0.0',
+  $rbenv_default_gems_version = 'v1.0.0',
+) {
   include boxen::config
 
   $root = "${boxen::config::home}/rbenv"
-  $rbenv_version = 'v0.4.0'
-  $ruby_build_version = 'v20130514'
-  $rbenv_gem_rehash_version = 'v1.0.0'
 
   file {
     $root:
@@ -49,13 +54,11 @@ class ruby {
     require => Exec['rbenv-setup-root-repo']
   }
 
-  exec { 'rbenv-rehash-post-install':
-    command => "/bin/rm -rf ${root}/shims && RBENV_ROOT=${root} ${root}/bin/rbenv rehash",
-    unless  => "grep /opt/boxen/rbenv/libexec ${root}/shims/gem",
-    require => Exec["ensure-rbenv-version-${rbenv_version}"],
-  }
-
   ruby::plugin {
+    'rbenv-default-gems':
+      version => $rbenv_default_gems_version,
+      source  => 'sstephenson/rbenv-default-gems' ;
+
     'rbenv-gem-rehash':
       version => $rbenv_gem_rehash_version,
       source  => 'sstephenson/rbenv-gem-rehash' ;
@@ -64,6 +67,14 @@ class ruby {
       version => $ruby_build_version,
       source  => 'sstephenson/ruby-build' ;
   }
+  
+  file { "${root}/default-gems":
+    content => template('ruby/default-gems.erb'),
+    tag     => 'ruby_plugin_config'
+  }
 
-  Ruby::Definition <| |> -> Ruby::Version <| |>
+  Ruby::Definition <| |> ->
+    Ruby::Plugin <| |> ->
+    File <| tag == 'ruby_plugin_config' |> ->
+    Ruby::Version <| |>
 }
