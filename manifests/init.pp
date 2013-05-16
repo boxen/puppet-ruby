@@ -7,6 +7,7 @@ class ruby(
   $rbenv_plugins = $ruby::params::rbenv_plugins,
   $rbenv_version = $ruby::params::rbenv_version,
   $root          = $ruby::params::rbenv_root,
+  $user          = $ruby::params::user
 ) inherits ruby::params {
 
   if $::osfamily == 'Darwin' {
@@ -20,6 +21,7 @@ class ruby(
   repository { $root:
     ensure => $rbenv_version,
     source => 'sstephenson/rbenv',
+    user   => $user
   }
 
   file {

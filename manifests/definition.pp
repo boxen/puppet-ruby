@@ -12,7 +12,7 @@ define ruby::definition($source = undef) {
     default => $source
   }
 
-  file { "${ruby::root}/plugins/ruby-build/share/ruby-build/${name}":
+  file { "${ruby::rbenv_root}/plugins/ruby-build/share/ruby-build/${name}":
     source  => $source_path
   }
 }

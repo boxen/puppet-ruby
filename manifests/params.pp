@@ -5,10 +5,12 @@ class ruby::params {
       include boxen::config
 
       $rbenv_root = "${boxen::config::home}/rbenv"
+      $user       = $::boxen_user
     }
 
     default: {
       $rbenv_root = '/usr/local/share/rbenv'
+      $user       = 'root'
     }
   }
 

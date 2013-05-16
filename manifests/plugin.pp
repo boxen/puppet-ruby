@@ -10,8 +10,9 @@
 define ruby::plugin($ensure, $source) {
   include ruby
 
-  repository { "${ruby::root}/plugins/${name}":
-    ensure  => $ensure,
-    source  => $source,
+  repository { "${ruby::rbenv_root}/plugins/${name}":
+    ensure => $ensure,
+    source => $source,
+    user   => $ruby::user
   }
 }

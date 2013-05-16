@@ -9,9 +9,9 @@ class ruby::global($version = '1.9.3') {
     require join(['ruby', join(split($version, '[.-]'), '_')], '::')
   }
 
-  file { "${ruby::root}/version":
+  file { "${ruby::rbenv_root}/version":
     ensure  => present,
-    owner   => $::boxen_user,
+    owner   => $ruby::user,
     mode    => '0644',
     content => "${version}\n",
   }

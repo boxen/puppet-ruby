@@ -8,9 +8,9 @@ class ruby::ree {
   require ruby
   require ruby::ree_1_8_7_2012_02
 
-  file { "${ruby::root}/versions/ree":
+  file { "${ruby::rbenv_root}/versions/ree":
     ensure => symlink,
     force  => true,
-    target => "${ruby::root}/versions/ree-1.8.7-2012.02"
+    target => "${ruby::rbenv_root}/versions/ree-1.8.7-2012.02"
   }
 }

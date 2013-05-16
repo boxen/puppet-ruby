@@ -9,6 +9,7 @@ describe 'ruby' do
       :rbenv_plugins => {},
       :rbenv_version => 'v0.4.0',
       :root          => '/test/boxen/rbenv',
+      :user          => 'boxenuser'
     }
   end
 
@@ -29,15 +30,19 @@ describe 'ruby' do
       :source => 'puppet:///modules/ruby/try_to_download_ruby_version.bash'
     })
 
+    should include_class("boxen::config")
+
+    should contain_file('/test/boxen/env.d/rbenv.sh').
+      with_source('puppet:///modules/ruby/rbenv.sh')
   end
 
-  context "darwin" do
-    let(:facts) { default_test_facts.merge(:osfamily => "Darwin") }
+  context "not darwin" do
+    let(:facts) { default_test_facts.merge(:osfamily => "Linux") }
 
     it do
-      should include_class("boxen::config")
+      should_not include_class("boxen::config")
 
-      should contain_file('/test/boxen/env.d/rbenv.sh').
+      should_not contain_file('/test/boxen/env.d/rbenv.sh').
         with_source('puppet:///modules/ruby/rbenv.sh')
     end
   end
