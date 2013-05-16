@@ -17,7 +17,8 @@ class ruby(
   }
 
   repository { $root:
-    ensure => $rbenv_version
+    ensure => $rbenv_version,
+    source => 'sstephenson/rbenv'
   }
 
   file {
