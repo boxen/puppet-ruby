@@ -34,7 +34,7 @@ require ruby::1_9_3_p194
 
 # Installing rbenv plugin
 ruby::plugin { 'rbenv-vars':
-  version => 'v1.2.0',
+  ensure => 'v1.2.0',
   source  => 'sstephenson/rbenv-vars'
 }
 ```
