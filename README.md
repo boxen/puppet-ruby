@@ -4,6 +4,7 @@ Requires the following boxen modules:
 
 * `boxen`
 * `repository >= 2.1`
+* `xquartz` (OS X only)
 
 ## Usage
 
