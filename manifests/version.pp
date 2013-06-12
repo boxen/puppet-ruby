@@ -12,8 +12,18 @@ define ruby::version(
 ) {
   require ruby
 
-  if $::operatingsystem == 'Darwin' {
-    require xquartz
+  case $::operatingsystem {
+    'Darwin': {
+      require xquartz
+
+      $os_env = {
+        'CFLAGS' => '-I/opt/X11/include'
+      }
+    }
+
+    default: {
+      $os_env = {}
+    }
   }
 
   $dest = "${ruby::rbenv_root}/versions/${version}"
@@ -27,14 +37,6 @@ define ruby::version(
     $default_env = {
       'CC'         => '/usr/bin/cc',
       'RBENV_ROOT' => $ruby::rbenv_root
-    }
-
-    $os_env = $::operatingsystem ? {
-      'Darwin' => {
-        'CFLAGS' => '-I/opt/X11/include'
-      },
-
-      default => {}
     }
 
     $final_env = merge(merge($default_env, $os_env), $env)
