@@ -36,7 +36,7 @@ describe 'ruby' do
       with_source('puppet:///modules/ruby/rbenv.sh')
 
     should contain_ruby__plugin('ruby-build').with({
-      :ensure => 'v20130514',
+      :ensure => 'v20130628',
       :source => 'sstephenson/ruby-build'
     })
 
