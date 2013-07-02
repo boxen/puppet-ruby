@@ -18,7 +18,8 @@ describe 'ruby::1_8_7_p358' do
 
     it do
       should contain_ruby__version('1.8.7-p358').with_env({
-        'CC' => '/test/boxen/homebrew/bin/gcc-4.2',
+        'CC'             => 'gcc-48',
+        'CONFIGURE_OPTS' => '--disable-tk --disable-tcl --disable-tcltk-framework'
       })
     end
   end

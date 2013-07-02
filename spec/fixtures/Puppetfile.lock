@@ -1,4 +1,9 @@
 GITHUBTARBALL
+  remote: boxen/puppet-autoconf
+  specs:
+    autoconf (1.0.0)
+
+GITHUBTARBALL
   remote: boxen/puppet-boxen
   specs:
     boxen (2.1.0)
@@ -29,6 +34,7 @@ GITHUBTARBALL
     stdlib (4.0.0)
 
 DEPENDENCIES
+  autoconf (= 1.0.0)
   boxen (= 2.1.0)
   gcc (= 1.0.0)
   homebrew (= 1.1.2)
