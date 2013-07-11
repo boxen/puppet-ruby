@@ -8,7 +8,8 @@ describe 'ruby::2_0_0_p0' do
   end
 
   it do
+    should include_class("openssl")
+
     should contain_ruby__version('2.0.0-p0')
   end
 end
-

@@ -19,6 +19,11 @@ GITHUBTARBALL
     homebrew (1.1.2)
 
 GITHUBTARBALL
+  remote: boxen/puppet-openssl
+  specs:
+    openssl (1.0.0)
+
+GITHUBTARBALL
   remote: boxen/puppet-repository
   specs:
     repository (2.2.0)
@@ -38,6 +43,7 @@ DEPENDENCIES
   boxen (= 2.1.0)
   gcc (= 1.0.0)
   homebrew (= 1.1.2)
+  openssl (= 1.0.0)
   repository (= 2.2.0)
   stdlib (= 4.0.0)
   xquartz (= 1.1.0)

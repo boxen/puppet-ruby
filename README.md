@@ -7,6 +7,8 @@ Requires the following boxen modules:
 * `boxen`
 * `repository >= 2.1`
 * `xquartz` (OS X only)
+* `autoconf` (some ruby versions)
+* `openssl` (ruby versions >= 2.0.0)
 
 ## Usage
 
@@ -64,4 +66,3 @@ The following variables may be automatically overridden with Hiera:
 ```
 
 You can also use JSON if your Hiera is configured for that.
-
