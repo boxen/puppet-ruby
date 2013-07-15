@@ -5,6 +5,8 @@
 #   class { 'ruby::global': version => '1.9.3' }
 
 class ruby::global($version = '1.9.3') {
+  include ruby
+
   if $version != 'system' {
     $klass = join(['ruby', join(split($version, '[.-]'), '_')], '::')
     require $klass
