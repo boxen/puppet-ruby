@@ -16,7 +16,7 @@ Puppet::Type.type(:rbenv_gem).provide(:rubygems) do
 
   def rbenv_gem(command)
     full_command = [
-      "sudo -u #{Facter[:luser].value}",
+      "sudo -u #{Facter[:boxen_user].value}",
       "PATH=#{path}",
       "RBENV_VERSION=#{@resource[:rbenv_version]}",
       "RBENV_ROOT=#{@resource[:rbenv_root]}",

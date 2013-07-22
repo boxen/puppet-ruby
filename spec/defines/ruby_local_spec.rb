@@ -4,7 +4,7 @@ describe 'ruby::local' do
   let(:facts) do
     {
       :boxen_home                  => '/opt/boxen',
-      :luser                       => 'wfarr',
+      :boxen_user                  => 'wfarr',
       :macosx_productversion_major => '10.8'
     }
   end
