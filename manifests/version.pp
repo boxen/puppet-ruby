@@ -49,6 +49,12 @@ define ruby::version(
       creates     => $dest,
       user        => $ruby::user,
     }
+    ->
+    ruby::gem { "bundler for ${version}":
+      gem     => 'bundler',
+      ruby    => $version,
+      version => '~> 1.0'
+    }
 
     Exec["ruby-install-${version}"] {
       environment +> sort(join_keys_to_values($final_env, '='))
