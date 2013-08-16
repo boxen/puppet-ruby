@@ -36,7 +36,9 @@ class ruby(
     owner   => $user,
   }
 
-  #Repository[$chruby_root] ->
-  #  Ruby::Definition <| |> ->
-  #  Ruby::Version <| |>
+  Repository[$chruby_root] ->
+    File["${chruby_root}/versions"] ->
+    Repository[$rubybuild_root] ->
+    Ruby::Definition <| |> ->
+    Ruby::Version <| |>
 }
