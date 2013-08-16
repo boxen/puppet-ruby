@@ -1,26 +1,23 @@
 require 'puppet/util/execution'
 
-Puppet::Type.type(:rbenv_gem).provide(:rubygems) do
+Puppet::Type.type(:chruby_gem).provide(:rubygems) do
   include Puppet::Util::Execution
   desc ""
 
   def path
     [
-      "#{@resource[:rbenv_root]}/bin",
-      "#{@resource[:rbenv_root]}/plugins/ruby-build/bin",
-      "#{@resource[:rbenv_root]}/shims",
+      "#{@resource[:chruby_root]}/bin",
       "#{Facter[:boxen_home].value}/homebrew/bin",
       "$PATH"
     ].join(':')
   end
 
-  def rbenv_gem(command)
+  def chruby_gem(command)
     full_command = [
       "sudo -u #{Facter[:boxen_user].value}",
       "PATH=#{path}",
-      "RBENV_VERSION=#{@resource[:rbenv_version]}",
-      "RBENV_ROOT=#{@resource[:rbenv_root]}",
-      "#{@resource[:rbenv_root]}/shims/gem #{command}"
+      "#{@resource[:chruby_root]}/bin/chruby-exec #{@resource[:ruby_version]}",
+      "-- gem #{command}"
     ].join(" ")
 
     output = `#{full_command}`
@@ -28,15 +25,15 @@ Puppet::Type.type(:rbenv_gem).provide(:rubygems) do
   end
 
   def create
-    rbenv_gem "install '#{@resource[:gem]}' -v '#{@resource[:version]}'"
+    chruby_gem "install '#{@resource[:gem]}' -v '#{@resource[:version]}'"
   end
 
   def destroy
-    rbenv_gem "uninstall '#{@resource[:gem]}' -v '#{@resource[:version]}'"
+    chruby_gem "uninstall '#{@resource[:gem]}' -v '#{@resource[:version]}'"
   end
 
   def exists?
-    gem_dir = rbenv_gem("env gemdir").first.strip
+    gem_dir = chruby_gem("env gemdir").first.strip
     requirement = Gem::Requirement.new(@resource[:version])
 
     Dir["#{gem_dir}/gems/#{@resource[:gem]}-*"].each do |path|
