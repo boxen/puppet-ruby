@@ -5,5 +5,7 @@ export RUBYBUILD_ROOT="<%= @rubybuild_root %>"
 
 export PATH=$CHRUBY_ROOT/bin:$RUBYBUILD_ROOT/bin:$PATH
 
+RUBIES=($CHRUBY_ROOT/versions/*)
+
 source $CHRUBY_ROOT/share/chruby/chruby.sh
 source $CHRUBY_ROOT/share/chruby/auto.sh
