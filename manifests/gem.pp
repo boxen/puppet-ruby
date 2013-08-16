@@ -8,13 +8,13 @@
 #       version => '~> 1.2.0'
 #     }
 define ruby::gem($gem, $ruby, $ensure = 'present', $version = '>= 0') {
-  require ruby
+  #require ruby
 
-  rbenv_gem { $name:
-    ensure        => $ensure,
-    gem           => $gem,
-    version       => $version,
-    rbenv_root    => $ruby::rbenv_root,
-    rbenv_version => $ruby,
-  }
+  #rbenv_gem { $name:
+  #  ensure        => $ensure,
+  #  gem           => $gem,
+  #  version       => $version,
+  #  rbenv_root    => $ruby::rbenv_root,
+  #  rbenv_version => $ruby,
+  #}
 }

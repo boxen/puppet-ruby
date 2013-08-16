@@ -14,8 +14,8 @@ class ruby(
   if $::osfamily == 'Darwin' {
     include boxen::config
 
-    file { "${boxen::config::envdir}/chruby.sh":
-      source => 'puppet:///modules/ruby/chruby.sh' ;
+    file { "${boxen::config::envdir}/ruby.sh":
+      content => template('ruby/ruby.sh.erb'),
     }
   }
 

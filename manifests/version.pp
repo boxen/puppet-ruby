@@ -10,54 +10,54 @@ define ruby::version(
   $env     = {},
   $version = $name
 ) {
-  require ruby
+  #require ruby
 
-  case $::operatingsystem {
-    'Darwin': {
-      require xquartz
+  #case $::operatingsystem {
+  #  'Darwin': {
+  #    require xquartz
 
-      $os_env = {
-        'CFLAGS' => '-I/opt/X11/include'
-      }
-    }
+  #    $os_env = {
+  #      'CFLAGS' => '-I/opt/X11/include'
+  #    }
+  #  }
 
-    default: {
-      $os_env = {}
-    }
-  }
+  #  default: {
+  #    $os_env = {}
+  #  }
+  #}
 
-  $dest = "${ruby::rbenv_root}/versions/${version}"
+  #$dest = "${ruby::rbenv_root}/versions/${version}"
 
-  if $ensure == 'absent' {
-    file { $dest:
-      ensure => absent,
-      force  => true
-    }
-  } else {
-    $default_env = {
-      'CC'         => '/usr/bin/cc',
-      'RBENV_ROOT' => $ruby::rbenv_root
-    }
+  #if $ensure == 'absent' {
+  #  file { $dest:
+  #    ensure => absent,
+  #    force  => true
+  #  }
+  #} else {
+  #  $default_env = {
+  #    'CC'         => '/usr/bin/cc',
+  #    'RBENV_ROOT' => $ruby::rbenv_root
+  #  }
 
-    $final_env = merge(merge($default_env, $os_env), $env)
+  #  $final_env = merge(merge($default_env, $os_env), $env)
 
-    exec { "ruby-install-${version}":
-      command     => "${ruby::rbenv_root}/bin/rbenv install ${version}",
-      cwd         => "${ruby::rbenv_root}/versions",
-      provider    => 'shell',
-      timeout     => 0,
-      creates     => $dest,
-      user        => $ruby::user,
-    }
-    ->
-    ruby::gem { "bundler for ${version}":
-      gem     => 'bundler',
-      ruby    => $version,
-      version => '~> 1.0'
-    }
+  #  exec { "ruby-install-${version}":
+  #    command     => "${ruby::rbenv_root}/bin/rbenv install ${version}",
+  #    cwd         => "${ruby::rbenv_root}/versions",
+  #    provider    => 'shell',
+  #    timeout     => 0,
+  #    creates     => $dest,
+  #    user        => $ruby::user,
+  #  }
+  #  ->
+  #  ruby::gem { "bundler for ${version}":
+  #    gem     => 'bundler',
+  #    ruby    => $version,
+  #    version => '~> 1.0'
+  #  }
 
-    Exec["ruby-install-${version}"] {
-      environment +> sort(join_keys_to_values($final_env, '='))
-    }
-  }
+  #  Exec["ruby-install-${version}"] {
+  #    environment +> sort(join_keys_to_values($final_env, '='))
+  #  }
+  #}
 }
