@@ -31,17 +31,10 @@ class ruby(
     user   => $user,
   }
 
-  #file {
-  #  [
-  #    "${rbenv_root}/versions",
-  #  ]:
-  #    ensure  => directory,
-  #    require => Repository[$rbenv_root];
-
-  #  "${rbenv_root}/rbenv.d/install/00_try_to_download_ruby_version.bash":
-  #    mode   => '0755',
-  #    source => 'puppet:///modules/ruby/try_to_download_ruby_version.bash';
-  #}
+  file { "${chruby_root}/versions":
+    ensure  => directory,
+    owner   => $user,
+  }
 
   #Repository[$chruby_root] ->
   #  Ruby::Definition <| |> ->
