@@ -17,6 +17,9 @@ class ruby(
     file { "${boxen::config::envdir}/ruby.sh":
       content => template('ruby/ruby.sh.erb'),
     }
+
+    File["${boxen::config::envdir}/ruby.sh"] ->
+      Ruby::Gem <| |>
   }
 
   repository { $chruby_root:
