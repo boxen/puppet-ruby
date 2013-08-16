@@ -6,9 +6,9 @@ class ruby(
   $default_gems      = $ruby::params::default_gems,
   $chruby_version    = $ruby::params::chruby_version,
   $chruby_root       = $ruby::params::chruby_root,
-  $rubybuild_version = $ruby::params::rubybuild_version
-  $rubybuild_root    = $ruby::params::rubybuild_root
-  $user              = $ruby::params::user
+  $rubybuild_version = $ruby::params::rubybuild_version,
+  $rubybuild_root    = $ruby::params::rubybuild_root,
+  $user              = $ruby::params::user,
 ) inherits ruby::params {
 
   if $::osfamily == 'Darwin' {
