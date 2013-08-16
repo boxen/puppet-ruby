@@ -1,0 +1,8 @@
+# Configure and activate chruby. You know, for rubies.
+
+export CHRUBY_ROOT="<%= @chruby_root %>"
+export RUBYBUILD_ROOT="<%= @rubybuild_root %>"
+
+export PATH=$CHRUBY_ROOT/bin:$RUBYBUILD_ROOT/bin:$PATH
+
+source $CHRUBY_ROOT/share/chruby/auto.sh
