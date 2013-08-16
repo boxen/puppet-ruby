@@ -5,14 +5,14 @@
 #     puppet:///modules/ruby/definitions/${name}.
 
 define ruby::definition($source = undef) {
-  #include ruby
+  include ruby
 
-  #$source_path = $source ? {
-  #  undef   => "puppet:///modules/ruby/definitions/${name}",
-  #  default => $source
-  #}
+  $source_path = $source ? {
+    undef   => "puppet:///modules/ruby/definitions/${name}",
+    default => $source
+  }
 
-  #file { "${ruby::rbenv_root}/plugins/ruby-build/share/ruby-build/${name}":
-  #  source  => $source_path
-  #}
+  file { "${ruby::rubybuild_root}/share/ruby-build/${name}":
+    source  => $source_path
+  }
 }
