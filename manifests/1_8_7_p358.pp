@@ -25,7 +25,7 @@ class ruby::1_8_7_p358 {
         '10.9': {
           $env = merge($default_env, {
             'CONFIGURE_OPTS' => '--disable-tk --disable-tcl --disable-tcltk-framework',
-            'CC'             => 'gcc-48'
+            'CC'             => 'gcc-4.8'
           })
         }
 

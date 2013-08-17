@@ -18,7 +18,7 @@ describe 'ruby::1_8_7_p358' do
 
     it do
       should contain_ruby__version('1.8.7-p358').with_env({
-        'CC'             => 'gcc-48',
+        'CC'             => 'gcc-4.8',
         'CONFIGURE_OPTS' => '--disable-tk --disable-tcl --disable-tcltk-framework'
       })
     end
