@@ -14,7 +14,8 @@ Puppet::Type.type(:chruby_gem).provide(:rubygems) do
   end
 
   def chruby_gem(command)
-    full_command = "gem #{command}"
+    #full_command = "gem #{command}"
+    full_command = "#{@resource[:chruby_root]}/versions/#{@resource[:ruby_version]}/bin/gem #{command}",
 
     command_opts = {
       :failonfail => true,
