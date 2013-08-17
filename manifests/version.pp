@@ -12,12 +12,15 @@ define ruby::version(
 ) {
   require ruby
 
+  include boxen::config
+
   case $::operatingsystem {
     'Darwin': {
       require xquartz
 
       $os_env = {
-        'CFLAGS' => '-I/opt/X11/include'
+        'CFLAGS' => '-I/opt/X11/include',
+        'PATH'   => "${boxen::config::brewdir}/bin:\$PATH",
       }
     }
 
