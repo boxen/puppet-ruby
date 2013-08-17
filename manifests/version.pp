@@ -41,7 +41,7 @@ define ruby::version(
     $final_env = merge(merge($default_env, $os_env), $env)
 
     exec { "ruby-build-${version}":
-      command     => "${ruby::rubybuild_root}/bin/ruby-build ${version} ${dest}",
+      command     => "${ruby::chruby_root}/bin/chruby-install ${version}",
       cwd         => "${ruby::chruby_root}/versions",
       provider    => 'shell',
       timeout     => 0,

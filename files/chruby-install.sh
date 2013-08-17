@@ -1,8 +1,9 @@
 #!/bin/bash
 
+VERSION_NAME=$1
+
 if [ -z "$SKIP_PRECOMPILED_RUBIES" ]; then
-  VERSION_NAME="${DEFINITION##*/}"
-  VERSIONS_DIR="${RBENV_ROOT}/versions"
+  VERSIONS_DIR="${CHRUBY_ROOT}/versions"
   OSX_RELEASE=`sw_vers -productVersion | cut -f 1-2 -d '.'`
 
   PREV_PWD=`pwd`
@@ -15,7 +16,8 @@ if [ -z "$SKIP_PRECOMPILED_RUBIES" ]; then
 
   if [ -d "$VERSIONS_DIR/$VERSION_NAME" ]; then
     # install from download was successful
-    rbenv rehash
     exit 0
   fi
 fi
+
+ruby-build $VERSION_NAME $VERSIONS_DIR/$VERSION_NAME
