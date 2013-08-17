@@ -20,7 +20,7 @@ Puppet::Type.type(:chruby_gem).provide(:rubygems) do
       :failonfail => true,
       :uid => Facter[:boxen_user].value,
       :custom_environment => {
-        "PATH" => path
+        "PATH" => path,
       }
     }
 
