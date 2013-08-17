@@ -55,4 +55,25 @@ Puppet::Type.type(:chruby_gem).provide(:rubygems) do
 
     false
   end
+
+private
+  def execute(*args)
+    if Puppet.features.bundled_environment?
+      Bundler.with_clean_env do
+        super
+      end
+    else
+      super
+    end
+  end
+
+  def self.execute(*args)
+    if Puppet.features.bundled_environment?
+      Bundler.with_clean_env do
+        super
+      end
+    else
+      super
+    end
+  end
 end
