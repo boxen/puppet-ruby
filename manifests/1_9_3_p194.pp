@@ -1,4 +1,4 @@
-# Installs ruby 1.9.3p193 from rbenv.
+# Installs ruby 1.9.3p193 from chruby.
 #
 # Usage:
 #

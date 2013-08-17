@@ -1,4 +1,4 @@
-# Public: Install ree-1.8.7-2012.02 via rbenv.
+# Public: Install ree-1.8.7-2012.02 via chruby.
 #
 # Usage:
 #

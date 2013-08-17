@@ -1,4 +1,4 @@
-# Installs ruby 1.9.3-p231-tcs-github1 from rbenv.
+# Installs ruby 1.9.3-p231-tcs-github1 from chruby.
 #
 # Usage:
 #

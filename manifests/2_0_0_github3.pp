@@ -1,4 +1,4 @@
-# Installs ruby 2.0.0-github3 from rbenv.
+# Installs ruby 2.0.0-github3 from chruby.
 #
 # Usage:
 #

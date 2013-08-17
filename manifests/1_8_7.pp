@@ -1,4 +1,4 @@
-# Installs ruby 1.8.7p358 from rbenv and symlinks it as 1.8.7.
+# Installs ruby 1.8.7p358 from chruby and symlinks it as 1.8.7.
 #
 # Usage:
 #
@@ -7,9 +7,9 @@ class ruby::1_8_7 {
   require ruby
   require ruby::1_8_7_p358
 
-  file { "${ruby::rbenv_root}/versions/1.8.7":
+  file { "${ruby::chruby_root}/versions/1.8.7":
     ensure  => symlink,
     force   => true,
-    target  => "${ruby::rbenv_root}/versions/1.8.7-p358"
+    target  => "${ruby::chruby_root}/versions/1.8.7-p358"
   }
 }

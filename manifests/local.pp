@@ -1,5 +1,5 @@
-# Set a directory's default ruby version via rbenv.
-# Automatically ensures that ruby version is installed via rbenv.
+# Set a directory's default ruby version via chruby.
+# Automatically ensures that ruby version is installed via chruby.
 #
 # Usage:
 #

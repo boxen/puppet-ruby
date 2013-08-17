@@ -1,4 +1,4 @@
-# Installs ruby 1.8.7p358 from rbenv.
+# Installs ruby 1.8.7p358 from chruby.
 # On 10.8 disables tk, tcl, and tcltk.
 #
 # Usage:
