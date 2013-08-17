@@ -1,4 +1,4 @@
-# Installs ruby 1.8.7p358 from chruby.
+# Installs ruby 1.8.7p358 via ruby-build.
 # On 10.8 disables tk, tcl, and tcltk.
 #
 # Usage:

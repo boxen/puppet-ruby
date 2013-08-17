@@ -1,4 +1,4 @@
-# Public: Install ree-1.8.7-2012.02 via chruby.
+# Public: Install ree-1.8.7-2012.02 via ruby-build.
 #
 # Usage:
 #

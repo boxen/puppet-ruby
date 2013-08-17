@@ -1,4 +1,4 @@
-# Installs ruby 1.9.2-p320 via chruby.
+# Installs ruby 1.9.2-p320 via ruby-build.
 #
 # Usage:
 #

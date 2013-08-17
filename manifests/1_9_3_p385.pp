@@ -1,4 +1,4 @@
-# Installs ruby 1.9.3p385 from chruby.
+# Installs ruby 1.9.3p385 via ruby-build.
 #
 # Usage:
 #

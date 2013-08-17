@@ -1,4 +1,4 @@
-# Installs ruby 2.0.0-github3 from chruby.
+# Installs ruby 2.0.0-github3 via ruby-build.
 #
 # Usage:
 #

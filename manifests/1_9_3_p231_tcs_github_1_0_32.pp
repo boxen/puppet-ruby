@@ -1,4 +1,4 @@
-# Installs ruby 1.9.3-p231-tcs-github-1.0.32 from chruby.
+# Installs ruby 1.9.3-p231-tcs-github-1.0.32 via ruby-build.
 #
 # Usage:
 #

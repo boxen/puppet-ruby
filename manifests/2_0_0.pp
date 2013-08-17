@@ -1,4 +1,4 @@
-# Installs ruby 2.0.0-p247 from chruby and symlinks it as 2.0.0.
+# Installs ruby 2.0.0-p247 via ruby-build and symlinks it as 2.0.0.
 #
 # Usage:
 #

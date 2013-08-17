@@ -1,4 +1,4 @@
-# Installs ruby 2.0.0-github blessed version from chruby.
+# Installs ruby 2.0.0-github blessed version via ruby-build.
 #
 # Usage:
 #

@@ -1,4 +1,4 @@
-# Installs ruby 1.9.3-p231-tcs-github blessed version from chruby.
+# Installs ruby 1.9.3-p231-tcs-github blessed version via ruby-build.
 #
 # Usage:
 #

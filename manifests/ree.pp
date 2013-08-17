@@ -1,4 +1,4 @@
-# Public: Install ree-1.8.7-2012.02 from chruby and symlink as ree
+# Public: Install ree-1.8.7-2012.02 via ruby-build and symlink as ree
 #
 # Usage:
 #

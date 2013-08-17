@@ -1,4 +1,4 @@
-# Installs ruby 1.9.2-p290 via chruby.
+# Installs ruby 1.9.2-p290 via ruby-build.
 #
 # Usage:
 #

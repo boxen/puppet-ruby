@@ -1,4 +1,4 @@
-# Installs ruby 1.9.3-p392 from chruby and symlinks it as 1.9.3.
+# Installs ruby 1.9.3-p392 via ruby-build and symlinks it as 1.9.3.
 #
 # Usage:
 #

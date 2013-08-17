@@ -1,4 +1,4 @@
-# Installs ruby 1.9.3p125 from chruby.
+# Installs ruby 1.9.3p125 via ruby-build.
 #
 # Usage:
 #

@@ -1,4 +1,4 @@
-# Installs ruby 1.9.2p320 from chruby and symlinks it as 1.8.7.
+# Installs ruby 1.9.2p320 via ruby-build and symlinks it as 1.8.7.
 #
 # Usage:
 #
