@@ -6,6 +6,7 @@
 #     include ruby::1_8_7_p358
 class ruby::1_8_7_p358 {
   require gcc
+  include homebrew::config
 
   case $::osfamily {
     Darwin: {
@@ -25,7 +26,7 @@ class ruby::1_8_7_p358 {
         '10.9': {
           $env = merge($default_env, {
             'CONFIGURE_OPTS' => '--disable-tk --disable-tcl --disable-tcltk-framework',
-            'CC'             => 'gcc-4.8'
+            'CC'             => "${homebrew::config::installdir}/bin/gcc-4.8"
           })
         }
 
