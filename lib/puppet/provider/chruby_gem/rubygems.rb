@@ -22,7 +22,8 @@ Puppet::Type.type(:chruby_gem).provide(:rubygems) do
       :uid => Facter[:boxen_user].value,
       :custom_environment => {
         "PATH" => path,
-      }
+      },
+      :combine => true
     }
 
     output = execute(full_command, command_opts)
