@@ -25,6 +25,7 @@ ruby::local { '/path/to/some/project':
 
 # ensure a gem is installed for a certain ruby version
 # note, you can't have duplicate resource names so you have to name like so
+$version = "2.0.0"
 ruby::gem { "bundler for ${version}":
   gem     => 'bundler',
   ruby    => $version,
