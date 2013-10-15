@@ -14,7 +14,7 @@ Puppet::Type.type(:rbenv_gem).provide(:rubygems) do
     ].join(':')
   end
 
-  def self.rbenv_gem(command)
+  def rbenv_gem(command)
     full_command = [
       "sudo -u #{Facter[:boxen_user].value}",
       "PATH=#{path}",
@@ -27,16 +27,12 @@ Puppet::Type.type(:rbenv_gem).provide(:rubygems) do
     [output, $?]
   end
 
-  def self.gemdir
-    rbenv_gem("env gemdir").first.strip
-  end
-
-  def rbenv_gem(command)
-    self.class.rbenv_gem(command)
+  def self.gemdir(rsc)
+    rbenv_gem(rsc, "env gemdir").first.strip
   end
 
   def gemdir
-    self.gemdir
+    rbenv_gem("env gemdir").first.strip
   end
 
   def create
@@ -58,20 +54,20 @@ Puppet::Type.type(:rbenv_gem).provide(:rubygems) do
   end
 
   def instances
-    self.class.instances
+    self.class.instances(@resource)
   end
 
-  def self.instances
-    instance_cache[@resource[:rbenv_version]]
+  def self.instances(rsc)
+    instance_cache(rsc)[rsc[:rbenv_version]]
   end
 
-  def self.instance_cache
-    if @cache && @cache.has_key? @resource[:rbenv_version]
-      @cache[@resource[:rbenv_version]]
+  def self.instance_cache(rsc)
+    if @cache && @cache.has_key?(rsc[:rbenv_version])
+      @cache[rsc[:rbenv_version]]
     else
       @cache = {}
 
-      @cache[@resource[:rbenv_version]] = Dir["#{gemdir}/gems/*.gem"].map do |path|
+      @cache[rsc[:rbenv_version]] = Dir["#{gemdir}/gems/*.gem"].map do |path|
         n, v = File.basename(path).rpartition("-")
         { :name => n, :version => v }
       end
