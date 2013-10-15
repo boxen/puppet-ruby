@@ -14,7 +14,7 @@ Puppet::Type.type(:rbenv_gem).provide(:rubygems) do
     ].join(':')
   end
 
-  def rbenv_gem(command)
+  def self.rbenv_gem(command)
     full_command = [
       "sudo -u #{Facter[:boxen_user].value}",
       "PATH=#{path}",
@@ -27,6 +27,18 @@ Puppet::Type.type(:rbenv_gem).provide(:rubygems) do
     [output, $?]
   end
 
+  def self.gemdir
+    rbenv_gem("env gemdir").first.strip
+  end
+
+  def rbenv_gem(command)
+    self.class.rbenv_gem(command)
+  end
+
+  def gemdir
+    self.gemdir
+  end
+
   def create
     rbenv_gem "install '#{@resource[:gem]}' -v '#{@resource[:version]}'"
   end
@@ -36,10 +48,9 @@ Puppet::Type.type(:rbenv_gem).provide(:rubygems) do
   end
 
   def exists?
-    gem_dir = rbenv_gem("env gemdir").first.strip
     requirement = Gem::Requirement.new(@resource[:version])
 
-    Dir["#{gem_dir}/gems/#{@resource[:gem]}-*"].each do |path|
+    Dir["#{gemdir}/gems/#{@resource[:gem]}-*"].each do |path|
       gem_with_version = File.basename(path)
 
       # skip gems that start with @resource[:gem] to avoid false positives
@@ -51,5 +62,22 @@ Puppet::Type.type(:rbenv_gem).provide(:rubygems) do
     end
 
     false
+  end
+
+  def self.instances
+    instance_cache[@resource[:rbenv_version]]
+  end
+
+  def self.instance_cache
+    if @cache.has_key? @resource[:rbenv_version]
+      @cache[@resource[:rbenv_version]]
+    else
+      @cache[@resource[:rbenv_version]] = Dir["#{gemdir}/gems/*.gem"].map do |g|
+        {
+          :name    => File.basename(g).split("-").first,
+          :version => File.basename(g).split("-").last
+        }
+      end
+    end
   end
 end
