@@ -58,6 +58,8 @@ Puppet::Type.type(:rbenv_gem).provide(:rubygems) do
   end
 
   def instances
+    self.instances
+  end
 
   def self.instances
     instance_cache[@resource[:rbenv_version]]
@@ -69,11 +71,7 @@ Puppet::Type.type(:rbenv_gem).provide(:rubygems) do
     else
       gems = Dir["#{gemdir}/gems/*.gem"].map do |path|
         n, v = File.basename(path).rpartition("-")
-
-        {
-          :name    => n,
-          :version => v,
-        }
+        { :name => n, :version => v }
       end
     end
   end
