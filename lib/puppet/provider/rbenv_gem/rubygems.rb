@@ -50,19 +50,14 @@ Puppet::Type.type(:rbenv_gem).provide(:rubygems) do
   def exists?
     requirement = Gem::Requirement.new(@resource[:version])
 
-    Dir["#{gemdir}/gems/#{@resource[:gem]}-*"].each do |path|
-      gem_with_version = File.basename(path)
-
-      # skip gems that start with @resource[:gem] to avoid false positives
-      # eg. heroku / heroku-api
-      next unless gem_with_version =~ /^#{@resource[:gem]}-\d/
-
-      version = gem_with_version.gsub(/^#{@resource[:gem]}-/, '')
-      return true if requirement.satisfied_by? Gem::Version.new(version)
+    instances.select { |i| i[:name] == @resource[:gem] }.each do |instance|
+      return true if requirement.satisfied_by? Gem::Version.new(instance[:version])
     end
 
     false
   end
+
+  def instances
 
   def self.instances
     instance_cache[@resource[:rbenv_version]]
@@ -72,10 +67,12 @@ Puppet::Type.type(:rbenv_gem).provide(:rubygems) do
     if @cache.has_key? @resource[:rbenv_version]
       @cache[@resource[:rbenv_version]]
     else
-      @cache[@resource[:rbenv_version]] = Dir["#{gemdir}/gems/*.gem"].map do |g|
+      gems = Dir["#{gemdir}/gems/*.gem"].map do |path|
+        n, v = File.basename(path).rpartition("-")
+
         {
-          :name    => File.basename(g).split("-").first,
-          :version => File.basename(g).split("-").last
+          :name    => n,
+          :version => v,
         }
       end
     end
