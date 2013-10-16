@@ -6,11 +6,11 @@
 
 class ruby::2_0_0_github {
   require ruby
-  require ruby::2_0_0_github3
+  require ruby::2_0_0_github6
 
   file { "${ruby::rbenv_root}/versions/2.0.0-github":
     ensure  => symlink,
     force   => true,
-    target  => "${ruby::rbenv_root}/versions/2.0.0-github3",
+    target  => "${ruby::rbenv_root}/versions/2.0.0-github6",
   }
 }
