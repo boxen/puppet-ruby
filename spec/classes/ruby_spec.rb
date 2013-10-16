@@ -32,11 +32,10 @@ describe 'ruby' do
 
     should include_class("boxen::config")
 
-    should contain_file('/test/boxen/env.d/rbenv.sh').
-      with_source('puppet:///modules/ruby/rbenv.sh')
+    should contain_file('/test/boxen/env.d/ruby.sh')
 
     should contain_ruby__plugin('ruby-build').with({
-      :ensure => 'v20130628',
+      :ensure => 'v20131008',
       :source => 'sstephenson/ruby-build'
     })
 

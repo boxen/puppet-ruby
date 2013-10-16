@@ -13,8 +13,11 @@ class ruby(
   if $::osfamily == 'Darwin' {
     include boxen::config
 
-    file { "${boxen::config::envdir}/rbenv.sh":
-      source => 'puppet:///modules/ruby/rbenv.sh' ;
+    file {
+      "${boxen::config::envdir}/rbenv.sh":
+        ensure => absent ;
+      "${boxen::config::envdir}/ruby.sh":
+        content => template('ruby/ruby.sh') ;
     }
   }
 
