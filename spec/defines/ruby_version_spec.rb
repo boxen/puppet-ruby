@@ -22,6 +22,8 @@ describe 'ruby::version' do
     context "when env is default" do
       it do
         should contain_exec('ruby-install-1.9.3-p194').with_environment([
+          "BOXEN_S3_BUCKET=boxen-downloads",
+          "BOXEN_S3_HOST=s3.amazonaws.com",
           "CC=/usr/bin/cc",
           "CFLAGS=-I/opt/X11/include",
           "RBENV_ROOT=/test/boxen/rbenv"
@@ -38,6 +40,8 @@ describe 'ruby::version' do
 
       it do
         should contain_exec('ruby-install-1.9.3-p194').with_environment([
+          "BOXEN_S3_BUCKET=boxen-downloads",
+          "BOXEN_S3_HOST=s3.amazonaws.com",
           "CC=/usr/bin/cc",
           "CFLAGS=-I/opt/X11/include",
           "RBENV_ROOT=/test/boxen/rbenv",

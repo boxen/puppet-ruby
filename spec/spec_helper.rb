@@ -11,6 +11,8 @@ def default_test_facts
   {
     :boxen_home                  => "/test/boxen",
     :boxen_user                  => "testuser",
+    :boxen_s3_host               => "s3.amazonaws.com",
+    :boxen_s3_bucket             => "boxen-downloads",
     :macosx_productversion_major => "10.8",
     :osfamily                    => "Darwin",
   }

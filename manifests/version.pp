@@ -17,7 +17,9 @@ define ruby::version(
       require xquartz
 
       $os_env = {
-        'CFLAGS' => '-I/opt/X11/include'
+        'BOXEN_S3_HOST'   => $::boxen_s3_host,
+        'BOXEN_S3_BUCKET' => $::boxen_s3_bucket,
+        'CFLAGS'          => '-I/opt/X11/include'
       }
     }
 
