@@ -56,7 +56,7 @@ define ruby::version(
     ruby::gem { "bundler for ${version}":
       gem     => 'bundler',
       ruby    => $version,
-      version => '~> 1.0'
+      version => '~> 1.3'
     }
 
     Exec["ruby-build-${version}"] {
