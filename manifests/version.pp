@@ -19,7 +19,8 @@ define ruby::version(
       require xquartz
 
       $os_env = {
-        'CFLAGS'      => '-I/opt/X11/include',
+        'CFLAGS'      => "-I/opt/X11/include -I${homebrew::config::installdir}/include",
+        'LDFLAGS'     => "-L${homebrew::config::installdir}/lib",
         'PATH'        => "${homebrew::config::installdir}/bin:${ruby::chruby_root}/bin:${ruby::rubybuild_root}/bin:/usr/bin:/bin",
         'CHRUBY_ROOT' => $ruby::chruby_root,
       }
