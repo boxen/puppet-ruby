@@ -12,7 +12,7 @@ define ruby::version(
 ) {
   require ruby
 
-  case $::operatingsystem {
+  case $::osfamily {
     'Darwin': {
       require xquartz
 

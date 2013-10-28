@@ -23,6 +23,7 @@ describe 'ruby::version' do
       it do
         should contain_exec('ruby-install-1.9.3-p194').with_environment([
           "CC=/usr/bin/cc",
+          "CFLAGS=-I/opt/X11/include",
           "RBENV_ROOT=/test/boxen/rbenv"
         ])
       end
@@ -38,8 +39,9 @@ describe 'ruby::version' do
       it do
         should contain_exec('ruby-install-1.9.3-p194').with_environment([
           "CC=/usr/bin/cc",
+          "CFLAGS=-I/opt/X11/include",
           "RBENV_ROOT=/test/boxen/rbenv",
-          "SOME_VAR=flocka",
+          "SOME_VAR=flocka"
         ])
       end
     end
