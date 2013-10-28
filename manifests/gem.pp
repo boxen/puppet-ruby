@@ -10,6 +10,11 @@
 define ruby::gem($gem, $ruby, $ensure = 'present', $version = '>= 0') {
   require ruby
 
+  if $ruby != 'system' and $ensure == present {
+    $klass = join(['ruby', join(split($version, '[.-]'), '_')], '::')
+    require $klass
+  }
+
   chruby_gem { $name:
     ensure       => $ensure,
     gem          => $gem,
