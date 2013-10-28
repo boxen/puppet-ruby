@@ -6,14 +6,15 @@
 
 class ruby::2_0_0_github6 {
   require autoconf
-  require xquartz
+  require openssl
 
   ruby::definition { '2.0.0-github6': }
   ruby::version    { '2.0.0-github6': }
 
-  if $::macosx_productversion_major == '10.9' {
+  if $::operatingsystem == 'Darwin' {
+    require xquartz
+
     include homebrew::config
-    require openssl
 
     Ruby::Version['2.0.0-github6'] {
       env => {

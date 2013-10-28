@@ -5,7 +5,11 @@ class ruby::2_0_0_p0 {
 
   ruby::version { '2.0.0-p0': }
 
-  if $::macosx_productversion_major == '10.9' {
+  if $::operatingsystem == 'Darwin' {
+    require xquartz
+
+    include homebrew::config
+
     Ruby::Version['2.0.0-p0'] {
       env => {
         'RUBY_CONFIGURE_OPTS' => "--with-openssl-dir=${homebrew::config::installdir}/opt/openssl",
