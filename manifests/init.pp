@@ -17,7 +17,12 @@ class ruby(
       "${boxen::config::envdir}/rbenv.sh":
         ensure => absent ;
       "${boxen::config::envdir}/ruby.sh":
-        content => template('ruby/ruby.sh') ;
+        ensure => absent ;
+    }
+
+    boxen::env_script { 'ruby':
+      content  => template('ruby/ruby.sh'),
+      priority => 'higher',
     }
   }
 
