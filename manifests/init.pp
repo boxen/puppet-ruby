@@ -35,6 +35,7 @@ class ruby(
 
   repository { $rubybuild_root:
     ensure => $rubybuild_version,
+    force  => true,
     source => 'sstephenson/ruby-build',
     user   => $user,
   }
