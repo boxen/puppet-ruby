@@ -11,7 +11,7 @@ define ruby::gem($gem, $ruby, $ensure = 'present', $version = '>= 0') {
   require ruby
 
   if $ruby != 'system' and $ensure == present {
-    $klass = join(['ruby', join(split($version, '[.-]'), '_')], '::')
+    $klass = join(['ruby', join(split($ruby, '[.-]'), '_')], '::')
     require $klass
   }
 
