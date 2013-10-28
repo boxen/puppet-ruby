@@ -17,7 +17,7 @@ class ruby::params {
   }
 
   $chruby_version    = 'v0.3.6'
-  $rubybuild_version = 'v20130806'
+  $rubybuild_version = 'v20131008'
 
   $default_gems = ['bundler ~>1.3']
 }

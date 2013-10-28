@@ -14,12 +14,17 @@ class ruby(
   if $::osfamily == 'Darwin' {
     include boxen::config
 
-    file { "${boxen::config::envdir}/ruby.sh":
-      content => template('ruby/ruby.sh.erb'),
+    file {
+      "${boxen::config::envdir}/rbenv.sh":
+        ensure => absent ;
+      "${boxen::config::envdir}/ruby.sh":
+        ensure => absent ;
     }
 
-    File["${boxen::config::envdir}/ruby.sh"] ->
-      Ruby::Gem <| |>
+    boxen::env_script { 'ruby':
+      content  => template('ruby/ruby.sh.erb'),
+      priority => 'higher',
+    } -> Ruby::Gem <| |>
   }
 
   repository { $chruby_root:
