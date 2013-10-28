@@ -4,7 +4,7 @@
 
 Requires the following boxen modules:
 
-* `boxen`
+* `boxen >= 3.2.0`
 * `repository >= 2.1`
 * `xquartz` (OS X only)
 * `autoconf` (some ruby versions)
