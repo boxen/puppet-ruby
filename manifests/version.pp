@@ -54,16 +54,11 @@ define ruby::version(
       user        => $ruby::user,
     }
 
-    package { "bundler for ${version}":
-      ensure => '~> 1.3',
-      name   => 'bundler',
-      install_options => [
-        {
-          'CHRUBY_ROOT'  => $ruby::chruby_root,
-          'RUBY_VERSION' => $version,
-        }
-      ],
-      provider => chruby_gem,
+    chruby_gem { "bundler for ${version}":
+      gem          => 'bundler',
+      version      => '~> 1.3',
+      ruby_version => $version,
+      chruby_root  => $ruby::chruby_root,
     }
 
     Exec["ruby-build-${version}"] {

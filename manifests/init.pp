@@ -29,7 +29,6 @@ class ruby(
 
   repository { $chruby_root:
     ensure => $chruby_version,
-    force  => true,
     source => 'postmodern/chruby',
     user   => $user,
   }
