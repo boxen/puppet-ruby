@@ -5,12 +5,15 @@ export RUBYBUILD_ROOT="<%= @rubybuild_root %>"
 
 export PATH=$CHRUBY_ROOT/bin:$RUBYBUILD_ROOT/bin:$PATH
 
+# load chruby
 source $CHRUBY_ROOT/share/chruby/chruby.sh
-source $CHRUBY_ROOT/share/chruby/auto.sh
 
 # This lives *after* sourcing chruby.sh on purpose
 # chruby.sh sets RUBIES to a default value which we don't necessarily like.
 RUBIES=($CHRUBY_ROOT/versions/*)
+
+# auto-switch yo rubbies, while supporting a default rubby
+source $CHRUBY_ROOT/share/chruby/better-auto.sh
 
 # Allow bundler to use all the cores for parallel installation
 export BUNDLE_JOBS=<%= scope.lookupvar("::processorcount") %>

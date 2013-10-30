@@ -45,15 +45,21 @@ class ruby(
     owner   => $user,
   }
 
-  file { "${chruby_root}/bin/chruby-install":
-    source => 'puppet:///modules/ruby/chruby-install.sh',
-    owner  => $user,
-    mode   => '0755',
+  file {
+    "${chruby_root}/bin/chruby-install":
+      source => 'puppet:///modules/ruby/chruby-install.sh',
+      owner  => $user,
+      mode   => '0755' ;
+    "${chruby_root}/share/chruby/better-auto.sh":
+      source => 'puppet:///modules/ruby/better-auto.sh',
+      owner  => $user,
+      mode   => '0755' ;
   }
 
   Repository[$chruby_root] ->
     File["${chruby_root}/versions"] ->
     File["${chruby_root}/bin/chruby-install"] ->
+    File["${chruby_root}/share/chruby/better-auto.sh"] ->
     Repository[$rubybuild_root] ->
     Ruby::Definition <| |> ->
     Ruby::Version <| |>

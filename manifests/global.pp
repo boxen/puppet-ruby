@@ -12,9 +12,10 @@ class ruby::global($version = '1.9.3') {
    require $klass
   }
 
-  boxen::env_script { 'default_ruby_version':
-    ensure   => present,
-    content  => "chruby ${version}\n",
-    priority => 'lowest',
+  file { "${ruby::chruby_root}/version":
+   ensure  => present,
+   owner   => $ruby::user,
+   mode    => '0644',
+   content => "${version}\n",
   }
 }
