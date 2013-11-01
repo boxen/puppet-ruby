@@ -9,6 +9,7 @@ class ruby(
   $rubybuild_version = $ruby::params::rubybuild_version,
   $rubybuild_root    = $ruby::params::rubybuild_root,
   $user              = $ruby::params::user,
+  $auto_switch       = true,
 ) inherits ruby::params {
 
   if $::osfamily == 'Darwin' {
@@ -21,10 +22,21 @@ class ruby(
         ensure => absent ;
     }
 
-    boxen::env_script { 'ruby':
-      content  => template('ruby/ruby.sh.erb'),
-      priority => 'higher',
-    } -> Ruby::Gem <| |>
+    $chruby_auto_ensure = $auto_switch ? {
+      true    => present,
+      default => absent,
+    }
+
+    boxen::env_script {
+      'ruby':
+        content  => template('ruby/ruby.sh.erb'),
+        priority => 'higher' ;
+
+      'chruby_auto':
+        ensure   => $chruby_auto_ensure,
+        content  => 'source $CHRUBY_ROOT/share/chruby/better-auto.sh\n',
+        priority => 99 ;
+    }
   }
 
   repository { $chruby_root:
