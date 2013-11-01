@@ -33,6 +33,13 @@ class ruby(
     user   => $user,
   }
 
+  ->
+  file { "${chruby_root}/versions":
+    ensure  => directory,
+    owner   => $user,
+  }
+
+  ->
   repository { $rubybuild_root:
     ensure => $rubybuild_version,
     force  => true,
@@ -40,11 +47,7 @@ class ruby(
     user   => $user,
   }
 
-  file { "${chruby_root}/versions":
-    ensure  => directory,
-    owner   => $user,
-  }
-
+  ->
   file {
     "${chruby_root}/bin/chruby-install":
       source => 'puppet:///modules/ruby/chruby-install.sh',
@@ -56,11 +59,9 @@ class ruby(
       mode   => '0755' ;
   }
 
-  Repository[$chruby_root] ->
-    File["${chruby_root}/versions"] ->
-    File["${chruby_root}/bin/chruby-install"] ->
-    File["${chruby_root}/share/chruby/better-auto.sh"] ->
-    Repository[$rubybuild_root] ->
-    Ruby::Definition <| |> ->
-    Ruby::Version <| |>
+  ->
+  Ruby::Definition <| |>
+
+  ->
+  Ruby::Version <| |>
 }

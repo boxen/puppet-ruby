@@ -54,6 +54,7 @@ define ruby::version(
       user        => $ruby::user,
     }
 
+    ->
     chruby_gem { "bundler for ${version}":
       gem          => 'bundler',
       version      => '~> 1.3',
