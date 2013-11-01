@@ -34,7 +34,7 @@ class ruby(
 
       'chruby_auto':
         ensure   => $chruby_auto_ensure,
-        content  => 'source $CHRUBY_ROOT/share/chruby/better-auto.sh\n',
+        content  => 'source $CHRUBY_ROOT/share/chruby/better-auto.sh\\n',
         priority => 99 ;
     }
   }
