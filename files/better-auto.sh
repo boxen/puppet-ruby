@@ -19,18 +19,18 @@ function chruby_auto() {
     dir="${dir%/*}"
   done
 
-  if [[ -n "$RUBY_AUTO_VERSION" ]]; then
-    if { read -r version <"$CHRUBY_ROOT/version"; } 2>/dev/null; then
-      if [[ "$version" == "$RUBY_AUTO_VERSION" ]]; then return
-      else
-        RUBY_AUTO_VERSION="$version"
-        chruby "$version"
-        return $?
-      fi
+  if { read -r version <"$CHRUBY_ROOT/version"; } 2>/dev/null; then
+    if [[ "$version" == "$RUBY_AUTO_VERSION" ]]; then return
     else
-      chruby_reset
-      unset RUBY_AUTO_VERSION
+      RUBY_AUTO_VERSION="$version"
+      chruby "$version"
+      return $?
     fi
+  fi
+
+  if [[ -n "$RUBY_AUTO_VERSION" ]]; then
+    chruby_reset
+    unset RUBY_AUTO_VERSION
   fi
 }
 
