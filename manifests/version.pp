@@ -53,12 +53,12 @@ define ruby::version(
       user        => $ruby::user,
     }
 
-    ->
     chruby_gem { "bundler for ${version}":
       gem          => 'bundler',
       version      => '~> 1.3',
       ruby_version => $version,
       chruby_root  => $ruby::chruby_root,
+      require      => Exec["ruby-build-${version}"]
     }
 
     Exec["ruby-build-${version}"] {
