@@ -6,15 +6,19 @@
 
 class ruby::ree_1_8_7_2012_02 {
   require gcc
-  require xquartz
 
   case $::osfamily {
     Darwin: {
-      include boxen::config
+      include homebrew::config
+
+      $cc = $::macosx_productversion_major ? {
+        '10.9'  => "${homebrew::config::installdir}/homebrew/bin/gcc-4.8",
+        default => "${homebrew::config::installdir}/homebrew/bin/gcc-4.2",
+      }
 
       $env = {
-        'CC'       => "${boxen::config::home}/homebrew/bin/gcc-4.2",
-        'CPPFLAGS' => '-I/opt/X11/include',
+        'CC'       => $cc,
+        'CPPFLAGS' => "'-I${homebrew::config::installdir}/include -I/opt/X11/include'",
       }
     }
 

@@ -12,8 +12,6 @@ class ruby::2_0_0_github6 {
   ruby::version    { '2.0.0-github6': }
 
   if $::operatingsystem == 'Darwin' {
-    require xquartz
-
     include homebrew::config
 
     Ruby::Version['2.0.0-github6'] {
