@@ -18,8 +18,8 @@ define ruby::version(
       include homebrew::config
 
       $os_env = {
-        'CFLAGS'      => "'-I${homebrew::config::installdir}/include -I/opt/X11/include'",
-        'LDFLAGS'     => "'-L${homebrew::config::installdir}/lib -L/opt/X11/lib'",
+        'CFLAGS'      => "-I${homebrew::config::installdir}/include -I/opt/X11/include",
+        'LDFLAGS'     => "-L${homebrew::config::installdir}/lib -L/opt/X11/lib",
         'PATH'        => "${homebrew::config::installdir}/bin:${ruby::chruby_root}/bin:${ruby::rubybuild_root}/bin:/usr/bin:/bin",
         'CHRUBY_ROOT' => $ruby::chruby_root,
       }
