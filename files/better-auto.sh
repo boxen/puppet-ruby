@@ -1,5 +1,7 @@
 unset RUBY_AUTO_VERSION
 
+: ${PREEXEC_FUNCTIONS:=""}
+
 function chruby_auto() {
   local dir="$PWD"
   local version
@@ -12,21 +14,23 @@ function chruby_auto() {
         chruby "$version"
         return $?
       fi
-    elif { read -r version <"$CHRUBY_ROOT/version"; } 2>/dev/null; then
-        if [[ "$version" == "$RUBY_AUTO_VERSION" ]]; then return
-        else
-          RUBY_AUTO_VERSION="$version"
-          chruby "$version"
-          return $?
-        fi
     fi
 
     dir="${dir%/*}"
   done
 
   if [[ -n "$RUBY_AUTO_VERSION" ]]; then
-    chruby_reset
-    unset RUBY_AUTO_VERSION
+    if { read -r version <"$CHRUBY_ROOT/version"; } 2>/dev/null; then
+      if [[ "$version" == "$RUBY_AUTO_VERSION" ]]; then return
+      else
+        RUBY_AUTO_VERSION="$version"
+        chruby "$version"
+        return $?
+      fi
+    else
+      chruby_reset
+      unset RUBY_AUTO_VERSION
+    fi
   fi
 }
 
@@ -35,5 +39,11 @@ if [[ -n "$ZSH_VERSION" ]]; then
     preexec_functions+=("chruby_auto")
   fi
 elif [[ -n "$BASH_VERSION" ]]; then
-  trap '[[ "$BASH_COMMAND" != "$PROMPT_COMMAND" ]] && chruby_auto' DEBUG
+  if [[ -n "$PREEXEC_FUNCTIONS" ]]; then
+    PREEXEC_FUNCTIONS="${PREEXEC_FUNCTIONS}; [[ \"\$BASH_COMMAND\" != \"\$PROMPT_COMMAND\" ]] && chruby_auto"
+  else
+    PREEXEC_FUNCTIONS="[[ \"\$BASH_COMMAND\" != \"\$PROMPT_COMMAND\" ]] && chruby_auto"
+  fi
+
+  trap 'eval "$PREEXEC_FUNCTIONS"' DEBUG
 fi
