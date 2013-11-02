@@ -12,8 +12,8 @@ class ruby::ree_1_8_7_2012_02 {
       include homebrew::config
 
       $cc = $::macosx_productversion_major ? {
-        '10.9'  => "${homebrew::config::installdir}/homebrew/bin/gcc-4.8",
-        default => "${homebrew::config::installdir}/homebrew/bin/gcc-4.2",
+        '10.9'  => "${homebrew::config::installdir}/bin/gcc-4.8",
+        default => "${homebrew::config::installdir}/bin/gcc-4.2",
       }
 
       $env = {
