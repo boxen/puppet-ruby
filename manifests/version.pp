@@ -49,7 +49,7 @@ define ruby::version(
       cwd         => "${ruby::chruby_root}/versions",
       provider    => 'shell',
       timeout     => 0,
-      creates     => $dest,
+      creates     => "${dest}/bin/ruby",
       user        => $ruby::user,
     }
 
