@@ -12,7 +12,7 @@ define ruby::gem($gem, $ruby, $ensure = 'present', $version = '>= 0') {
 
   if $ruby != 'system' and $ensure == present {
     $klass = join(['ruby', join(split($ruby, '[.-]'), '_')], '::')
-    require $klass
+    include $klass
   }
 
   chruby_gem { $name:
@@ -21,5 +21,6 @@ define ruby::gem($gem, $ruby, $ensure = 'present', $version = '>= 0') {
     version      => $version,
     chruby_root  => $ruby::chruby_root,
     ruby_version => $ruby,
+    require      => Class[$klass],
   }
 }
