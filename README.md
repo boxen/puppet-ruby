@@ -43,6 +43,15 @@ ruby::plugin { 'rbenv-vars':
   ensure => 'v1.2.0',
   source  => 'sstephenson/rbenv-vars'
 }
+
+# Run an installed gem
+# rbenv-installed gems cannot be run in the boxen installation environment which uses the system
+# ruby. The environment must be cleared (env -i) so an installed ruby (and gems) can be used in a new shell.
+exec { "env -i zsh -c 'source /opt/boxen/env.sh && RBENV_VERSION=${version} bundle install'":
+  provider => 'shell',
+  cwd => "~/src/project",
+  require => [ Ruby::Gem["bundler for ${version}"], Package['zsh'] ]
+}
 ```
 
 ## Hiera configuration
