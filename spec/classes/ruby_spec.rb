@@ -36,7 +36,7 @@ describe 'ruby' do
     should contain_boxen__env_script("ruby")
 
     should contain_ruby__plugin('ruby-build').with({
-      :ensure => 'v20131008',
+      :ensure => 'v20131030',
       :source => 'sstephenson/ruby-build'
     })
 
