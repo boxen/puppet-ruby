@@ -5,7 +5,7 @@ Puppet::Type.type(:chruby_gem).provide(:rubygems) do
   desc ""
 
   def gem_path
-    @gem_path ||= chruby_gem("env gemdir")
+    @gem_path ||= chruby_gem("env gemdir").first.chomp
   end
 
   def path
