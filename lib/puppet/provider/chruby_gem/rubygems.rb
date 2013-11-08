@@ -5,12 +5,18 @@ Puppet::Type.type(:chruby_gem).provide(:rubygems) do
   desc ""
 
   def path
-    [
+    return @path if defined?(@path)
+
+    paths = [
       "#{@resource[:chruby_root]}/bin",
       "#{@resource[:chruby_root]}/versions/#{@resource[:ruby_version]}/bin",
-      "#{Facter[:boxen_home].value}/homebrew/bin",
-      "$PATH"
-    ].join(':')
+    ]
+
+    if boxen_home = Facter.value(:boxen_home)
+      paths << "#{boxen_home}/homebrew/bin"
+    end
+
+    @path = paths.join(':')
   end
 
   def chruby_gem(command)
@@ -18,12 +24,15 @@ Puppet::Type.type(:chruby_gem).provide(:rubygems) do
 
     command_opts = {
       :failonfail => true,
-      :uid => Facter[:boxen_user].value,
       :custom_environment => {
         "PATH" => path,
       },
       :combine => true
     }
+
+    if uid = (Facter.value(:boxen_user) || Facter.value(:id))
+      command_opts.merge!(:uid => uid)
+    end
 
     output = execute(full_command, command_opts)
     [output, $?]
