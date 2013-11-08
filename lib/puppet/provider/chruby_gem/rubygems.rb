@@ -9,28 +9,28 @@ Puppet::Type.type(:chruby_gem).provide(:rubygems) do
   end
 
   def path
-    return @path if defined?(@path)
-
-    paths = %W(
+    @paths = %W(
       #{@resource[:chruby_root]}/bin
       #{@resource[:chruby_root]}/versions/#{@resource[:ruby_version]}/bin
     )
-
-    @path = paths.join(":")
   end
 
   def chruby_gem(command)
     full_command = "gem #{command}"
 
     command_opts = {
-      :failonfail => true,
-      :custom_environment => {},
-      :combine => true
+      :failonfail         => true,
+      :custom_environment => {
+        "PATH" => @path,
+      }
+      :combine            => true,
     }
 
     if defined?(@gem_path)
-      command_opts[:custom_environment]["GEM_HOME"] = @gem_path
-      command_opts[:custom_environment]["GEM_PATH"] = @gem_path
+      command_opts[:custom_environment].merge!({
+        "GEM_PATH" => @gem_path,
+        "GEM_HOME" => @gem_path,
+      })
     end
 
     if uid = (Facter.value(:boxen_user) || Facter.value(:id))
