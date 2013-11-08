@@ -1,3 +1,4 @@
+require "rubygems/requirement"
 require 'puppet/util/execution'
 
 Puppet::Type.type(:chruby_gem).provide(:rubygems) do
