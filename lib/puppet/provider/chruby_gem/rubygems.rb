@@ -12,7 +12,7 @@ Puppet::Type.type(:chruby_gem).provide(:rubygems) do
     @path = %W(
       #{@resource[:chruby_root]}/versions/#{@resource[:ruby_version]}/bin
       #{@resource[:chruby_root]}/bin
-    )
+    ).join(":")
   end
 
   def chruby_gem(command)
