@@ -55,7 +55,7 @@ define ruby::version(
 
     chruby_gem { "bundler for ${version}":
       gem          => 'bundler',
-      version      => '~> 1.3',
+      version      => '1.3.2',
       ruby_version => $version,
       chruby_root  => $ruby::chruby_root,
       require      => Exec["ruby-build-${version}"]
