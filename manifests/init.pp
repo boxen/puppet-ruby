@@ -62,9 +62,9 @@ class ruby(
   ->
   file {
     "${chruby_root}/bin/chruby-install":
-      source => 'puppet:///modules/ruby/chruby-install.sh',
-      owner  => $user,
-      mode   => '0755' ;
+      content => template('ruby/chruby-install.sh.erb'),
+      owner   => $user,
+      mode    => '0755' ;
     "${chruby_root}/share/chruby/better-auto.sh":
       source => 'puppet:///modules/ruby/better-auto.sh',
       owner  => $user,

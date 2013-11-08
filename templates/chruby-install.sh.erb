@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION_NAME=$1
-VERSIONS_DIR="${CHRUBY_ROOT}/versions"
+VERSIONS_DIR="<%= @chruby_root %>/versions"
 
 /bin/mkdir -p $VERSIONS_DIR
 
@@ -17,16 +17,16 @@ if [ -z "$SKIP_PRECOMPILED_RUBIES" ]; then
   fi
 
   if [ -z "$OS_RELEASE" ]; then
-    echo "There are no precompiled binaries for this operating system" >2
+    /bin/echo "There are no precompiled binaries for this operating system" >2
     return
   fi
 
   DOWNLOAD_BUCKET=${BOXEN_S3_BUCKET-"boxen-downloads"}
   DOWNLOAD_HOST=${BOXEN_S3_HOST-"s3.amazonaws.com"}
 
-  echo "Trying to download precompiled Ruby from S3..."
-  curl --silent --fail http://$DOWNLOAD_HOST/$DOWNLOAD_BUCKET/chruby/$PLATFORM/$OS_RELEASE/$VERSION_NAME.tar.bz2 \
-    | tar jxf -C $VERSIONS_DIR
+  /bin/echo "Trying to download precompiled Ruby from S3..."
+  /usr/bin/curl --silent --fail http://$DOWNLOAD_HOST/$DOWNLOAD_BUCKET/chruby/$PLATFORM/$OS_RELEASE/$VERSION_NAME.tar.bz2 \
+    | /bin/tar jxf -C $VERSIONS_DIR
 
   if [ -d "$VERSIONS_DIR/$VERSION_NAME" ]; then
     # install from download was successful
@@ -34,4 +34,4 @@ if [ -z "$SKIP_PRECOMPILED_RUBIES" ]; then
   fi
 fi
 
-ruby-build $VERSION_NAME $VERSIONS_DIR/$VERSION_NAME
+<%= @rubybuild_root %>/bin/ruby-build $VERSION_NAME $VERSIONS_DIR/$VERSION_NAME
