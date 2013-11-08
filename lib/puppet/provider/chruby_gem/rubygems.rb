@@ -9,9 +9,9 @@ Puppet::Type.type(:chruby_gem).provide(:rubygems) do
   end
 
   def path
-    @paths = %W(
-      #{@resource[:chruby_root]}/bin
+    @path = %W(
       #{@resource[:chruby_root]}/versions/#{@resource[:ruby_version]}/bin
+      #{@resource[:chruby_root]}/bin
     )
   end
 
@@ -21,7 +21,7 @@ Puppet::Type.type(:chruby_gem).provide(:rubygems) do
     command_opts = {
       :failonfail         => true,
       :custom_environment => {
-        "PATH" => @path,
+        "PATH" => path,
       },
       :combine            => true,
     }
