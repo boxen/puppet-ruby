@@ -5,7 +5,7 @@ VERSION_NAME=$1
 if [ -z "$SKIP_PRECOMPILED_RUBIES" ]; then
   VERSIONS_DIR="${CHRUBY_ROOT}/versions"
 
-  PLATFORM="$(/usr/bin/uname -s | /usr/bin/tr '[:upper:]' '[:lower:]')"
+  PLATFORM="$(/bin/uname -s | /usr/bin/tr '[:upper:]' '[:lower:]')"
 
   if [ "$PLATFORM" = "darwin" ]; then
     OS_RELEASE=`/usr/bin/sw_vers -productVersion | /usr/bin/cut -f 1-2 -d '.'`
@@ -26,7 +26,7 @@ if [ -z "$SKIP_PRECOMPILED_RUBIES" ]; then
 
   echo "Trying to download precompiled Ruby from S3..."
   curl --silent --fail http://$DOWNLOAD_HOST/$DOWNLOAD_BUCKET/chruby/$PLATFORM/$OS_RELEASE/$VERSION_NAME.tar.bz2 \
-    | tar -C $VERSIONS_DIR jxf
+    | tar jxf -C $VERSIONS_DIR
 
   if [ -d "$VERSIONS_DIR/$VERSION_NAME" ]; then
     # install from download was successful
