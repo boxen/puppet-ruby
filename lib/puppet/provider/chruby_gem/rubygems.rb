@@ -6,7 +6,7 @@ Puppet::Type.type(:chruby_gem).provide(:rubygems) do
   desc ""
 
   def gem_path
-    @gem_path ||= "#{@resource[:chruby_root]}/gems/#{@resource[:ruby_version]}"
+    @gem_path ||= chruby_gem("env gemdir")
   end
 
   def path
@@ -41,7 +41,6 @@ Puppet::Type.type(:chruby_gem).provide(:rubygems) do
   end
 
   def create
-    FileUtils.mkdir_p gem_path
     chruby_gem "install '#{@resource[:gem]}' -v '#{@resource[:version]}'"
   end
 
@@ -50,10 +49,9 @@ Puppet::Type.type(:chruby_gem).provide(:rubygems) do
   end
 
   def exists?
-    gem_dir = chruby_gem("env gemdir").first.strip
     requirement = Gem::Requirement.new(@resource[:version])
 
-    Dir["#{gem_dir}/gems/#{@resource[:gem]}-*"].each do |path|
+    Dir["#{gem_path}/gems/#{@resource[:gem]}-*"].each do |path|
       gem_with_version = File.basename(path)
 
       # skip gems that start with @resource[:gem] to avoid false positives
