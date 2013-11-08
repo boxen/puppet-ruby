@@ -5,13 +5,29 @@ Puppet::Type.type(:chruby_gem).provide(:rubygems) do
   include Puppet::Util::Execution
   desc ""
 
+  def gem_path
+    @gem_path ||= "#{@resource[:chruby_root]}/gems/#{@resource[:ruby_version]}"
+  end
+
+  def path
+    return @path if defined?(@path)
+
+    paths = %W(
+      #{@resource[:chruby_root]}/bin
+      #{@resource[:chruby_root]}/versions/#{@resource[:ruby_version]}/bin
+    )
+
+    @path = paths.join(":")
+  end
+
   def chruby_gem(command)
-    full_command = "#{@resource[:chruby_root]}/bin/chruby-exec #{@resource[:ruby_version]} -- gem #{command}"
+    full_command = "gem #{command}"
 
     command_opts = {
       :failonfail => true,
       :custom_environment => {
-        "RUBIES" => Dir["#{@resource[:chruby_root]}/versions"].join(" "),
+        "GEM_HOME" => gem_path,
+        "GEM_PATH" => gem_path,
       },
       :combine => true
     }
@@ -25,6 +41,7 @@ Puppet::Type.type(:chruby_gem).provide(:rubygems) do
   end
 
   def create
+    FileUtils.mkdir_p gem_path
     chruby_gem "install '#{@resource[:gem]}' -v '#{@resource[:version]}'"
   end
 
