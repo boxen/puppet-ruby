@@ -1,10 +1,11 @@
 #!/bin/bash
 
 VERSION_NAME=$1
+VERSIONS_DIR="${CHRUBY_ROOT}/versions"
+
+/bin/mkdir -p $VERSIONS_DIR
 
 if [ -z "$SKIP_PRECOMPILED_RUBIES" ]; then
-  VERSIONS_DIR="${CHRUBY_ROOT}/versions"
-
   PLATFORM="$(/bin/uname -s | /usr/bin/tr '[:upper:]' '[:lower:]')"
 
   if [ "$PLATFORM" = "darwin" ]; then
@@ -22,7 +23,6 @@ if [ -z "$SKIP_PRECOMPILED_RUBIES" ]; then
 
   DOWNLOAD_BUCKET=${BOXEN_S3_BUCKET-"boxen-downloads"}
   DOWNLOAD_HOST=${BOXEN_S3_HOST-"s3.amazonaws.com"}
-  PREV_PWD=`pwd`
 
   echo "Trying to download precompiled Ruby from S3..."
   curl --silent --fail http://$DOWNLOAD_HOST/$DOWNLOAD_BUCKET/chruby/$PLATFORM/$OS_RELEASE/$VERSION_NAME.tar.bz2 \
