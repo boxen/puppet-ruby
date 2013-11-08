@@ -11,7 +11,7 @@ Puppet::Type.type(:chruby_gem).provide(:rubygems) do
     command_opts = {
       :failonfail => true,
       :custom_environment => {
-        "RUBIES" => Dir["#{@resource[:chruby_root]}/versions"],
+        "RUBIES" => Dir["#{@resource[:chruby_root]}/versions"].join(" "),
       },
       :combine => true
     }
