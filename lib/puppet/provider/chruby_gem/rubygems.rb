@@ -5,28 +5,13 @@ Puppet::Type.type(:chruby_gem).provide(:rubygems) do
   include Puppet::Util::Execution
   desc ""
 
-  def path
-    return @path if defined?(@path)
-
-    paths = [
-      "#{@resource[:chruby_root]}/bin",
-      "#{@resource[:chruby_root]}/versions/#{@resource[:ruby_version]}/bin",
-    ]
-
-    if boxen_home = Facter.value(:boxen_home)
-      paths << "#{boxen_home}/homebrew/bin"
-    end
-
-    @path = paths.join(':')
-  end
-
   def chruby_gem(command)
-    full_command = "#{@resource[:chruby_root]}/versions/#{@resource[:ruby_version]}/bin/gem #{command}"
+    full_command = "#{@resource[:chruby_root]}/bin/chruby-exec #{@resource[:ruby_version]} -- gem #{command}"
 
     command_opts = {
       :failonfail => true,
       :custom_environment => {
-        "PATH" => path,
+        "RUBIES" => Dir["#{@resource[:chruby_root]}/versions"],
       },
       :combine => true
     }
