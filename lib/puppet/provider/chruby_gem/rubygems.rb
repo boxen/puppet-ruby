@@ -24,12 +24,14 @@ Puppet::Type.type(:chruby_gem).provide(:rubygems) do
 
     command_opts = {
       :failonfail => true,
-      :custom_environment => {
-        "GEM_HOME" => gem_path,
-        "GEM_PATH" => gem_path,
-      },
+      :custom_environment => {},
       :combine => true
     }
+
+    if defined?(@gem_path)
+      command_opts[:custom_environment]["GEM_HOME"] = @gem_path
+      command_opts[:custom_environment]["GEM_PATH"] = @gem_path
+    end
 
     if uid = (Facter.value(:boxen_user) || Facter.value(:id))
       command_opts.merge!(:uid => uid)
