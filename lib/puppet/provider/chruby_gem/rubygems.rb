@@ -22,7 +22,7 @@ Puppet::Type.type(:chruby_gem).provide(:rubygems) do
       :failonfail         => true,
       :custom_environment => {
         "PATH" => @path,
-      }
+      },
       :combine            => true,
     }
 
