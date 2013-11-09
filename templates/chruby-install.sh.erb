@@ -5,7 +5,10 @@ VERSIONS_DIR="<%= @chruby_root %>/versions"
 
 /bin/mkdir -p $VERSIONS_DIR
 
-if [ -z "$SKIP_PRECOMPILED_RUBIES" ]; then
+download_it() {
+  VERSION_NAME=$1
+  VERSIONS_DIR=$2
+
   PLATFORM="$(/bin/uname -s | /usr/bin/tr '[:upper:]' '[:lower:]')"
 
   if [ "$PLATFORM" = "darwin" ]; then
@@ -24,14 +27,36 @@ if [ -z "$SKIP_PRECOMPILED_RUBIES" ]; then
   DOWNLOAD_BUCKET=${BOXEN_S3_BUCKET-"boxen-downloads"}
   DOWNLOAD_HOST=${BOXEN_S3_HOST-"s3.amazonaws.com"}
 
+  set -o pipefail
+
   /bin/echo "Trying to download precompiled Ruby from S3..."
   /usr/bin/curl --silent --fail http://$DOWNLOAD_HOST/$DOWNLOAD_BUCKET/chruby/$PLATFORM/$OS_RELEASE/$VERSION_NAME.tar.bz2 \
-    | /bin/tar jxf -C $VERSIONS_DIR -
+    | /bin/tar jxf - -C $VERSIONS_DIR 2>/dev/null
 
-  if [ -d "$VERSIONS_DIR/$VERSION_NAME" ]; then
-    # install from download was successful
-    exit 0
+  if [ $? -ne 0 ]; then
+    return 1
+  else
+    if [ -d "$VERSIONS_DIR/$VERSION_NAME" ] && [ -x "$VERSIONS_DIR/$VERSION_NAME/bin/ruby" ]; then
+      echo "Successfully installed $VERSION_NAME from S3!"
+      return 0
+    else
+      return 1
+    fi
   fi
-fi
+}
 
-<%= @rubybuild_root %>/bin/ruby-build $VERSION_NAME $VERSIONS_DIR/$VERSION_NAME
+build_it() {
+  VERSION_NAME=$1
+  VERSIONS_DIR=$2
+  <%= @rubybuild_root %>/bin/ruby-build $VERSION_NAME $VERSIONS_DIR/$VERSION_NAME
+}
+
+if [ -z "$SKIP_PRECOMPILED_RUBIES" ]; then
+  download_it $VERSION_NAME $VERSIONS_DIR || {
+    echo "Download failed! Building ruby locally!" >&2
+    build_it $VERSION_NAME $VERSIONS_DIR
+  }
+else
+  echo "Forceably skipping precompiled rubies and building $VERSION_NAME locally!"
+  build_it $VERSION_NAME $VERSIONS_DIR
+fi
