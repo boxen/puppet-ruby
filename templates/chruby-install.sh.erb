@@ -26,7 +26,7 @@ if [ -z "$SKIP_PRECOMPILED_RUBIES" ]; then
 
   /bin/echo "Trying to download precompiled Ruby from S3..."
   /usr/bin/curl --silent --fail http://$DOWNLOAD_HOST/$DOWNLOAD_BUCKET/chruby/$PLATFORM/$OS_RELEASE/$VERSION_NAME.tar.bz2 \
-    | /bin/tar jxf -C $VERSIONS_DIR
+    | /bin/tar jxf -C $VERSIONS_DIR -
 
   if [ -d "$VERSIONS_DIR/$VERSION_NAME" ]; then
     # install from download was successful
