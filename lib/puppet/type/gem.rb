@@ -11,6 +11,7 @@ Puppet::Type.newtype(:gem) do
     end
 
     newvalue /./ do
+      provider.destroy if self.retrieve.length > 1
       provider.create
 
       if self.retrieve == :absent

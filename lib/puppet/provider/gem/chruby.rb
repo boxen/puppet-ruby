@@ -53,11 +53,7 @@ Puppet::Type.type(:gem).provide(:chruby) do
       if [:present, :absent].member?(@resource[:ensure])
         h.merge(:ensure => :present)
       else
-        if all_versions.length > 1
-          h.merge(:ensure => all_versions)
-        else
-          h.merge(:ensure => all_versions.first)
-        end
+        h.merge(:ensure => all_versions)
       end
     else
       h.merge(:ensure => :absent)
