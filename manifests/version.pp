@@ -53,16 +53,15 @@ define ruby::version(
       user        => $ruby::user,
     }
 
-    chruby_gem { "bundler for ${version}":
-      gem          => 'bundler',
-      version      => '1.3.2',
-      ruby_version => $version,
-      chruby_root  => $ruby::chruby_root,
-      require      => Exec["ruby-build-${version}"]
-    }
-
     Exec["ruby-build-${version}"] {
       environment +> sort(join_keys_to_values($final_env, '='))
     }
+
+    ensure_resource('ruby::gem', "bundler for ${version}", {
+      'ensure' => '1.3.5',
+      'gem'    => 'bundler',
+      'ruby'   => $version,
+    })
+
   }
 }
