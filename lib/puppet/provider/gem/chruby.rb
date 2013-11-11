@@ -41,7 +41,11 @@ Puppet::Type.type(:gem).provide(:chruby) do
   end
 
   def query
-    h = { :name => @resource[:name], :provider => :chruby }
+    h = {
+      :name     => @resource[:name],
+      :gem      => @resource[:gem],
+      :provider => :chruby,
+    }
 
     all_versions = []
 
@@ -51,12 +55,23 @@ Puppet::Type.type(:gem).provide(:chruby) do
 
     if all_versions.any?
       if [:present, :absent].member?(@resource[:ensure])
-        h.merge(:ensure => :present)
+        h.merge!(:ensure => :present)
       else
-        h.merge(:ensure => all_versions)
+        h.merge!(:ensure => all_versions)
       end
     else
-      h.merge(:ensure => :absent)
+      h.merge!(:ensure => :absent)
+    end
+
+    Puppet.warning h
+    h
+  end
+
+  def exists?
+    if is = self.query[:ensure] && should = @resource[:ensure] && is == should
+      should
+    else
+      is
     end
   end
 

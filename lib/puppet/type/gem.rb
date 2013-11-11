@@ -10,7 +10,7 @@ Puppet::Type.newtype(:gem) do
       provider.destroy
     end
 
-    newvalue /./ do
+    newvalue /.+/ do
       provider.destroy if self.retrieve.length > 1
       provider.create
 
@@ -24,10 +24,6 @@ Puppet::Type.newtype(:gem) do
     aliasvalue(:installed, :present)
     aliasvalue(:uninstalled, :absent)
     defaultto :present
-
-    def retrieve
-      provider.query[:ensure]
-    end
 
     def insync?(is)
       @should.each { |should|
@@ -57,10 +53,6 @@ Puppet::Type.newtype(:gem) do
         raise Puppet::ParseError, "invalid ruby_root"
       end
     end
-  end
-
-  def exists?
-    @provider.query[:ensure] != @parameters[:ensure]
   end
 
 end
