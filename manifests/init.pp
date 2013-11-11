@@ -76,4 +76,5 @@ class ruby(
 
   ->
   Ruby::Version <| |>
+
 }
