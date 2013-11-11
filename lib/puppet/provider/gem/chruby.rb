@@ -19,7 +19,7 @@ Puppet::Type.type(:gem).provide(:chruby) do
     }
   end
 
-  def chruby_gem(command)
+  def gem(command)
     full_command = "gem #{command}"
 
     command_opts = default_command_opts
@@ -33,11 +33,11 @@ Puppet::Type.type(:gem).provide(:chruby) do
   end
 
   def create
-    chruby_gem "install '#{@resource[:gem]}' -v '#{@resource[:ensure]}'"
+    gem "install '#{@resource[:gem]}' -v '#{@resource[:ensure]}'"
   end
 
   def destroy
-    chruby_gem "uninstall '#{@resource[:gem]}' -x -a"
+    gem "uninstall '#{@resource[:gem]}' -x -a"
   end
 
   def query
