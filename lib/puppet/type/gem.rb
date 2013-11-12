@@ -25,6 +25,10 @@ Puppet::Type.newtype(:gem) do
     aliasvalue(:uninstalled, :absent)
     defaultto :present
 
+    def retrieve
+      provider.exists?
+    end
+
     def insync?(is)
       @should.each { |should|
         case should

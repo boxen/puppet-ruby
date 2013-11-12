@@ -33,7 +33,9 @@ Puppet::Type.type(:gem).provide(:chruby) do
   end
 
   def create
-    gem "install '#{@resource[:gem]}' -v '#{@resource[:ensure]}'"
+    [@resource[:ensure]].flatten.each do |e|
+      gem "install '#{@resource[:gem]}' -v '#{e}'"
+    end
   end
 
   def destroy
@@ -50,7 +52,7 @@ Puppet::Type.type(:gem).provide(:chruby) do
     all_versions = []
 
     Dir.chdir "#{gem_path}/gems" do
-      all_versions = Dir["#{@resource[:gem]}-*"].map { |g| g.rpartition("-").last }
+      all_versions = Dir["#{@resource[:gem]}-*"].map { |g| g.rpartition("-").last }.sort
     end
 
     if all_versions.any?
@@ -63,16 +65,14 @@ Puppet::Type.type(:gem).provide(:chruby) do
       h.merge!(:ensure => :absent)
     end
 
-    Puppet.warning h
     h
   end
 
   def exists?
-    if is = self.query[:ensure] && should = @resource[:ensure] && is == should
-      should
-    else
-      is
-    end
+    is     = self.query[:ensure]
+    should = [@resource[:ensure]].flatten.sort
+
+    is == should ? should : is
   end
 
 private
