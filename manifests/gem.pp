@@ -8,13 +8,13 @@
 #       ensure => '1.3.5'
 #     }
 define ruby::gem($gem, $ruby, $ensure = 'present',) {
-  require ruby
+  include ruby
 
   if $ruby == undef or $ruby == 'undef' {
     fail('Must pass a valid ruby version for the gem!')
   }
 
-  if $ruby != 'system' and $ensure == present {
+  if $ruby != 'system' {
     $klass = join(['ruby', join(split($ruby, '[.-]'), '_')], '::')
     include $klass
   }
@@ -23,7 +23,9 @@ define ruby::gem($gem, $ruby, $ensure = 'present',) {
     ensure    => $ensure,
     gem       => $gem,
     ruby_root => "${ruby::chruby_root}/versions/${ruby}",
-    require   => Class["${klass}"],
+
+    # dirty fucking hack because of bullshit
+    require   => Exec["ruby-build-${ruby}"],
 
     provider  => chruby,
   }
