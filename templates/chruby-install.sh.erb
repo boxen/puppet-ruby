@@ -14,10 +14,14 @@ download_it() {
 
   if [ "$PLATFORM" = "darwin" ]; then
     OS_RELEASE=`/usr/bin/sw_vers -productVersion | /usr/bin/cut -f 1-2 -d '.'`
+
+    TAR=/usr/bin/tar
   else
     if [ -x "/usr/bin/lsb_release" ]; then
       OS_RELEASE="$(/usr/bin/lsb_release --codename --short)"
     fi
+
+    TAR=/bin/tar
   fi
 
   if [ -z "$OS_RELEASE" ]; then
@@ -32,7 +36,7 @@ download_it() {
 
   /bin/echo "Trying to download precompiled Ruby from S3..."
   /usr/bin/curl --silent --fail http://$DOWNLOAD_HOST/$DOWNLOAD_BUCKET/chruby/$PLATFORM/$OS_RELEASE/$VERSION_NAME.tar.bz2 \
-    | /bin/tar jxf - -C $VERSIONS_DIR 2>/dev/null
+    | $TAR jxf - -C $VERSIONS_DIR 2>/dev/null
 
   if [ $? -ne 0 ]; then
     return 1
