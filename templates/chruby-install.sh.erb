@@ -20,7 +20,7 @@ download_it() {
   fi
 
   if [ -z "$OS_RELEASE" ]; then
-    /bin/echo "There are no precompiled binaries for this operating system" >2
+    /bin/echo "There are no precompiled binaries for this operating system" >&2
     return
   fi
 
