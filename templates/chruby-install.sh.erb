@@ -21,7 +21,7 @@ download_it() {
 
   if [ -z "$OS_RELEASE" ]; then
     /bin/echo "There are no precompiled binaries for this operating system" >&2
-    return
+    return 1
   fi
 
   DOWNLOAD_BUCKET=${BOXEN_S3_BUCKET-"boxen-downloads"}
