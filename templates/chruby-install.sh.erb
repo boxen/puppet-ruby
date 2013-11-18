@@ -9,7 +9,8 @@ download_it() {
   VERSION_NAME=$1
   VERSIONS_DIR=$2
 
-  PLATFORM="$(/bin/uname -s | /usr/bin/tr '[:upper:]' '[:lower:]')"
+  dat_uname="$(/bin/uname -s 2>/dev/null || /usr/bin/uname -s 2>/dev/null)"
+  PLATFORM="$(echo $dat_uname | /usr/bin/tr '[:upper:]' '[:lower:]')"
 
   if [ "$PLATFORM" = "darwin" ]; then
     OS_RELEASE=`/usr/bin/sw_vers -productVersion | /usr/bin/cut -f 1-2 -d '.'`
