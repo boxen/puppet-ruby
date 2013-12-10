@@ -38,11 +38,17 @@ GITHUBTARBALL
   specs:
     stdlib (4.0.0)
 
+GITHUBTARBALL
+  remote: ripienaar/puppet-module-data
+  specs:
+    module-data (0.0.1)
+
 DEPENDENCIES
   autoconf (= 1.0.0)
   boxen (= 3.1.0)
   gcc (= 1.0.0)
   homebrew (= 1.1.2)
+  module-data (= 0.0.1)
   openssl (= 1.0.0)
   repository (= 2.2.0)
   stdlib (= 4.0.0)
