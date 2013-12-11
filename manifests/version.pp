@@ -43,7 +43,14 @@ define ruby::version(
       'RBENV_ROOT' => $ruby::rbenv_root
     }
 
-    $final_env = merge(merge($default_env, $os_env), $env)
+    $hierdata = hiera_hash('ruby::version', {})
+    if has_key($hierdata, $version) {
+      $hiera_env = $hierdata[$version]
+    } else {
+      $hiera_env = {}
+    }
+
+    $final_env = merge(merge(merge($default_env, $os_env), $hiera_env), $env)
 
     exec { "ruby-install-${version}":
       command     => "${ruby::rbenv_root}/bin/rbenv install ${version}",
