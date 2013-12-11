@@ -1,7 +1,7 @@
-# Installs ruby 2.0.0-preview2.
+# Installs ruby 2.1.0-preview2.
 
-class ruby::2_0_0_preview2 {
+class ruby::2_1_0_preview2 {
   require openssl
 
-  ruby::version { '2.0.0-preview2': }
+  ruby::version { '2.1.0-preview2': }
 }
