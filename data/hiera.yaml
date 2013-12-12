@@ -1,0 +1,5 @@
+---
+:hierarchy:
+  - "%{::osfamily}/%{::macosx_productversion_major}"
+  - "%{::osfamily}"
+  - common
