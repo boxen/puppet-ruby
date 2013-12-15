@@ -1,5 +1,5 @@
 ---
 ruby::version:
   1.9.2-p290:
-    CC: "%{boxen::config::home}/homebrew/bin/gcc-4.2"
+    CC: "gcc-4.2"
 
