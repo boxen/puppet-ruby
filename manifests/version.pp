@@ -16,6 +16,7 @@ define ruby::version(
     'Darwin': {
       require xquartz
       include homebrew::config
+      include boxen::config
 
       $os_env = {
         'BOXEN_S3_HOST'   => $::boxen_s3_host,
@@ -51,6 +52,13 @@ define ruby::version(
     }
 
     $final_env = merge(merge(merge($default_env, $os_env), $hiera_env), $env)
+
+    if has_key($final_env, 'CC') {
+      case $final_env['CC'] {
+        /gcc/ { require gcc }
+        default: { }
+      }
+    }
 
     exec { "ruby-install-${version}":
       command     => "${ruby::rbenv_root}/bin/rbenv install ${version}",

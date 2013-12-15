@@ -6,3 +6,5 @@ ruby::version:
   1.9.2-p290:
     CC: gcc
 
+  1.9.2-p320:
+    CC: gcc

@@ -3,3 +3,6 @@ ruby::version:
   1.9.2-p290:
     CC: "gcc-4.2"
 
+  1.9.2-p320:
+    CC: "gcc-4.2"
+
