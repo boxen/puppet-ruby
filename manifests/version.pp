@@ -44,7 +44,7 @@ define ruby::version(
       'RBENV_ROOT' => $ruby::rbenv_root
     }
 
-    $hierdata = hiera_hash('ruby::version', {})
+    $hierdata = hiera_hash('ruby::version::env', {})
     if has_key($hierdata, $version) {
       $hiera_env = $hierdata[$version]
     } else {
