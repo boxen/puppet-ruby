@@ -7,8 +7,7 @@
 
 define ruby::local($version = undef, $ensure = present) {
   if $version != 'system' and $ensure == present {
-    $klass = join(['ruby', join(split($version, '[.-]'), '_')], '::')
-    require $klass
+    ensure_resource('ruby::version', $version)
   }
 
   file {
