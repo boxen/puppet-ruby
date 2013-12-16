@@ -55,7 +55,7 @@ define ruby::version(
 
     if has_key($final_env, 'CC') {
       case $final_env['CC'] {
-        /gcc/ { require gcc }
+        /gcc/:   { require gcc }
         default: { }
       }
     }
