@@ -4,12 +4,5 @@
 #
 #     include ruby::1_9_2
 class ruby::1_9_2 {
-  require ruby
-  require ruby::1_9_2_p320
-
-  file { "${ruby::rbenv_root}/versions/1.9.2":
-    ensure  => symlink,
-    force   => true,
-    target  => "${ruby::rbenv_root}/versions/1.9.2-p320"
-  }
+  ruby::version { '1.9.2': }
 }

@@ -4,12 +4,5 @@
 #
 #     include ruby::1_8_7
 class ruby::1_8_7 {
-  require ruby
-  require ruby::1_8_7_p358
-
-  file { "${ruby::rbenv_root}/versions/1.8.7":
-    ensure  => symlink,
-    force   => true,
-    target  => "${ruby::rbenv_root}/versions/1.8.7-p358"
-  }
+  ruby::version { '1.8.7': }
 }

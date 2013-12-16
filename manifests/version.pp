@@ -12,6 +12,20 @@ define ruby::version(
 ) {
   require ruby
 
+  $alias_hash = hiera_hash('ruby::version::alias', {})
+  if has_key($alias_hash, $version) {
+    $target = $alias_hash[$version]
+
+    file { "${ruby::rbenv_root}/versions/${version}":
+      ensure  => symlink,
+      force   => true,
+      target  => "${ruby::rbenv_root}/versions/${target}"
+    }
+
+    ensure_resource('ruby::version', $target)
+  }
+
+
   case $::osfamily {
     'Darwin': {
       require xquartz

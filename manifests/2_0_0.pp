@@ -4,13 +4,6 @@
 #
 #     include ruby::2_0_0
 class ruby::2_0_0 {
-  require ruby
-  require ruby::2_0_0_p353
-
-  file { "${ruby::rbenv_root}/versions/2.0.0":
-    ensure  => symlink,
-    force   => true,
-    target  => "${ruby::rbenv_root}/versions/2.0.0-p353"
-  }
+  ruby::version { '2.0.0': }
 }
 
