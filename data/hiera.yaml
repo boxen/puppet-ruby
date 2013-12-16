@@ -3,3 +3,5 @@
   - "%{::osfamily}/%{::macosx_productversion_major}"
   - "%{::osfamily}"
   - common
+
+:merge_behavior: deeper

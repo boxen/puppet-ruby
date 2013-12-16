@@ -1,5 +1,8 @@
 ---
 ruby::version:
+  1.8.7-p358:
+    CONFIGURE_OPTS: "--disable-tk --disable-tcl --disable-tcltk-framework"
+
   1.9.2-p290:
     CC: "gcc-4.2"
 
