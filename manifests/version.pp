@@ -12,6 +12,11 @@ define ruby::version(
 ) {
   require ruby
 
+  case $version {
+    /jruby/: { require 'java' }
+    default: { }
+  }
+
   $alias_hash = hiera_hash('ruby::version::alias', {})
   if has_key($alias_hash, $version) {
     $target = $alias_hash[$version]
