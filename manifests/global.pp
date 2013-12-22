@@ -7,8 +7,12 @@
 class ruby::global($version = '1.9.3') {
   include ruby
 
+
   if $version != 'system' {
     ensure_resource('ruby::version', $version)
+    $require = Ruby::Version[$version]
+  } else {
+    $require = undef
   }
 
   file { "${ruby::rbenv_root}/version":
@@ -16,5 +20,6 @@ class ruby::global($version = '1.9.3') {
     owner   => $ruby::user,
     mode    => '0644',
     content => "${version}\n",
+    require => $require,
   }
 }
