@@ -10,6 +10,9 @@ define ruby::local($version = undef, $ensure = present) {
     ensure_resource('ruby::version', $version)
   }
 
+  Ruby::Version[$version]
+
+  ->
   file {
     "${name}/.ruby-version":
       ensure  => $ensure,
