@@ -8,8 +8,7 @@ class ruby::global($version = '1.9.3') {
   include ruby
 
   if $version != 'system' {
-    $klass = join(['ruby', join(split($version, '[.-]'), '_')], '::')
-    require $klass
+    ensure_resource('ruby::version', $version)
   }
 
   file { "${ruby::rbenv_root}/version":
