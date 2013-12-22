@@ -1,0 +1,13 @@
+---
+ruby::version::env:
+  1.8.7-p358:
+    CONFIGURE_OPTS: "--disable-tk --disable-tcl --disable-tcltk-framework"
+
+  1.9.2-p290:
+    CC: "gcc-4.2"
+
+  1.9.2-p320:
+    CC: "gcc-4.2"
+
+  ree-1.8.7-2012.02:
+    CC: "gcc-4.2"
