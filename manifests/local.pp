@@ -10,9 +10,9 @@ define ruby::local($version = undef, $ensure = present) {
 
   if $version != 'system' {
     ensure_resource('ruby::version', $version)
-    $require = Ruby::Version[$version]
+    $_ruby_local_require = Ruby::Version[$version]
   } else {
-    $require = undef
+    $_ruby_local_require = undef
   }
 
   file {
@@ -20,11 +20,11 @@ define ruby::local($version = undef, $ensure = present) {
       ensure  => $ensure,
       content => "${version}\n",
       replace => true,
-      require => $require ;
+      require => $_ruby_local_require ;
 
     "${name}/.rbenv-version":
       ensure  => absent,
       before  => "${name}/.ruby-version",
-      require => $require ;
+      require => $_ruby_local_require ;
   }
 }
