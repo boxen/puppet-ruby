@@ -6,16 +6,25 @@
 #     ruby::local { '/path/to/a/thing': version => '1.9.3-p194' }
 
 define ruby::local($version = undef, $ensure = present) {
-  if $version != 'system' and $ensure == present {
+  include ruby
+
+  if $version != 'system' {
     ensure_resource('ruby::version', $version)
+    $require = Ruby::Version[$version]
+  } else {
+    $require = undef
   }
 
   file {
     "${name}/.ruby-version":
       ensure  => $ensure,
       content => "${version}\n",
-      replace => true ;
+      replace => true,
+      require => $require ;
+
     "${name}/.rbenv-version":
-      ensure  => absent ;
+      ensure  => absent,
+      before  => "${name}/.ruby-version",
+      require => $require ;
   }
 }
