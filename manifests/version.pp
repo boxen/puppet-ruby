@@ -89,7 +89,7 @@ define ruby::version(
       ruby::gem { "bundler for ${version}":
         gem     => 'bundler',
         ruby    => $version,
-        version => '~> 1.0'
+        version => '~> 1.5.0'
       }
 
       Exec["ruby-install-${version}"] {

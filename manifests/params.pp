@@ -16,11 +16,11 @@ class ruby::params {
 
   $rbenv_version = 'v0.4.0'
 
-  $default_gems = ['bundler ~>1.3']
+  $default_gems = ['bundler ~>1.5.1']
 
   $rbenv_plugins = {
     'ruby-build' => {
-      'ensure' => 'v20131122.1',
+      'ensure' => 'v20131225.1',
       'source' => 'sstephenson/ruby-build'
     },
     'rbenv-gem-rehash' => {
