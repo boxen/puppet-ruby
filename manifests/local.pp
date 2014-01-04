@@ -24,7 +24,7 @@ define ruby::local($version = undef, $ensure = present) {
 
     "${name}/.rbenv-version":
       ensure  => absent,
-      before  => "${name}/.ruby-version",
+      before  => File["${name}/.ruby-version"],
       require => $_ruby_local_require ;
   }
 }
