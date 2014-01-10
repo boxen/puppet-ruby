@@ -15,10 +15,12 @@ Puppet::Type.type(:rbenv_gem).provide(:rubygems) do
   end
 
   def rbenv_gem(command)
+    version = @resource[:rbenv_version]
+
     full_command = [
-      "sudo -u #{Facter[:boxen_user].value}",
+      version == "system" ? "sudo" : "sudo -u #{Facter[:boxen_user].value}",
       "PATH=#{path}",
-      "RBENV_VERSION=#{@resource[:rbenv_version]}",
+      "RBENV_VERSION=#{version}",
       "RBENV_ROOT=#{@resource[:rbenv_root]}",
       "#{@resource[:rbenv_root]}/shims/gem #{command}"
     ].join(" ")
