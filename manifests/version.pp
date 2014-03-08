@@ -66,6 +66,12 @@ define ruby::version(
       provider    => rubybuild,
     }
 
+    ruby_gem { "bundler for ${version}":
+      gem          => 'bundler',
+      version      => '~> 1.0',
+      ruby_version => $version,
+    }
+
   }
 
 }

@@ -28,6 +28,6 @@ class ruby(
   Class['ruby::build'] ->
     Ruby::Definition <| |> ->
     Class["ruby::${provider}"] ->
-    Ruby::Version <| |> ->
-    Ruby::Gem <| |>
+    Ruby <| |> ->
+    Ruby_gem <| |>
 }
