@@ -1,7 +1,8 @@
 class ruby::chruby(
-  $ensure = $ruby::chruby::ensure,
-  $prefix = $ruby::chruby::prefix,
-  $user   = $ruby::chruby::user,
+  $ensure      = $ruby::chruby::ensure,
+  $prefix      = $ruby::chruby::prefix,
+  $user        = $ruby::chruby::user,
+  $auto_switch = $ruby::chruby::auto_switch,
 ) {
 
   require ruby

@@ -6,8 +6,7 @@ Puppet::Type.type(:ruby).provide(:rubybuild) do
   include Puppet::Util::Execution
 
   def exists?
-    File.directory? prefix
-    #File.executable?("#{prefix}/bin/ruby")
+    File.executable?("#{prefix}/bin/ruby")
   end
 
   def create

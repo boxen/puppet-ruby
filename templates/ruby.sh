@@ -18,7 +18,9 @@ current-ruby() {
 
 <%- if scope.lookupvar("::ruby::provider") == "chruby" -%>
 source <%= scope.lookupvar("::ruby::chruby::prefix") %>/share/chruby/chruby.sh
+<%- if scope.lookupvar("::ruby::chruby::auto_switch") -%>
 source <%= scope.lookupvar("::ruby::chruby::prefix") %>/share/chruby/auto.sh
+<%- end -%>
 
 export RUBIES=(/opt/boxen/rubies/*)
 
