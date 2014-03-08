@@ -1,4 +1,4 @@
-# Installs a ruby version via rbenv.
+# Installs a ruby version with ruby-build..
 # Takes ensure, env, and version params.
 #
 # Usage:
@@ -12,23 +12,21 @@ define ruby::version(
 ) {
   require ruby
 
-  case $version {
-    /jruby/: { require 'java' }
-    default: { }
-  }
-
   $alias_hash = hiera_hash('ruby::version::alias', {})
-  if has_key($alias_hash, $version) {
-    $target = $alias_hash[$version]
 
-    file { "${ruby::rbenv_root}/versions/${version}":
-      ensure  => symlink,
-      force   => true,
-      target  => "${ruby::rbenv_root}/versions/${target}"
+  if has_key($alias_hash, $version) {
+    $to = $alias_hash[$version]
+
+    ruby::alias { $version:
+      to => $to,
+    }
+  } else {
+
+    case $version {
+      /jruby/: { require 'java' }
+      default: { }
     }
 
-    ensure_resource('ruby::version', $target)
-  } else {
     case $::osfamily {
       'Darwin': {
         require xquartz
@@ -48,53 +46,40 @@ define ruby::version(
       }
     }
 
-    $dest = "${ruby::rbenv_root}/versions/${version}"
+    $default_env = {
+      'CC' => '/usr/bin/cc',
+    }
 
-    if $ensure == 'absent' {
-      file { $dest:
-        ensure => absent,
-        force  => true
-      }
+    $hierdata = hiera_hash('ruby::version::env', {})
+    if has_key($hierdata, $version) {
+      $hiera_env = $hierdata[$version]
     } else {
-      $default_env = {
-        'CC'         => '/usr/bin/cc',
-        'RBENV_ROOT' => $ruby::rbenv_root
-      }
+      $hiera_env = {}
+    }
 
-      $hierdata = hiera_hash('ruby::version::env', {})
-      if has_key($hierdata, $version) {
-        $hiera_env = $hierdata[$version]
-      } else {
-        $hiera_env = {}
-      }
+    $final_env = merge(merge(merge($default_env, $os_env), $hiera_env), $env)
 
-      $final_env = merge(merge(merge($default_env, $os_env), $hiera_env), $env)
-
-      if has_key($final_env, 'CC') {
-        case $final_env['CC'] {
-          /gcc/:   { require gcc }
-          default: { }
-        }
-      }
-
-      exec { "ruby-install-${version}":
-        command     => "${ruby::rbenv_root}/bin/rbenv install ${version}",
-        cwd         => "${ruby::rbenv_root}/versions",
-        provider    => 'shell',
-        timeout     => 0,
-        creates     => $dest,
-        user        => $ruby::user,
-      }
-      ->
-      ruby::gem { "bundler for ${version}":
-        gem     => 'bundler',
-        ruby    => $version,
-        version => '~> 1.5.0'
-      }
-
-      Exec["ruby-install-${version}"] {
-        environment +> sort(join_keys_to_values($final_env, '='))
+    if has_key($final_env, 'CC') {
+      case $final_env['CC'] {
+        /gcc/:   { require gcc }
+        default: { }
       }
     }
+
+    ensure_resource('file', "${ruby::prefix}/rubies", {
+      'ensure' => 'directory',
+      'owner'  => $user,
+    })
+
+    ruby { $version:
+      ensure      => $ensure,
+      environment => $final_env,
+      prefix      => "${ruby::prefix}/rubies/${version}",
+      ruby_build  => "${ruby::prefix}/ruby-build/bin/ruby-build",
+      user        => $ruby::user,
+      provider    => rubybuild,
+    }
+
   }
+
 }

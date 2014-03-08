@@ -3,7 +3,7 @@ GEM
   specs:
     addressable (2.3.5)
     ansi (1.4.3)
-    boxen (2.1.0)
+    boxen (2.0.4)
       ansi (~> 1.4)
       hiera (~> 1.0)
       highline (~> 1.6)
@@ -12,7 +12,7 @@ GEM
       octokit (~> 2.3.0)
       puppet (~> 3.0)
     cardboard (2.1.0)
-      boxen (~> 2.1)
+      boxen (~> 2.0)
       puppet-lint (~> 0.3)
       puppetlabs_spec_helper (~> 0.4)
       rspec-puppet (~> 1.0)
