@@ -37,6 +37,7 @@ Puppet::Type.type(:ruby).provide(:rubybuild) do
   def create
     if Facter.value(:offline) == "true"
       Puppet.warn("Not installing ruby #{version} as we have no internet")
+      false
     else
       try_to_download_precompiled_ruby or build_ruby
     end
