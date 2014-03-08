@@ -17,6 +17,20 @@ Puppet::Type.newtype(:ruby) do
     def retrieve
       provider.query[:ensure]
     end
+
+    def insync?(is)
+      @should.each { |should|
+        case should
+        when :present
+          return true unless is == :absent
+        when :absent
+          return true if is == :absent
+        when *Array(is)
+          return true
+        end
+      }
+      false
+    end
   end
 
   newparam(:environment) do

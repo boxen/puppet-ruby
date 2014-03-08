@@ -19,3 +19,4 @@ ruby::version::env:
     CC: "gcc-4.2"
 
 ruby::prefix: "%{::boxen::config::home}"
+ruby::user: "%{::boxen_user}"

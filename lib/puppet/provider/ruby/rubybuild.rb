@@ -6,7 +6,7 @@ Puppet::Type.type(:ruby).provide(:rubybuild) do
   include Puppet::Util::Execution
 
   def self.rubylist
-    @rubylist ||= Dir["/opt/rubies/*"].map do |ruby|
+    @rubylist ||= Dir["/opt/rubies/*"].select do |ruby|
       File.directory?(ruby) && File.executable?("#{ruby}/bin/ruby")
     end.compact
   end
