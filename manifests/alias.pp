@@ -11,10 +11,10 @@ define ruby::alias(
 
   ensure_resource('ruby::version', $to)
 
-  file { "${ruby::prefix}/rubies/${version}":
+  file { "/opt/rubies/${version}":
     ensure  => symlink,
     force   => true,
-    target  => "${ruby::prefix}/rubies/${to}",
+    target  => "/opt/rubies/${to}",
     require => Ruby::Version[$to],
   }
 

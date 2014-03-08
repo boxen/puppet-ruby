@@ -57,15 +57,9 @@ define ruby::version(
       require gcc
     }
 
-    ensure_resource('file', "${ruby::prefix}/rubies", {
-      'ensure' => 'directory',
-      'owner'  => $user,
-    })
-
     ruby { $version:
       ensure      => $ensure,
       environment => $_env,
-      prefix      => "${ruby::prefix}/rubies/${version}",
       ruby_build  => "${ruby::prefix}/ruby-build/bin/ruby-build",
       user        => $ruby::user,
       provider    => rubybuild,

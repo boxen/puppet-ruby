@@ -20,6 +20,11 @@ class ruby(
     }
   }
 
+  file { '/opt/rubies':
+    ensure => directory,
+    owner  => $user,
+  }
+
   Class['ruby::build'] ->
     Ruby::Definition <| |> ->
     Class["ruby::${provider}"] ->

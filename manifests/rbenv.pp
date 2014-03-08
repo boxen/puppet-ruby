@@ -13,4 +13,9 @@ class ruby::rbenv(
     user   => $user
   }
 
+  file { "${prefix}/versions":
+    ensure => symlink,
+    target => '/opt/rubies',
+  }
+
 }

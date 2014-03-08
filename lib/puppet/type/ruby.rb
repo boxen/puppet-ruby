@@ -13,6 +13,10 @@ Puppet::Type.newtype(:ruby) do
 
     aliasvalue(:installed, :present)
     aliasvalue(:uninstalled, :absent)
+
+    def retrieve
+      provider.query[:ensure]
+    end
   end
 
   newparam(:environment) do
@@ -20,15 +24,6 @@ Puppet::Type.newtype(:ruby) do
       unless value.is_a? Hash
         raise Puppet::ParseError,
           "Expected environment to be a Hash, got #{value.class.name}"
-      end
-    end
-  end
-
-  newparam(:prefix) do
-    validate do |value|
-      unless value.is_a? String
-        raise Puppet::ParseError,
-          "Expected prefix to be a String, got #{value.class.name}"
       end
     end
   end
@@ -66,11 +61,7 @@ Puppet::Type.newtype(:ruby) do
   end
 
   autorequire :file do
-    Array.new.tap do |a|
-      if @parameters.include?(:prefix) && prefix = @parameters[:prefix].to_s
-        a << prefix if catalog.resource(:file, prefix)
-      end
-    end
+    %w(/opt/rubies)
   end
 
 end
