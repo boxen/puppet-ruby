@@ -38,7 +38,7 @@ Puppet::Type.type(:ruby).provide(:rubybuild) do
     if Facter.value(:offline) == "true"
       Puppet.warn("Not installing ruby #{version} as we have no internet")
     else
-      execute "#{ruby_build} #{version} #{prefix}", command_opts
+      try_to_download_precompiled_ruby or build_ruby
     end
   end
 
@@ -47,6 +47,44 @@ Puppet::Type.type(:ruby).provide(:rubybuild) do
   end
 
 private
+  def try_to_download_precompiled_ruby
+    Puppet.debug("Trying to download precompiled ruby for #{version}")
+    output = execute "curl --silent --fail #{precompiled_url} | tar xjf - -C /opt/rubies", command_opts.merge(:failonfail => false)
+    output.exitstatus == 0
+  end
+
+  def build_ruby
+    execute "#{ruby_build} #{version} #{prefix}", command_opts
+  end
+
+  def precompiled_url
+    %W(
+      http://
+      #{Facter.value(:boxen_s3_host)}
+      /
+      #{Facter.value(:boxen_s3_bucket)}
+      /
+      rubies
+      /
+      #{Facter.value(:operatingsystem)}
+      /
+      #{os_release}
+      /
+      #{version}.tar.bz2
+    ).join("")
+  end
+
+  def os_release
+    case Facter.value(:operatingsystem)
+    when "Darwin"
+      Facter.value(:macosx_productversion_major)
+    when "Debian", "Ubuntu"
+      Facter.value(:lsbdistcodename)
+    else
+      Facter.value(:operatingsystem)
+    end
+  end
+
   def ruby_build(*args)
     @resource[:ruby_build]
   end
