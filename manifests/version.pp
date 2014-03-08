@@ -10,6 +10,7 @@ define ruby::version(
   $env     = {},
   $version = $name
 ) {
+  require ruby
   require ruby::build
 
   $alias_hash = hiera_hash('ruby::version::alias', {})
