@@ -92,7 +92,11 @@ Puppet::Type.type(:ruby_gem).provide(:rubygems) do
   end
 
   def create
-    gem "install '#{@resource[:gem]}' --version '#{@resource[:version]}' --source '#{@resource[:source]}'"
+    if Facter.value(:offline) == "true"
+      Puppet.warn("Can't install gems because we're offline")
+    else
+      gem "install '#{@resource[:gem]}' --version '#{@resource[:version]}' --source '#{@resource[:source]}'"
+    end
   end
 
   def destroy
