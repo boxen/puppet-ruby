@@ -35,4 +35,4 @@ ruby::rbenv::user: "%{hiera('ruby::user')}"
 ruby::chruby::ensure: v0.3.8
 ruby::chruby::prefix: "%{hiera('ruby::prefix')}/chruby"
 ruby::chruby::user: "%{hiera('ruby::user')}"
-ruby::chruby::autoswitch: true
+ruby::chruby::auto_switch: true
