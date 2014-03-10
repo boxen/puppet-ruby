@@ -23,10 +23,10 @@ Puppet::Type.type(:ruby).provide(:rubybuild) do
   end
 
   def query
-    if self.class.rubylist.member? version
-      { :ensure => :installed, :name => version, :version => version}
+    if self.class.rubylist.member?(version)
+      { :ensure => :present, :name => version, :version => version}
     else
-      { :ensure => :uninstalled, :name => version, :version => version}
+      { :ensure => :absent,  :name => version, :version => version}
     end
   end
 
@@ -36,8 +36,11 @@ Puppet::Type.type(:ruby).provide(:rubybuild) do
 
   def create
     if Facter.value(:offline) == "true"
-      Puppet.warn("Not installing ruby #{version} as we have no internet")
-      false
+      if File.exist?("#{cache_path}/ruby-#{version}.tar.gz")
+        build_ruby
+      else
+        raise Puppet::Error, "Can't install ruby because we're offline and the tarball isn't cached"
+      end
     else
       try_to_download_precompiled_ruby or build_ruby
     end
@@ -50,12 +53,12 @@ Puppet::Type.type(:ruby).provide(:rubybuild) do
 private
   def try_to_download_precompiled_ruby
     Puppet.debug("Trying to download precompiled ruby for #{version}")
-    output = execute "curl --silent --fail #{precompiled_url} | tar xjf - -C /opt/rubies", command_opts.merge(:failonfail => false)
+    output = execute "curl --silent --fail #{precompiled_url} | tar xjf - -C /opt/rubies", command_options.merge(:failonfail => false)
     output.exitstatus == 0
   end
 
   def build_ruby
-    execute "#{ruby_build} #{version} #{prefix}", command_opts
+    execute "#{ruby_build} #{version} #{prefix}", command_options
   end
 
   def precompiled_url
@@ -86,16 +89,35 @@ private
     end
   end
 
-  def ruby_build(*args)
+  def ruby_build
     @resource[:ruby_build]
   end
 
   def command_options
     {
-      :custom_environment => @resource[:environment],
+      :combine            => true,
+      :custom_environment => environment,
       :uid                => @resource[:user],
       :failonfail         => true,
     }
+  end
+
+  def environment
+    return @environment if defined?(@environment)
+
+    @environment = Hash.new
+
+    @environment["RUBY_BUILD_CACHE_PATH"] = cache_path
+
+    @environment.merge!(@resource[:environment])
+  end
+
+  def cache_path
+    @cache_path ||= if Facter.value(:boxen_home)
+      "#{Facter.value(:boxen_home)}/cache/rubies"
+    else
+      "/tmp/rubies"
+    end
   end
 
   def version

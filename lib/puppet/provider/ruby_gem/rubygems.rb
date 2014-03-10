@@ -74,27 +74,26 @@ Puppet::Type.type(:ruby_gem).provide(:rubygems) do
       {
         :name         => "#{inst[:gem]} for #{inst[:ruby_version]}",
         :gem          => inst[:gem],
-        :ensure       => :installed,
+        :ensure       => :present,
         :version      => inst[:version],
         :ruby_version => inst[:ruby_version],
       }
     else
       {
-        :ensure       => :uninstalled,
-        :name         => "#{@resource[:gem]} for #{@respource[:ruby_version]}",
-        :gem          => @resource[:geme],
+        :ensure       => :absent,
+        :name         => "#{@resource[:gem]} for #{@resource[:ruby_version]}",
+        :gem          => @resource[:gem],
         :ruby_version => @resource[:ruby_version],
       }
     end
-  rescue
+  rescue => e
     require "pry"
     binding.pry
   end
 
   def create
     if Facter.value(:offline) == "true"
-      Puppet.warn("Can't install gems because we're offline")
-      false
+      raise Puppet::Error, "Can't install gems because we're offline"
     else
       gem "install '#{@resource[:gem]}' --version '#{@resource[:version]}' --source '#{@resource[:source]}'"
     end
@@ -115,8 +114,9 @@ private
 
   def gem(command)
     execute "gem #{command}", {
-      :failonfail => true,
-      :uid        => user,
+      :combine            => true,
+      :failonfail         => true,
+      :uid                => user,
       :custom_environment => {
         "PATH" => "/opt/rubies/#{ruby_version}/bin",
       }

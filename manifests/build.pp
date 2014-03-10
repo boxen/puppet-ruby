@@ -13,4 +13,9 @@ class ruby::build(
     user   => $user,
   }
 
+  ensure_resource('file', "${::ruby::prefix}/cache/rubies", {
+    'ensure' => 'directory',
+    'owner'  => $user,
+  })
+
 }
