@@ -42,7 +42,7 @@ Puppet::Type.type(:ruby).provide(:rubybuild) do
         raise Puppet::Error, "Can't install ruby because we're offline and the tarball isn't cached"
       end
     else
-      try_to_download_precompiled_ruby or build_ruby
+      try_to_download_precompiled_ruby || build_ruby
     end
   end
 
