@@ -118,7 +118,7 @@ private
       :failonfail         => true,
       :uid                => user,
       :custom_environment => {
-        "PATH" => "/opt/rubies/#{ruby_version}/bin",
+        "PATH" => "/opt/rubies/#{@resource[:ruby_version]}/bin",
       }
     }
   end
