@@ -25,8 +25,6 @@ Puppet::Type.type(:ruby).provide(:rubybuild) do
   end
 
   def query
-    # require "pry";binding.pry
-
     if self.class.rubylist.member?(version)
       { :ensure => :present, :name => version, :version => version}
     else
@@ -35,7 +33,7 @@ Puppet::Type.type(:ruby).provide(:rubybuild) do
   end
 
   def create
-    destroy if File.directory? prefix
+    FileUtils.rm_rf(prefix) if File.directory?(prefix)
 
     if Facter.value(:offline) == "true"
       if File.exist?("#{cache_path}/ruby-#{version}.tar.gz")
