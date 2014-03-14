@@ -6,23 +6,27 @@ Puppet::Type.type(:ruby).provide(:rubybuild) do
   include Puppet::Util::Execution
 
   def self.rubylist
-    @rubylist ||= Dir["/opt/rubies/*"].select do |ruby|
-      File.directory?(ruby) && File.executable?("#{ruby}/bin/ruby")
+    @rubylist ||= Dir["/opt/rubies/*"].map do |ruby|
+      if File.directory?(ruby) && File.executable?("#{ruby}/bin/ruby")
+        File.basename(ruby)
+      end
     end.compact
   end
 
   def self.instances
     rubylist.map do |ruby|
       new({
-        :name     => File.basename(ruby),
-        :version  => File.basename(ruby),
-        :ensure   => :installed,
+        :name     => ruby,
+        :version  => ruby,
+        :ensure   => :present,
         :provider => "rubybuild",
       })
     end
   end
 
   def query
+    # require "pry";binding.pry
+
     if self.class.rubylist.member?(version)
       { :ensure => :present, :name => version, :version => version}
     else
@@ -30,11 +34,9 @@ Puppet::Type.type(:ruby).provide(:rubybuild) do
     end
   end
 
-  def exists?
-    File.executable?("#{prefix}/bin/ruby")
-  end
-
   def create
+    destroy if File.directory? prefix
+
     if Facter.value(:offline) == "true"
       if File.exist?("#{cache_path}/ruby-#{version}.tar.gz")
         build_ruby
