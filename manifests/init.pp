@@ -9,7 +9,9 @@ class ruby(
 ) {
 
   include 'ruby::build'
-  include "ruby::${provider}"
+
+  $provider_class = "ruby::${provider}"
+  include $provider_class
 
   if $::osfamily == 'Darwin' {
     include boxen::config
@@ -27,7 +29,7 @@ class ruby(
 
   Class['ruby::build'] ->
     Ruby::Definition <| |> ->
-    Class["ruby::${provider}"] ->
+    Class[$provider_class] ->
     Ruby <| |> ->
     Ruby_gem <| |>
 }

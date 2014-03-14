@@ -43,7 +43,6 @@ Puppet::Type.type(:ruby).provide(:rubybuild) do
       end
     else
       try_to_download_precompiled_ruby || build_ruby
-      require "pry"; binding.pry
     end
   rescue => e
     raise Puppet::Error, "install failed with a crazy error: #{e.message} #{e.backtrace}"
@@ -57,8 +56,6 @@ private
   def try_to_download_precompiled_ruby
     Puppet.debug("Trying to download precompiled ruby for #{version}")
     output = execute "curl --silent --fail #{precompiled_url} >#{tmp} && tar xjf #{tmp} -C /opt/rubies", command_options.merge(:failonfail => false)
-
-    # require "pry"; binding.pry
 
     output.exitstatus == 0
   end

@@ -87,8 +87,7 @@ Puppet::Type.type(:ruby_gem).provide(:rubygems) do
       }
     end
   rescue => e
-    require "pry"
-    binding.pry
+    raise Puppet::Error, "#{e.message}: #{e.backtrace.join('\n')}"
   end
 
   def create
