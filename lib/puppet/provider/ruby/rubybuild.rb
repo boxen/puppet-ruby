@@ -33,7 +33,7 @@ Puppet::Type.type(:ruby).provide(:rubybuild) do
   end
 
   def create
-    FileUtils.rm_rf(prefix) if File.directory?(prefix)
+    destroy if File.directory?(prefix)
 
     if Facter.value(:offline) == "true"
       if File.exist?("#{cache_path}/ruby-#{version}.tar.gz")
@@ -58,6 +58,8 @@ private
     output = execute "curl --silent --fail #{precompiled_url} >#{tmp} && tar xjf #{tmp} -C /opt/rubies", command_options.merge(:failonfail => false)
 
     output.exitstatus == 0
+  ensure
+    FileUtils.rm_f tmp
   end
 
   def build_ruby
