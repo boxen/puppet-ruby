@@ -1,2 +1,2 @@
-install_package "openssl-1.0.1f" "https://www.openssl.org/source/openssl-1.0.1f.tar.gz#f26b09c028a0541cab33da697d522b25" mac_openssl --if has_broken_mac_openssl
+install_package "openssl-1.0.1g" "https://www.openssl.org/source/openssl-1.0.1g.tar.gz#de62b43dfcd858e66a74bee1c834e959" mac_openssl --if has_broken_mac_openssl
 install_package "ruby-2.1.1-github1" "https://s3.amazonaws.com/boxen-downloads/ruby-build/ruby-2.1.1-github1.tar.gz#dd81268aaa87a7b200f40ad53ac47227" ldflags_dirs autoconf standard verify_openssl
