@@ -7,7 +7,7 @@ export BUNDLE_JOBS=<%= scope.lookupvar("::processorcount") %>
 <%- if scope.lookupvar("::ruby::provider") == "rbenv" -%>
 # Configure RBENV_ROOT and put RBENV_ROOT/bin on PATH
 export RBENV_ROOT=<%= scope.lookupvar("::ruby::rbenv::prefix") %>
-export PATH=$RBENV_ROOT/bin
+export PATH=$RBENV_ROOT/bin:$PATH
 
 # Load rbenv
 eval "$(rbenv init -)"
