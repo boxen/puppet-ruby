@@ -86,11 +86,14 @@ Puppet::Type.newtype(:ruby_gem) do
   end
 
   autorequire :ruby do
-    Array.new.tap do |a|
-      if @parameters.include?(:ruby_version) && ruby_version = @parameters[:ruby_version].to_s
-        a << ruby_version if catalog.resource(:ruby, ruby_version)
+    if @parameters.include?(:ruby_version) && ruby_version = @parameters[:ruby_version].to_s
+      if ruby_version == "*"
+        catalog.resources.find_all { |resource| resource.type == 'Ruby' }
+      else
+        Array.new.tap do |a|
+          a << ruby_version if catalog.resource(:ruby, ruby_version)
+        end
       end
     end
   end
-
 end

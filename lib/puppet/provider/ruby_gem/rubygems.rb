@@ -4,6 +4,16 @@ Puppet::Type.type(:ruby_gem).provide(:rubygems) do
   include Puppet::Util::Execution
   desc ""
 
+  def self.ruby_versions
+    Dir["/opt/rubies/*"].map do |ruby|
+      File.basename(ruby)
+    end
+  end
+
+  def ruby_versions
+    self.class.ruby_versions
+  end
+
   def self.gemlist
     return @gemlist if defined?(@gemlist)
 
@@ -57,35 +67,78 @@ Puppet::Type.type(:ruby_gem).provide(:rubygems) do
   def query
     gems = Array.new
 
-    if gemlist.has_key?(@resource[:ruby_version])
-      gems = gemlist[@resource[:ruby_version]].map { |g|
-        gem_name, _, gem_version = g.rpartition("-")
-        {
-          :gem => gem_name,
-          :version => gem_version,
+    if @resource[:ruby_version] == "*"
+      gems = ruby_versions.map do |ruby|
+        gemlist[ruby].map do |g|
+          gem_name, _, gem_version = g.rpartition("-")
+          {
+            :gem          => gem_name,
+            :version      => gem_version,
+            :ruby_version => ruby,
+          }
+        end
+      end.flatten
+    else
+      if gemlist.has_key?(@resource[:ruby_version])
+        gems = gemlist[@resource[:ruby_version]].map { |g|
+          gem_name, _, gem_version = g.rpartition("-")
+          {
+            :gem          => gem_name,
+            :version      => gem_version,
+            :ruby_version => @resource[:ruby_version],
+          }
         }
-      }
+      end
     end
 
-    if inst = gems.detect { |g|
-        g[:gem] == @resource[:gem] && requirement.satisfied_by?(version(g[:version]))
-      }
+    if @resource[:ruby_version] = "*"
+
+      ruby_versions.each do |ruby|
+        inst = gems.detect { |g|
+          g[:gem] == @resource[:gem] \
+            && requirement.satisfied_by?(version(g[:version])) \
+            && g[:ruby_version] == ruby
+        }
+
+        unless inst
+          return {
+            :ensure       => :absent,
+            :name         => "#{@resource[:gem]} for #{@resource[:ruby_version]}",
+            :gem          => @resource[:gem],
+            :ruby_version => @resource[:ruby_version],
+          }
+        end
+      end
 
       {
-        :name         => "#{inst[:gem]} for #{inst[:ruby_version]}",
+        :name         => "#{inst[:gem]} for all rubies",
         :gem          => inst[:gem],
         :ensure       => :present,
         :version      => inst[:version],
-        :ruby_version => inst[:ruby_version],
+        :ruby_version => "*",
       }
     else
-      {
-        :ensure       => :absent,
-        :name         => "#{@resource[:gem]} for #{@resource[:ruby_version]}",
-        :gem          => @resource[:gem],
-        :ruby_version => @resource[:ruby_version],
-      }
+      if inst = gems.detect { |g|
+          g[:gem] == @resource[:gem] && requirement.satisfied_by?(version(g[:version]))
+        }
+
+        {
+          :name         => "#{inst[:gem]} for #{inst[:ruby_version]}",
+          :gem          => inst[:gem],
+          :ensure       => :present,
+          :version      => inst[:version],
+          :ruby_version => inst[:ruby_version],
+        }
+      else
+        {
+          :ensure       => :absent,
+          :name         => "#{@resource[:gem]} for #{@resource[:ruby_version]}",
+          :gem          => @resource[:gem],
+          :ruby_version => @resource[:ruby_version],
+        }
+      end
     end
+
   rescue => e
     raise Puppet::Error, "#{e.message}: #{e.backtrace.join('\n')}"
   end
@@ -127,12 +180,12 @@ private
     end
   end
 
-  def requirement
-    Gem::Requirement.new(@resource[:version])
+  def version(v)
+    Gem::Version.new(v)
   end
 
-  def version(v)
-    Gem::Version.new(v.to_s)
+  def requirement
+    Gem::Requirement.new(@resource[:version])
   end
 
   def gem(command)
