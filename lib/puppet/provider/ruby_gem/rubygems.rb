@@ -91,7 +91,7 @@ Puppet::Type.type(:ruby_gem).provide(:rubygems) do
       end
     end
 
-    if @resource[:ruby_version] = "*"
+    if @resource[:ruby_version] == "*"
 
       ruby_versions.each do |ruby|
         inst = gems.detect { |g|
