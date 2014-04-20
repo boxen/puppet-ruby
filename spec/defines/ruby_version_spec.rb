@@ -9,19 +9,24 @@ describe 'ruby::version' do
       it do
         should include_class('ruby')
 
-        should contain_exec('ruby-install-1.9.3-p194').with({
-          :command  => "/test/boxen/rbenv/bin/rbenv install 1.9.3-p194",
-          :cwd      => '/test/boxen/rbenv/versions',
-          :provider => 'shell',
-          :timeout  => 0,
-          :creates  => '/test/boxen/rbenv/versions/1.9.3-p194'
+        should contain_ruby('1.9.3-p194').with({
+          :ensure     => "installed",
+          :ruby_build => "/test/boxen/ruby-build/bin/ruby-build",
+          :provider   => 'rubybuild',
+          :user       => 'testuser',
+        })
+        
+        should contain_ruby_gem('bundler for 1.9.3-p194').with({
+          :gem          => "bundler",
+          :version      => "~> 1.0",
+          :ruby_version => "1.9.3-p194"
         })
       end
     end
 
     context "when env is default" do
       it do
-        should contain_exec('ruby-install-1.9.3-p194').with_environment([
+        should contain_ruby('1.9.3-p194').with_environment([
           "BOXEN_S3_BUCKET=boxen-downloads",
           "BOXEN_S3_HOST=s3.amazonaws.com",
           "CC=/usr/bin/cc",
@@ -41,7 +46,7 @@ describe 'ruby::version' do
       end
 
       it do
-        should contain_exec('ruby-install-1.9.3-p194').with_environment([
+        should contain_ruby('1.9.3-p194').with_environment([
           "BOXEN_S3_BUCKET=boxen-downloads",
           "BOXEN_S3_HOST=s3.amazonaws.com",
           "CC=/usr/bin/cc",
