@@ -65,79 +65,18 @@ Puppet::Type.type(:ruby_gem).provide(:rubygems) do
   end
 
   def query
-    gems = Array.new
-
     if @resource[:ruby_version] == "*"
-      gems = ruby_versions.map do |ruby|
-        gemlist[ruby].map do |g|
-          gem_name, _, gem_version = g.rpartition("-")
-          {
-            :gem          => gem_name,
-            :version      => gem_version,
-            :ruby_version => ruby,
-          }
-        end
-      end.flatten
+      installed = ruby_versions.all? { |r| installed_for? r }
     else
-      if gemlist.has_key?(@resource[:ruby_version])
-        gems = gemlist[@resource[:ruby_version]].map { |g|
-          gem_name, _, gem_version = g.rpartition("-")
-          {
-            :gem          => gem_name,
-            :version      => gem_version,
-            :ruby_version => @resource[:ruby_version],
-          }
-        }
-      end
+      installed = installed_for? @resource[:ruby_version]
     end
-
-    if @resource[:ruby_version] == "*"
-
-      ruby_versions.each do |ruby|
-        inst = gems.detect { |g|
-          g[:gem] == @resource[:gem] \
-            && requirement.satisfied_by?(version(g[:version])) \
-            && g[:ruby_version] == ruby
-        }
-
-        unless inst
-          return {
-            :ensure       => :absent,
-            :name         => "#{@resource[:gem]} for #{@resource[:ruby_version]}",
-            :gem          => @resource[:gem],
-            :ruby_version => @resource[:ruby_version],
-          }
-        end
-      end
-
-      {
-        :name         => "#{inst[:gem]} for all rubies",
-        :gem          => inst[:gem],
-        :ensure       => :present,
-        :version      => inst[:version],
-        :ruby_version => "*",
-      }
-    else
-      if inst = gems.detect { |g|
-          g[:gem] == @resource[:gem] && requirement.satisfied_by?(version(g[:version]))
-        }
-
-        {
-          :name         => "#{inst[:gem]} for #{inst[:ruby_version]}",
-          :gem          => inst[:gem],
-          :ensure       => :present,
-          :version      => inst[:version],
-          :ruby_version => inst[:ruby_version],
-        }
-      else
-        {
-          :ensure       => :absent,
-          :name         => "#{@resource[:gem]} for #{@resource[:ruby_version]}",
-          :gem          => @resource[:gem],
-          :ruby_version => @resource[:ruby_version],
-        }
-      end
-    end
+    {
+      :name         => "#{@resource[:gem]} for all rubies",
+      :ensure       => installed ? :present : :absent,
+      :version      => @resource[:version],
+      :gem          => @resource[:gem],
+      :ruby_version => @resource[:ruby_version],
+    }
 
   rescue => e
     raise Puppet::Error, "#{e.message}: #{e.backtrace.join('\n')}"
@@ -147,12 +86,26 @@ Puppet::Type.type(:ruby_gem).provide(:rubygems) do
     if Facter.value(:offline) == "true"
       raise Puppet::Error, "Can't install gems because we're offline"
     else
-      gem "install '#{@resource[:gem]}' --version '#{@resource[:version]}' --source '#{@resource[:source]}'"
+      if @resource[:ruby_version] == "*"
+        target_versions = ruby_versions
+      else
+        target_versions = [@resource[:version]]
+      end
+      target_versions.reject { |r| installed_for? r }.each do |ruby|
+        gem "install '#{@resource[:gem]}' --version '#{@resource[:version]}' --source '#{@resource[:source]}' --no-rdoc --no-ri", ruby
+      end
     end
   end
 
   def destroy
-    gem "uninstall '#{@resource[:gem]}' --version '#{@resource[:version]}'"
+    if @resource[:ruby_version] == "*"
+      target_versions = ruby_versions
+    else
+      target_versions = [@resource[:version]]
+    end
+    target_versions.select { |r| installed_for? r }.each do |ruby|
+      gem "uninstall '#{@resource[:gem]}' --version '#{@resource[:version]}'", ruby
+    end
   end
 
 private
@@ -180,6 +133,23 @@ private
     end
   end
 
+  def gem(command, ruby_version)
+    bindir = "/opt/rubies/#{ruby_version}/bin"
+    execute "#{bindir}/gem #{command} --verbose", {
+      :combine            => true,
+      :failonfail         => true,
+      :uid                => user,
+      :custom_environment => {
+        "PATH" => bindir,
+        "GEM_PATH" => nil
+      }
+    }
+  end
+
+  def user
+    Facter.value(:boxen_user) || Facter.value(:id)
+  end
+
   def version(v)
     Gem::Version.new(v)
   end
@@ -188,18 +158,24 @@ private
     Gem::Requirement.new(@resource[:version])
   end
 
-  def gem(command)
-    execute "gem #{command}", {
-      :combine            => true,
-      :failonfail         => true,
-      :uid                => user,
-      :custom_environment => {
-        "PATH" => "/opt/rubies/#{@resource[:ruby_version]}/bin",
-      }
+  def installed_for?(ruby_version)
+    installed_gems[ruby_version].any? { |g|
+      g[:gem] == @resource[:gem] \
+        && requirement.satisfied_by?(version(g[:version])) \
+        && g[:ruby_version] == ruby_version
     }
   end
 
-  def user
-    Facter.value(:boxen_user) || Facter.value(:id)
+  def installed_gems
+    @installed_gems ||= Hash.new do |installed_gems, ruby_version|
+      installed_gems[ruby_version] = gemlist[ruby_version].map { |g|
+        gem_name, _, gem_version = g.rpartition("-")
+        {
+          :gem          => gem_name,
+          :version      => gem_version,
+          :ruby_version => ruby_version,
+        }
+      }
+    end
   end
 end
