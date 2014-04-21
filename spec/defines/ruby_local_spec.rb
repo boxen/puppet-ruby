@@ -33,7 +33,7 @@ describe 'ruby::local' do
   context 'ensure => absent' do
     let(:params) do
       {
-        :ensure => 'absent'
+        :ensure => 'absent',
       }
     end
 
