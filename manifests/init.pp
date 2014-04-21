@@ -9,11 +9,6 @@ class ruby(
 ) {
   if $::osfamily == 'Darwin' {
     include boxen::config
-
-    boxen::env_script { 'ruby':
-      content  => template('ruby/ruby.sh'),
-      priority => 'higher',
-    }
   }
 
   include ruby::build
@@ -21,6 +16,13 @@ class ruby(
 
   $provider_class = "ruby::${provider}"
   include $provider_class
+
+  if $::osfamily == 'Darwin' {
+    boxen::env_script { 'ruby':
+      content  => template('ruby/ruby.sh'),
+      priority => 'higher',
+    }
+  }
 
   file { '/opt/rubies':
     ensure => directory,
