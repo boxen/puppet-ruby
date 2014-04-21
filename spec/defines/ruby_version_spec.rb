@@ -58,10 +58,7 @@ describe 'ruby::version' do
     end
 
     it do
-      should contain_file('/test/boxen/rbenv/versions/1.9.3-p194').with({
-        :ensure => 'absent',
-        :force  => true
-      })
+      should contain_ruby('1.9.3-p194').with_ensure('absent')
     end
   end
 end
