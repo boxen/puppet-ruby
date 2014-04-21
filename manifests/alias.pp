@@ -1,4 +1,5 @@
 define ruby::alias(
+  $ensure  = 'installed',
   $to      = undef,
   $version = $title,
 ) {
@@ -6,18 +7,22 @@ define ruby::alias(
   require ruby
 
   if $to == undef {
-    fail("to cannot be undefined")
+    fail('to cannot be undefined')
   }
 
-  ensure_resource('ruby::version', $to)
+  if $ensure != 'absent' {
+    ensure_resource('ruby::version', $to)
+  }
+
+  $file_ensure = $ensure ? {
+    /^(installed|present)$/ => 'symlink',
+    default                 => $ensure,
+  }
 
   file { "/opt/rubies/${version}":
-    ensure  => symlink,
+    ensure  => $file_ensure,
     force   => true,
     target  => "/opt/rubies/${to}",
     require => Ruby::Version[$to],
   }
-
-
-
 }
