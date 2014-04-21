@@ -19,7 +19,8 @@ define ruby::version(
     $to = $alias_hash[$version]
 
     ruby::alias { $version:
-      to => $to,
+      ensure => $ensure,
+      to     => $to,
     }
   } else {
 
