@@ -17,6 +17,7 @@ class ruby(
   }
 
   include ruby::build
+  include ruby::gems
 
   $provider_class = "ruby::${provider}"
   include $provider_class

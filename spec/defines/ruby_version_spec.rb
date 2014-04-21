@@ -15,12 +15,6 @@ describe 'ruby::version' do
           :provider   => 'rubybuild',
           :user       => 'testuser',
         })
-        
-        should contain_ruby_gem('bundler for 1.9.3-p194').with({
-          :gem          => "bundler",
-          :version      => "~> 1.0",
-          :ruby_version => "1.9.3-p194"
-        })
       end
     end
 

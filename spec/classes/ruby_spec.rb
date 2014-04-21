@@ -13,6 +13,7 @@ describe "ruby" do
   let(:params) { default_params }
 
   it { should contain_class("ruby::build") }
+  it { should contain_class("ruby::gems") }
   it { should contain_file("/opt/rubies") }
 
   context "provider is rbenv" do
