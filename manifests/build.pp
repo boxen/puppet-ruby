@@ -1,3 +1,5 @@
+# (Internal) Installs ruby-build
+
 class ruby::build(
   $ensure = $ruby::build::ensure,
   $prefix = $ruby::build::prefix,

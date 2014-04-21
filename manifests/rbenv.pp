@@ -1,3 +1,12 @@
+# Manage ruby versions with rbenv.
+#
+# Usage:
+#
+#     include ruby::rbenv
+#
+# Normally internal use only; will be automatically included by the `ruby` class
+# if `ruby::provider` is set to "rbenv"
+
 class ruby::rbenv(
   $ensure = $ruby::rbenv::ensure,
   $prefix = $ruby::rbenv::prefix,

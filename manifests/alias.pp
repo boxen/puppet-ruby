@@ -1,3 +1,9 @@
+# Aliases a (usually shorter) ruby version to another
+#
+# Usage:
+#
+#     ruby::alias { '1.9.3': to => '1.9.3-p194' }
+
 define ruby::alias(
   $ensure  = 'installed',
   $to      = undef,
