@@ -14,13 +14,11 @@ describe 'ruby::alias' do
 
   it do
     should contain_ruby('2.0.0-github1')
-    should contain_file('/opt/rubies/2.0.0-github')
-      .that_requires('Ruby::Version[2.0.0-github1]')
-      .with({
-        :ensure => 'symlink',
-        :force  => true,
-        :target => '/opt/rubies/2.0.0-github1'
-      })
+    should contain_file('/opt/rubies/2.0.0-github').with({
+      :ensure => 'symlink',
+      :force  => true,
+      :target => '/opt/rubies/2.0.0-github1'
+    }).that_requires('Ruby::Version[2.0.0-github1]')
   end
   
   context "ensure => absent" do
