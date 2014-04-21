@@ -21,6 +21,7 @@ All ruby versions are installed into `/opt/rubies`.
 
 * `ruby::global` does not work with chruby
 * rbenv plugin support is gone
+* bundler is no longer installed by default
 * rubies now live in /opt/rubies instead of /opt/boxen/rbenv/versions
 * the module-data module is now **required**
 
@@ -44,6 +45,13 @@ ruby::gem { "bundler for ${version}":
   gem     => 'bundler',
   ruby    => $version,
   version => '~> 1.2.0'
+}
+
+# ensure a gem is installed for all ruby versions
+ruby::gem { 'bundler for all rubies':
+  gem     => 'bundler',
+  version => '~> 1.0'
+  ruby    => '*',
 }
 
 # install a ruby version
