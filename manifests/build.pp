@@ -3,7 +3,6 @@ class ruby::build(
   $prefix = $ruby::build::prefix,
   $user   = $ruby::build::user,
 ) {
-
   require ruby
 
   repository { $prefix:

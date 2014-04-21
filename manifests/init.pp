@@ -7,12 +7,6 @@ class ruby(
   $prefix   = $ruby::prefix,
   $user     = $ruby::user,
 ) {
-
-  include 'ruby::build'
-
-  $provider_class = "ruby::${provider}"
-  include $provider_class
-
   if $::osfamily == 'Darwin' {
     include boxen::config
 
@@ -21,6 +15,11 @@ class ruby(
       priority => 'higher',
     }
   }
+
+  include ruby::build
+
+  $provider_class = "ruby::${provider}"
+  include $provider_class
 
   file { '/opt/rubies':
     ensure => directory,
