@@ -26,15 +26,10 @@ describe 'ruby::version' do
 
     context "when env is default" do
       it do
-        should contain_ruby('1.9.3-p194').with_environment([
-          "BOXEN_S3_BUCKET=boxen-downloads",
-          "BOXEN_S3_HOST=s3.amazonaws.com",
-          "CC=/usr/bin/cc",
-          "CFLAGS=-I/test/boxen/homebrew/include -I/opt/X11/include",
-          "FROM_HIERA=true",
-          "LDFLAGS=-L/test/boxen/homebrew/lib -L/opt/X11/lib",
-          "RBENV_ROOT=/test/boxen/rbenv"
-        ])
+        should contain_ruby('1.9.3-p194').with_environment({
+          "CC" => "/usr/bin/cc",
+          "FROM_HIERA" => "true",
+        })
       end
     end
 
@@ -46,16 +41,11 @@ describe 'ruby::version' do
       end
 
       it do
-        should contain_ruby('1.9.3-p194').with_environment([
-          "BOXEN_S3_BUCKET=boxen-downloads",
-          "BOXEN_S3_HOST=s3.amazonaws.com",
-          "CC=/usr/bin/cc",
-          "CFLAGS=-I/test/boxen/homebrew/include -I/opt/X11/include",
-          "FROM_HIERA=true",
-          "LDFLAGS=-L/test/boxen/homebrew/lib -L/opt/X11/lib",
-          "RBENV_ROOT=/test/boxen/rbenv",
-          "SOME_VAR=flocka"
-        ])
+        should contain_ruby('1.9.3-p194').with_environment({
+          "CC" => "/usr/bin/cc",
+          "FROM_HIERA" => "true",
+          "SOME_VAR" => "flocka"
+        })
       end
     end
   end
