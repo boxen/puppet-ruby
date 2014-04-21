@@ -7,7 +7,7 @@ describe 'ruby::version' do
   context "ensure => present" do
     context "default params" do
       it do
-        should include_class('ruby')
+        should contain_class('ruby')
 
         should contain_ruby('1.9.3-p194').with({
           :ensure     => "installed",
