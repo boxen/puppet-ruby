@@ -7,7 +7,6 @@ describe "ruby" do
     {
       :provider => "rbenv",
       :prefix   => "/test/boxen",
-      :user     => "boxenuser",
     }
   end
 
@@ -34,7 +33,7 @@ describe "ruby" do
 
   context "osfamily is Darwin" do
     let(:facts) {
-      default_params.merge(:osfamily => "Darwin")
+      default_test_facts.merge(:osfamily => "Darwin")
     }
 
     it { should contain_class("boxen::config") }
@@ -43,14 +42,14 @@ describe "ruby" do
     it do
       should contain_file("/opt/rubies").with({
         :ensure => "directory",
-        :owner  => "boxenuser",
+        :owner  => "testuser",
       })
     end
   end
 
   context "osfamily is not Darwin" do
     let(:facts) {
-      default_params.merge(:osfamily => "Linux")
+      default_test_facts.merge(:osfamily => "Linux", :id => "root")
     }
 
     it { should_not contain_class("boxen::config") }
