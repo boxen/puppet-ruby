@@ -20,7 +20,6 @@ All ruby versions are installed into `/opt/rubies`.
 ## Breakages since last major version
 
 * `ruby::global` does not work with chruby
-* bundler is no longer installed by default in rubies
 * rbenv plugin support is gone
 * rubies now live in /opt/rubies instead of /opt/boxen/rbenv/versions
 * the module-data module is now **required**
