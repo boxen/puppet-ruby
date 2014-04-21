@@ -7,8 +7,8 @@
 define ruby::definition(
   $source = undef,
 ) {
-
-  require ruby::build
+  include ruby
+  include ruby::build
 
   $source_path = $source ? {
     undef   => "puppet:///modules/ruby/definitions/${name}",

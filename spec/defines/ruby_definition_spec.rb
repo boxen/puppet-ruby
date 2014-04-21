@@ -8,8 +8,6 @@ describe 'ruby::definition' do
     [
       '/test',
       'boxen',
-      'rbenv',
-      'plugins',
       'ruby-build',
       'share',
       'ruby-build',
@@ -31,7 +29,8 @@ describe 'ruby::definition' do
   end
 
   it do
-    should include_class('ruby')
+    should contain_class('ruby')
+    should contain_class('ruby::build')
 
     should contain_file(definition_path).with({
       :source  => "puppet:///modules/ruby/definitions/#{title}"
