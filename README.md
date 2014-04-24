@@ -9,6 +9,21 @@ Requires the following boxen modules:
 * `xquartz` (OS X only)
 * `autoconf` (some ruby versions)
 * `openssl` (ruby versions >= 2.0.0)
+* `gcc` (ruby versions <= 1.8.7)
+* [ripienaar/puppet-module-data](https://github.com/ripienaar/puppet-module-data)
+
+## About
+
+This module supports ruby version management with either rbenv or chruby.
+All ruby versions are installed into `/opt/rubies`.
+
+## Breakages since last major version
+
+* `ruby::global` does not work with chruby
+* rbenv plugin support is gone
+* bundler is no longer installed by default
+* rubies now live in /opt/rubies instead of /opt/boxen/rbenv/versions
+* the module-data module is now **required**
 
 ## Usage
 
@@ -27,9 +42,16 @@ ruby::local { '/path/to/some/project':
 # note, you can't have duplicate resource names so you have to name like so
 $version = "2.0.0"
 ruby::gem { "bundler for ${version}":
-  gem     => 'bundler',
-  ruby    => $version,
-  version => '~> 1.2.0'
+  gem          => 'bundler',
+  version      => '~> 1.2.0'
+  ruby_version => $version,
+}
+
+# ensure a gem is installed for all ruby versions
+ruby::gem { 'bundler for all rubies':
+  gem          => 'bundler',
+  version      => '~> 1.0'
+  ruby_version => '*',
 }
 
 # install a ruby version
@@ -42,12 +64,9 @@ ruby::plugin { 'rbenv-vars':
 }
 
 # Run an installed gem
-# rbenv-installed gems cannot be run in the boxen installation environment which uses the system
-# ruby. The environment must be cleared (env -i) so an installed ruby (and gems) can be used in a new shell.
-exec { "env -i zsh -c 'source /opt/boxen/env.sh && RBENV_VERSION=${version} bundle install'":
-  provider => 'shell',
-  cwd => "~/src/project",
-  require => [ Ruby::Gem["bundler for ${version}"], Package['zsh'] ]
+exec { '/opt/rubies/2.1.0/bin/bundle install':
+  cwd     => "~/src/project",
+  require => Ruby::Gem['bundler for 2.1.0']
 }
 ```
 
@@ -57,20 +76,13 @@ The following variables may be automatically overridden with Hiera:
 
 ``` yaml
 ---
-"ruby::default_gems":
-  - "bundler ~>1.3"
-  - "pry"
 
-"ruby::rbenv_plugins":
-  "rbenv-gem-rehash":
-    "ensure": "v1.0.0"
-    "source": "sstephenson/rbenv-gem-rehash"
-
-"ruby::rbenv_version": "v0.4.0"
-
-"ruby::rbenv_root": "/home/deploy/rbenv"
-
+"ruby::provider": "chruby"
 "ruby::user": "deploy"
+
+"ruby::build::ensure": "v0.3.8"
+"ruby::chruby::ensure": "v0.3.6"
+"ruby::rbenv::ensure": "v0.4.0"
 
 # Environment variables for building specific versions
 # You'll want to enable hiera's "deeper" merge strategy
@@ -90,7 +102,7 @@ The following variables may be automatically overridden with Hiera:
   "2.0.0-github": "2.0.0-github6"
 ```
 
-We highly recommend that you include
+It is **required** that you include
 [ripienaar/puppet-module-data](https://github.com/ripienaar/puppet-module-data)
 in your boxen project, as this module now ships with many pre-defined versions
 and aliases in the `data/` directory. With this module included, those

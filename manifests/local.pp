@@ -8,11 +8,13 @@
 define ruby::local($version = undef, $ensure = present) {
   include ruby
 
-  if $version != 'system' {
-    ensure_resource('ruby::version', $version)
-    $_ruby_local_require = Ruby::Version[$version]
-  } else {
-    $_ruby_local_require = undef
+  case $version {
+    'system': { $_ruby_local_require = undef }
+    undef:    { $_ruby_local_require = undef }
+    default:  {
+      ensure_resource('ruby::version', $version)
+      $_ruby_local_require = Ruby::Version[$version]
+    }
   }
 
   file {

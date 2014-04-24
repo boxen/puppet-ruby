@@ -19,3 +19,20 @@ ruby::version::alias:
   2.1.0-github: 2.1.0-github1
   jruby: jruby-1.7.6
   ree: ree-1.8.7-2012.02
+
+ruby::prefix: '/opt'
+ruby::provider: 'rbenv'
+ruby::user: "%{::id}"
+
+ruby::build::ensure: 'v20140408'
+ruby::build::prefix: "%{hiera('ruby::prefix')}/ruby-build"
+ruby::build::user: "%{hiera('ruby::user')}"
+
+ruby::rbenv::ensure: v0.4.0
+ruby::rbenv::prefix: "%{hiera('ruby::prefix')}/rbenv"
+ruby::rbenv::user: "%{hiera('ruby::user')}"
+
+ruby::chruby::ensure: v0.3.8
+ruby::chruby::prefix: "%{hiera('ruby::prefix')}/chruby"
+ruby::chruby::user: "%{hiera('ruby::user')}"
+ruby::chruby::auto_switch: true
