@@ -23,10 +23,11 @@ class ruby::rbenv(
   }
 
   file { "${prefix}/versions":
-    ensure => symlink,
-    force  => true,
-    backup => false,
-    target => '/opt/rubies',
+    ensure  => symlink,
+    force   => true,
+    backup  => false,
+    target  => '/opt/rubies',
+    require => Repository[$prefix],
   }
 
 }
