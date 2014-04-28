@@ -28,7 +28,8 @@ source <%= scope.lookupvar("::ruby::chruby::prefix") %>/share/chruby/auto.sh
 <%- end -%>
 
 # Load global rubies
-export RUBIES=(/opt/rubies/*)
+RUBIES=(/opt/rubies/*)
+export RUBIES
 
 # Helper for shell prompts and the like
 current-ruby() {
