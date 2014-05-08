@@ -140,7 +140,7 @@ private
       :failonfail         => true,
       :uid                => user,
       :custom_environment => {
-        "PATH" => bindir,
+        "PATH" => env_path(bindir),
         "GEM_PATH" => nil
       }
     }
@@ -177,5 +177,9 @@ private
         }
       }
     end
+  end
+
+  def env_path(bindir)
+    [bindir, "#{Facter.value(:boxen_home)}/bin"].join(':')
   end
 end
