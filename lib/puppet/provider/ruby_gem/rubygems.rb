@@ -140,7 +140,7 @@ private
       :failonfail         => true,
       :uid                => user,
       :custom_environment => {
-        "PATH" => env_path(bindir, ruby_version),
+        "PATH" => env_path(bindir),
         "GEM_PATH" => nil
       }
     }
@@ -179,11 +179,7 @@ private
     end
   end
 
-  def env_path(bindir, ruby_version)
-    if ruby_version.start_with?('jruby')
-      [bindir, "#{Facter.value(:boxen_home)}/bin"].join(':')
-    else
-      bindir
-    end
+  def env_path(bindir)
+    [bindir, "#{Facter.value(:boxen_home)}/bin"].join(':')
   end
 end
