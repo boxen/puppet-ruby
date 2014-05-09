@@ -41,14 +41,14 @@ ruby::local { '/path/to/some/project':
 # ensure a gem is installed for a certain ruby version
 # note, you can't have duplicate resource names so you have to name like so
 $version = "2.0.0"
-ruby::gem { "bundler for ${version}":
+ruby_gem { "bundler for ${version}":
   gem          => 'bundler',
-  version      => '~> 1.2.0'
+  version      => '~> 1.2.0',
   ruby_version => $version,
 }
 
 # ensure a gem is installed for all ruby versions
-ruby::gem { 'bundler for all rubies':
+ruby_gem { 'bundler for all rubies':
   gem          => 'bundler',
   version      => '~> 1.0'
   ruby_version => '*',
@@ -66,7 +66,7 @@ ruby::plugin { 'rbenv-vars':
 # Run an installed gem
 exec { '/opt/rubies/2.1.0/bin/bundle install':
   cwd     => "~/src/project",
-  require => Ruby::Gem['bundler for 2.1.0']
+  require => ruby_gem['bundler for 2.1.0']
 }
 ```
 
