@@ -182,6 +182,8 @@ private
   end
 
   def env_path(bindir)
-    [bindir, "#{Facter.value(:boxen_home)}/bin"].join(':')
+    [bindir,
+     "#{Facter.value(:boxen_home)}/bin",
+     "/usr/bin", "/bin", "/usr/sbin", "/sbin"].join(':')
   end
 end
