@@ -17,7 +17,7 @@ Puppet::Type.type(:ruby_gem).provide(:rubygems) do
   def self.gemlist
     return @gemlist if defined?(@gemlist)
 
-    mapping = Hash.new
+    mapping = Hash.new { |h,k| h[k] = {} }
 
     Dir["/opt/rubies/*"].each do |ruby|
       v = File.basename(ruby)
