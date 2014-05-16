@@ -89,7 +89,7 @@ Puppet::Type.type(:ruby_gem).provide(:rubygems) do
       if @resource[:ruby_version] == "*"
         target_versions = ruby_versions
       else
-        target_versions = [@resource[:version]]
+        target_versions = [@resource[:ruby_version]]
       end
       target_versions.reject { |r| installed_for? r }.each do |ruby|
         gem "install '#{@resource[:gem]}' --version '#{@resource[:version]}' --source '#{@resource[:source]}' --no-rdoc --no-ri", ruby
@@ -101,7 +101,7 @@ Puppet::Type.type(:ruby_gem).provide(:rubygems) do
     if @resource[:ruby_version] == "*"
       target_versions = ruby_versions
     else
-      target_versions = [@resource[:version]]
+      target_versions = [@resource[:ruby_version]]
     end
     target_versions.select { |r| installed_for? r }.each do |ruby|
       gem "uninstall '#{@resource[:gem]}' --version '#{@resource[:version]}'", ruby
