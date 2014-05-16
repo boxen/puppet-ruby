@@ -95,6 +95,8 @@ Puppet::Type.type(:ruby_gem).provide(:rubygems) do
         gem "install '#{@resource[:gem]}' --version '#{@resource[:version]}' --source '#{@resource[:source]}' --no-rdoc --no-ri", ruby
       end
     end
+  rescue => e
+    raise Puppet::Error, "#{e.message}: #{e.backtrace.join("\n")}"
   end
 
   def destroy
