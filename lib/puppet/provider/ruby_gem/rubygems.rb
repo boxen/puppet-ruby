@@ -17,7 +17,7 @@ Puppet::Type.type(:ruby_gem).provide(:rubygems) do
   def self.gemlist
     return @gemlist if defined?(@gemlist)
 
-    mapping = Hash.new
+    mapping = Hash.new { |h,k| h[k] = {} }
 
     Dir["/opt/rubies/*"].each do |ruby|
       v = File.basename(ruby)
@@ -89,19 +89,21 @@ Puppet::Type.type(:ruby_gem).provide(:rubygems) do
       if @resource[:ruby_version] == "*"
         target_versions = ruby_versions
       else
-        target_versions = [@resource[:version]]
+        target_versions = [@resource[:ruby_version]]
       end
       target_versions.reject { |r| installed_for? r }.each do |ruby|
         gem "install '#{@resource[:gem]}' --version '#{@resource[:version]}' --source '#{@resource[:source]}' --no-rdoc --no-ri", ruby
       end
     end
+  rescue => e
+    raise Puppet::Error, "#{e.message}: #{e.backtrace.join("\n")}"
   end
 
   def destroy
     if @resource[:ruby_version] == "*"
       target_versions = ruby_versions
     else
-      target_versions = [@resource[:version]]
+      target_versions = [@resource[:ruby_version]]
     end
     target_versions.select { |r| installed_for? r }.each do |ruby|
       gem "uninstall '#{@resource[:gem]}' --version '#{@resource[:version]}'", ruby
@@ -180,6 +182,8 @@ private
   end
 
   def env_path(bindir)
-    [bindir, "#{Facter.value(:boxen_home)}/bin"].join(':')
+    [bindir,
+     "#{Facter.value(:boxen_home)}/bin",
+     "/usr/bin", "/bin", "/usr/sbin", "/sbin"].join(':')
   end
 end
