@@ -37,6 +37,8 @@ define ruby::version(
       require xquartz
       include homebrew::config
       include boxen::config
+      ensure_resource('package', 'readline')
+      Package['readline'] -> Ruby <| |>
     }
 
     $hierdata = hiera_hash('ruby::version::env', {})
