@@ -5,7 +5,7 @@ ruby::version::env:
     BOXEN_S3_BUCKET: "%{::boxen_s3_bucket}"
     CFLAGS: "-I%{::homebrew::config::installdir}/include -I/opt/X11/include"
     LDFLAGS: "-L%{::homebrew::config::installdir}/lib -L/opt/X11/lib"
-    RUBY_CONFIGURE_OPTS: "--without-gmp"
+    RUBY_CONFIGURE_OPTS: "--without-gmp --with-readline-dir=%{::homebrew::config::installdir}/opt/readline"
 
   1.8.7-p358:
     RUBY_CONFIGURE_OPTS: "--disable-tk --disable-tcl --disable-tcltk-framework"
