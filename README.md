@@ -57,12 +57,6 @@ ruby_gem { 'bundler for all rubies':
 # install a ruby version
 ruby::version { '1.9.3-p194': }
 
-# Installing rbenv plugin
-ruby::plugin { 'rbenv-vars':
-  ensure => 'v1.2.0',
-  source  => 'sstephenson/rbenv-vars'
-}
-
 # Run an installed gem
 exec { '/opt/rubies/2.1.0/bin/bundle install':
   cwd     => "~/src/project",
