@@ -83,7 +83,7 @@ private
       /
       #{os_release}
       /
-      #{version}.tar.bz2
+      #{CGI.escape(version)}.tar.bz2
     ).join("")
   end
 
