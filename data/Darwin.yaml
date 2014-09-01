@@ -18,7 +18,7 @@ ruby::version::env:
 
   ree-1.8.7-2012.02:
     CC: "gcc-4.2"
-    CFLAGS: "-O2 -fno-optimize-sibling-calls"
+    CFLAGS: "-O2 -fno-tree-dce -fno-optimize-sibling-calls"
 
 ruby::prefix: "%{::boxen::config::home}"
 ruby::user: "%{::boxen_user}"
