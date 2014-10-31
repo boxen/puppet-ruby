@@ -17,6 +17,13 @@ Requires the following boxen modules:
 This module supports ruby version management with either rbenv or chruby.
 All ruby versions are installed into `/opt/rubies`.
 
+## About ruby-build version
+
+Occasional bumps to the default ruby-build version are fine, on this module, but not essential.
+The ruby-build version is something you should be managing in your own boxen repository,
+rather than depending on this module to update for you. See examples on how to change the ruby-build
+version in the Hiera section.
+
 ## Breakages since last major version
 
 * `ruby::global` does not work with chruby
