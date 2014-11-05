@@ -24,6 +24,8 @@ The ruby-build version is something you should be managing in your own boxen rep
 rather than depending on this module to update for you. See examples on how to change the ruby-build
 version in the Hiera section.
 
+You can find a release list of versions for ruby-build [here](https://github.com/sstephenson/ruby-build/releases).
+
 ## Breakages since last major version
 
 * `ruby::global` does not work with chruby
@@ -81,7 +83,7 @@ The following variables may be automatically overridden with Hiera:
 "ruby::provider": "chruby"
 "ruby::user": "deploy"
 
-"ruby::build::ensure": "v0.3.8"
+"ruby::build::ensure": "v20141028"
 "ruby::chruby::ensure": "v0.3.6"
 "ruby::rbenv::ensure": "v0.4.0"
 
