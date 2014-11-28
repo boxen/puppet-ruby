@@ -8,9 +8,10 @@
 # if `ruby::provider` is set to "rbenv"
 
 class ruby::rbenv(
-  $ensure = $ruby::rbenv::ensure,
-  $prefix = $ruby::rbenv::prefix,
-  $user   = $ruby::rbenv::user,
+  $ensure  = $ruby::rbenv::ensure,
+  $prefix  = $ruby::rbenv::prefix,
+  $user    = $ruby::rbenv::user,
+  $plugins = {}
 ) {
 
   require ruby
@@ -27,7 +28,17 @@ class ruby::rbenv(
     force   => true,
     backup  => false,
     target  => '/opt/rubies',
-    require => Repository[$prefix],
+    require => Repository[$prefix]
   }
 
+  if !empty($plugins) and $ensure != 'absent'  {
+
+    file { "${prefix}/plugins":
+      ensure  => directory,
+      require => Repository[$prefix]
+    }
+
+    create_resources('ruby::rbenv::plugin', $plugins)
+
+  }
 }

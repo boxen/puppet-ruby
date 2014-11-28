@@ -28,7 +28,6 @@ You can find a release list of versions for ruby-build [here](https://github.com
 ## Breakages since last major version
 
 * `ruby::global` does not work with chruby
-* rbenv plugin support is gone
 * bundler is no longer installed by default
 * rubies now live in /opt/rubies instead of /opt/boxen/rbenv/versions
 * the module-data module is now **required**
@@ -38,17 +37,17 @@ You can find a release list of versions for ruby-build [here](https://github.com
 ```puppet
 # Set the global default ruby (auto-installs it if it can)
 class { 'ruby::global':
-  version => '1.9.3'
+  version => '2.2.2'
 }
 
 # ensure a certain ruby version is used in a dir
 ruby::local { '/path/to/some/project':
-  version => '2.2.0'
+  version => '2.2.2'
 }
 
 # ensure a gem is installed for a certain ruby version
 # note, you can't have duplicate resource names so you have to name like so
-$version = "2.0.0"
+$version = "2.2.2"
 ruby_gem { "bundler for ${version}":
   gem          => 'bundler',
   version      => '~> 1.2.0',
@@ -63,12 +62,18 @@ ruby_gem { 'bundler for all rubies':
 }
 
 # install a ruby version
-ruby::version { '2.2.0': }
+ruby::version { '2.2.2': }
+
+# Installing rbenv plugin
+ruby::rbenv::plugin { 'rbenv-vars':
+  ensure => 'v1.2.0',
+  source  => 'sstephenson/rbenv-vars'
+}
 
 # Run an installed gem
-exec { '/opt/rubies/2.1.0/bin/bundle install':
+exec { '/opt/rubies/2.2.2/bin/bundle install':
   cwd     => "~/src/project",
-  require => ruby_gem['bundler for 2.1.0']
+  require => ruby_gem['bundler for 2.2.2']
 }
 ```
 
@@ -85,6 +90,12 @@ The following variables may be automatically overridden with Hiera:
 "ruby::build::ensure": "v20141028"
 "ruby::chruby::ensure": "v0.3.6"
 "ruby::rbenv::ensure": "v0.4.0"
+
+# rbenv plugins
+"ruby::rbenv::plugins":
+  "rbenv-gem-rehash":
+    "ensure": "v1.0.0"
+    "source": "sstephenson/rbenv-gem-rehash"
 
 # Environment variables for building specific versions
 # You'll want to enable hiera's "deeper" merge strategy
