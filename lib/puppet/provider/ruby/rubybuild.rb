@@ -71,11 +71,11 @@ private
   end
 
   def precompiled_url
+    base = Facter.value(:boxen_download_url_base) ||
+      "http://#{Facter.value(:boxen_s3_host)}/#{Facter.value(:boxen_s3_bucket)}"
+    
     %W(
-      http://
-      #{Facter.value(:boxen_s3_host)}
-      /
-      #{Facter.value(:boxen_s3_bucket)}
+      #{base}
       /
       rubies
       /
