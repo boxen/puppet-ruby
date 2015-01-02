@@ -13,7 +13,7 @@ export PATH=$RBENV_ROOT/bin:$PATH
 eval "$(rbenv init -)"
 
 # Helper for shell prompts and the like
-current-ruby() {
+current_ruby() {
   echo "$(rbenv version-name)"
 }
 <%- end -%>
