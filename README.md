@@ -6,7 +6,6 @@ Requires the following boxen modules:
 
 * `boxen >= 3.2.0`
 * `repository >= 2.1`
-* `xquartz` (OS X only)
 * `autoconf` (some ruby versions)
 * `openssl` (ruby versions >= 2.0.0)
 * `gcc` (ruby versions <= 1.8.7)
@@ -44,7 +43,7 @@ class { 'ruby::global':
 
 # ensure a certain ruby version is used in a dir
 ruby::local { '/path/to/some/project':
-  version => '1.9.3-p194'
+  version => '2.2.0'
 }
 
 # ensure a gem is installed for a certain ruby version
@@ -64,7 +63,7 @@ ruby_gem { 'bundler for all rubies':
 }
 
 # install a ruby version
-ruby::version { '1.9.3-p194': }
+ruby::version { '2.2.0': }
 
 # Run an installed gem
 exec { '/opt/rubies/2.1.0/bin/bundle install':

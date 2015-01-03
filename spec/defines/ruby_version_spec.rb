@@ -2,14 +2,14 @@ require 'spec_helper'
 
 describe 'ruby::version' do
   let(:facts) { default_test_facts }
-  let(:title) { '1.9.3-p194' }
+  let(:title) { '2.2.0' }
 
   context "ensure => present" do
     context "default params" do
       it do
         should contain_class('ruby')
 
-        should contain_ruby('1.9.3-p194').with({
+        should contain_ruby('2.2.0').with({
           :ensure     => "installed",
           :ruby_build => "/test/boxen/ruby-build/bin/ruby-build",
           :provider   => 'rubybuild',
@@ -20,7 +20,7 @@ describe 'ruby::version' do
 
     context "when env is default" do
       it do
-        should contain_ruby('1.9.3-p194').with_environment({
+        should contain_ruby('2.2.0').with_environment({
           "CC" => "/usr/bin/cc",
           "FROM_HIERA" => "true",
         })
@@ -35,7 +35,7 @@ describe 'ruby::version' do
       end
 
       it do
-        should contain_ruby('1.9.3-p194').with_environment({
+        should contain_ruby('2.2.0').with_environment({
           "CC" => "/usr/bin/cc",
           "FROM_HIERA" => "true",
           "SOME_VAR" => "flocka"
@@ -52,7 +52,7 @@ describe 'ruby::version' do
     end
 
     it do
-      should contain_ruby('1.9.3-p194').with_ensure('absent')
+      should contain_ruby('2.2.0').with_ensure('absent')
     end
   end
 end

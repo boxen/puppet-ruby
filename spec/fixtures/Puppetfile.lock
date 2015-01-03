@@ -34,11 +34,6 @@ GITHUBTARBALL
     repository (2.2.0)
 
 GITHUBTARBALL
-  remote: boxen/puppet-xquartz
-  specs:
-    xquartz (1.1.0)
-
-GITHUBTARBALL
   remote: puppetlabs/puppetlabs-stdlib
   specs:
     stdlib (4.0.0)
@@ -58,5 +53,4 @@ DEPENDENCIES
   openssl (= 1.0.0)
   repository (= 2.2.0)
   stdlib (= 4.0.0)
-  xquartz (= 1.1.0)
 

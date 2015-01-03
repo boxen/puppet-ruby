@@ -3,7 +3,7 @@
 #
 # Usage:
 #
-#     ruby::version { '1.9.3-p194': }
+#     ruby::version { '2.2.0': }
 
 define ruby::version(
   $ensure  = 'installed',
@@ -34,7 +34,6 @@ define ruby::version(
     }
 
     if $::operatingsystem == 'Darwin' {
-      require xquartz
       include homebrew::config
       include boxen::config
       ensure_resource('package', 'readline')
