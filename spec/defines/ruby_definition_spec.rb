@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'ruby::definition' do
   let(:facts) { default_test_facts }
-  let(:title) { '1.9.3-p231-github1' }
+  let(:title) { '2.2.0' }
 
   let(:definition_path) do
     [

@@ -3,7 +3,7 @@
 #
 # Usage:
 #
-#     ruby::local { '/path/to/a/thing': version => '1.9.3-p194' }
+#     ruby::local { '/path/to/a/thing': version => '2.2.0' }
 
 define ruby::local($version = undef, $ensure = present) {
   include ruby

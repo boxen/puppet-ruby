@@ -5,7 +5,7 @@ describe 'ruby::local' do
     {
       :boxen_home                  => '/opt/boxen',
       :boxen_user                  => 'wfarr',
-      :macosx_productversion_major => '10.8'
+      :macosx_productversion_major => '10.10'
     }
   end
 
@@ -14,17 +14,17 @@ describe 'ruby::local' do
   context 'ensure => present' do
     let(:params) do
       {
-        :version => '1.9.3-p194'
+        :version => '2.2.0'
       }
     end
 
     it do
-      should contain_ruby__version('1.9.3-p194')
+      should contain_ruby__version('2.2.0')
 
       should contain_file('/tmp/.rbenv-version').with_ensure('absent')
       should contain_file('/tmp/.ruby-version').with({
         :ensure  => 'present',
-        :content => "1.9.3-p194\n",
+        :content => "2.2.0\n",
         :replace => true
       })
     end
