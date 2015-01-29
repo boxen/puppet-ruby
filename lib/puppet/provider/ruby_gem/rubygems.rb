@@ -141,9 +141,11 @@ private
       :combine            => true,
       :failonfail         => true,
       :uid                => user,
+      :override_locale    => false,
       :custom_environment => {
         "PATH" => env_path(bindir),
-        "GEM_PATH" => nil
+        "GEM_PATH" => nil,
+        "LANG" => "en_US.UTF-8"
       }
     }
   end
