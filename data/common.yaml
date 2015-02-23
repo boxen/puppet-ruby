@@ -19,7 +19,8 @@ ruby::version::alias:
   2.1.0-github: 2.1.0-github1
   2.1.2-github: 2.1.2-github1
   2.1.4-github: 2.1.4-github1
-  2.1-github: 2.1.4-github1
+  2.1.5-github: 2.1.5-github1
+  2.1-github: 2.1.5-github1
   jruby: jruby-1.7.6
   ree: ree-1.8.7-2012.02
 
@@ -27,7 +28,7 @@ ruby::prefix: '/opt'
 ruby::provider: 'rbenv'
 ruby::user: "%{::id}"
 
-ruby::build::ensure: 'v20141028'
+ruby::build::ensure: 'v20141113'
 ruby::build::prefix: "%{hiera('ruby::prefix')}/ruby-build"
 ruby::build::user: "%{hiera('ruby::user')}"
 
