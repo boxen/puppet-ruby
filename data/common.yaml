@@ -1,6 +1,6 @@
 ---
 ruby::version::env:
-  1.8.7-p358:
+  1.8.7-p375:
     CC: gcc
 
   1.9.2-p290:
@@ -10,7 +10,7 @@ ruby::version::env:
     CC: gcc
 
 ruby::version::alias:
-  1.8.7: 1.8.7-p358
+  1.8.7: 1.8.7-p375
   1.9.2: 1.9.2-p320
   1.9.3: 1.9.3-p545
   1.9.3-p231-tcs-github: 1.9.3-p231-tcs-github-1.0.32
