@@ -35,12 +35,18 @@ Puppet::Type.type(:ruby).provide(:rubybuild) do
   def create
     destroy if File.directory?(prefix)
 
+    default_boxen_homebrew = !Facter.value(:homebrew_root)
+    default_boxen_homebrew ||= Facter.value(:homebrew_root) == "/opt/boxen/homebrew"
+
     if Facter.value(:offline) == "true"
       if File.exist?("#{cache_path}/ruby-#{version}.tar.gz")
         build_ruby
       else
         raise Puppet::Error, "Can't install ruby because we're offline and the tarball isn't cached"
       end
+    elsif !default_boxen_homebrew
+      Puppet.debug("Can't use ruby binary due to custom Homebrew location")
+      build_ruby
     else
       try_to_download_precompiled_ruby || build_ruby
     end
