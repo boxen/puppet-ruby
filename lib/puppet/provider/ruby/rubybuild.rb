@@ -35,18 +35,12 @@ Puppet::Type.type(:ruby).provide(:rubybuild) do
   def create
     destroy if File.directory?(prefix)
 
-    default_boxen_homebrew = !Facter.value(:homebrew_root)
-    default_boxen_homebrew ||= Facter.value(:homebrew_root) == "/opt/boxen/homebrew"
-
     if Facter.value(:offline) == "true"
       if File.exist?("#{cache_path}/ruby-#{version}.tar.gz")
         build_ruby
       else
         raise Puppet::Error, "Can't install ruby because we're offline and the tarball isn't cached"
       end
-    elsif !default_boxen_homebrew
-      Puppet.debug("Can't use ruby binary due to custom Homebrew location")
-      build_ruby
     else
       try_to_download_precompiled_ruby || build_ruby
     end
@@ -76,6 +70,17 @@ private
     "/tmp/ruby-#{version}.tar.bz2"
   end
 
+  # Keep in sync with same-named function in:
+  # https://github.com/boxen/our-boxen/blob/master/script/sync
+  def s3_cellar
+    homebrew_cellar = "#{Facter.value(:homebrew_root)}/Cellar"
+    case homebrew_cellar
+    when "/Cellar", "/opt/boxen/homebrew/Cellar" then ""
+    when "/usr/local/Cellar" then "default/"
+    else "#{Base64.strict_encode64(homebrew_cellar)}/"
+    end
+  end
+
   def precompiled_url
     base = Facter.value(:boxen_download_url_base) ||
       "https://#{Facter.value(:boxen_s3_host)}/#{Facter.value(:boxen_s3_bucket)}"
@@ -87,6 +92,7 @@ private
       /
       #{Facter.value(:operatingsystem)}
       /
+      #{s3_cellar}
       #{os_release}
       /
       #{CGI.escape(version)}.tar.bz2
