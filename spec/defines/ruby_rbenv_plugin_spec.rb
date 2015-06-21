@@ -17,6 +17,7 @@ describe 'ruby::rbenv::plugin' do
   context "ensure => present" do
     it do
       should contain_class('ruby')
+      should contain_file('/test/boxen/rbenv/plugins')
       should contain_repository('/test/boxen/rbenv/plugins/rbenv-vars')
     end
   end
