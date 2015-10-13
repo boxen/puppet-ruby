@@ -73,7 +73,7 @@ ruby::rbenv::plugin { 'rbenv-vars':
 # Run an installed gem
 exec { '/opt/rubies/2.2.2/bin/bundle install':
   cwd     => "~/src/project",
-  require => ruby_gem['bundler for 2.2.2']
+  require => Ruby_Gem['bundler for 2.2.2']
 }
 ```
 
