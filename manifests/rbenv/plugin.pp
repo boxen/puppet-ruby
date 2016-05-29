@@ -11,6 +11,13 @@ define ruby::rbenv::plugin($ensure, $source) {
   require ruby
 
   if $ruby::provider == 'rbenv' {
+
+    $plugins_dir_params =  {
+      ensure  => directory,
+      require => Repository[$ruby::rbenv::prefix]
+    }
+    ensure_resource('file', "${ruby::rbenv::prefix}/plugins", $plugins_dir_params)
+
     repository { "${ruby::rbenv::prefix}/plugins/${name}":
       ensure  => $ensure,
       force   => true,

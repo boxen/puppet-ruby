@@ -32,13 +32,6 @@ class ruby::rbenv(
   }
 
   if !empty($plugins) and $ensure != 'absent'  {
-
-    file { "${prefix}/plugins":
-      ensure  => directory,
-      require => Repository[$prefix]
-    }
-
     create_resources('ruby::rbenv::plugin', $plugins)
-
   }
 }
