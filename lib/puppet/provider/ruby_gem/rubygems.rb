@@ -92,7 +92,7 @@ Puppet::Type.type(:ruby_gem).provide(:rubygems) do
         target_versions = [@resource[:ruby_version]]
       end
       target_versions.reject { |r| installed_for? r }.each do |ruby|
-        gem "install '#{@resource[:gem]}' --version '#{@resource[:version]}' --source '#{@resource[:source]}' --no-rdoc --no-ri", ruby
+        gem "install '#{@resource[:gem]}' --version '#{@resource[:version]}' --source '#{@resource[:source]}' --no-document", ruby
       end
     end
   rescue => e
