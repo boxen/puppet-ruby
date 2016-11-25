@@ -33,7 +33,7 @@ ruby::build::ensure: 'v20160330'
 ruby::build::prefix: "%{hiera('ruby::prefix')}/ruby-build"
 ruby::build::user: "%{hiera('ruby::user')}"
 
-ruby::rbenv::ensure: v0.4.0
+ruby::rbenv::ensure: v1.1.0
 ruby::rbenv::prefix: "%{hiera('ruby::prefix')}/rbenv"
 ruby::rbenv::user: "%{hiera('ruby::user')}"
 
