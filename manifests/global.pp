@@ -2,9 +2,9 @@
 #
 # Usage:
 #
-#   class { 'ruby::global': version => '1.9.3' }
+#   class { 'ruby::global': version => '2.0.0-p648' }
 
-class ruby::global($version = '1.9.3') {
+class ruby::global($version = '2.0.0-p648') {
   require ruby
 
   if $ruby::provider == 'rbenv' {

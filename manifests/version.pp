@@ -23,7 +23,6 @@ define ruby::version(
       to     => $to,
     }
   } else {
-
     case $version {
       /jruby/: { require 'java' }
       default: { }
@@ -36,6 +35,8 @@ define ruby::version(
     if $::operatingsystem == 'Darwin' {
       include homebrew::config
       include boxen::config
+      ensure_resource('package', 'openssl')
+      Package['openssl'] -> Ruby <| |>
       ensure_resource('package', 'readline')
       Package['readline'] -> Ruby <| |>
     }
@@ -67,7 +68,5 @@ define ruby::version(
       user        => $ruby::user,
       provider    => rubybuild,
     }
-
   }
-
 }
