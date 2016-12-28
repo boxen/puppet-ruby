@@ -128,6 +128,8 @@ private
 
     @environment = Hash.new
 
+    @environment["HOME"] = rbenv_root
+    @environment["BUNDLE_BIN_PATH"] = ""
     @environment["RUBY_BUILD_CACHE_PATH"] = cache_path
 
     @environment.merge!(@resource[:environment])
