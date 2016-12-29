@@ -13,7 +13,6 @@ class ruby::chruby(
   $user        = $ruby::chruby::user,
   $auto_switch = $ruby::chruby::auto_switch,
 ) {
-
   require ruby
 
   repository { $prefix:
@@ -22,5 +21,4 @@ class ruby::chruby(
     source => 'postmodern/chruby',
     user   => $user
   }
-
 }

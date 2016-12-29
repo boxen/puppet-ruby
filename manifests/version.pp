@@ -23,7 +23,6 @@ define ruby::version(
       to     => $to,
     }
   } else {
-
     case $version {
       /jruby/: { require 'java' }
       default: { }
@@ -67,7 +66,5 @@ define ruby::version(
       user        => $ruby::user,
       provider    => rubybuild,
     }
-
   }
-
 }

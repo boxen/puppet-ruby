@@ -37,17 +37,17 @@ You can find a release list of versions for ruby-build [here](https://github.com
 ```puppet
 # Set the global default ruby (auto-installs it if it can)
 class { 'ruby::global':
-  version => '2.3.1'
+  version => '2.4.0'
 }
 
 # ensure a certain ruby version is used in a dir
 ruby::local { '/path/to/some/project':
-  version => '2.3.1'
+  version => '2.4.0'
 }
 
 # ensure a gem is installed for a certain ruby version
 # note, you can't have duplicate resource names so you have to name like so
-$version = "2.3.1"
+$version = "2.4.0"
 ruby_gem { "bundler for ${version}":
   gem          => 'bundler',
   version      => '~> 1.2.0',
@@ -62,7 +62,7 @@ ruby_gem { 'bundler for all rubies':
 }
 
 # install a ruby version
-ruby::version { '2.3.1': }
+ruby::version { '2.4.0': }
 
 # Installing rbenv plugin
 ruby::rbenv::plugin { 'rbenv-vars':
@@ -71,9 +71,9 @@ ruby::rbenv::plugin { 'rbenv-vars':
 }
 
 # Run an installed gem
-exec { '/opt/rubies/2.3.1/bin/bundle install':
+exec { '/opt/rubies/2.4.0/bin/bundle install':
   cwd     => "~/src/project",
-  require => Ruby_Gem['bundler for 2.3.1']
+  require => Ruby_Gem['bundler for 2.4.0']
 }
 ```
 
@@ -87,9 +87,9 @@ The following variables may be automatically overridden with Hiera:
 "ruby::provider": "chruby"
 "ruby::user": "deploy"
 
-"ruby::build::ensure": "v20160913"
+"ruby::build::ensure": "v20161225"
 "ruby::chruby::ensure": "v0.3.9"
-"ruby::rbenv::ensure": "v1.0.0"
+"ruby::rbenv::ensure": "v1.1.0"
 
 # rbenv plugins
 "ruby::rbenv::plugins":

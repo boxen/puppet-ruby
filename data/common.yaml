@@ -29,7 +29,7 @@ ruby::prefix: '/opt'
 ruby::provider: 'rbenv'
 ruby::user: "%{::id}"
 
-ruby::build::ensure: 'v20161121'
+ruby::build::ensure: 'v20161225'
 ruby::build::prefix: "%{hiera('ruby::prefix')}/ruby-build"
 ruby::build::user: "%{hiera('ruby::user')}"
 
