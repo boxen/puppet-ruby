@@ -104,7 +104,7 @@ The following variables may be automatically overridden with Hiera:
   "1.9.3-gentoo":
     "CC": "llvm"
     "CFLAGS": "-O9 -funroll-loops"
-  ".0.0-p0":
+  "2.0.0-p0":
     "CC": "gcc"
 
 # Version aliases, commonly used to bless a specific version

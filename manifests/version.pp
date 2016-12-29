@@ -35,8 +35,6 @@ define ruby::version(
     if $::operatingsystem == 'Darwin' {
       include homebrew::config
       include boxen::config
-      ensure_resource('package', 'openssl')
-      Package['openssl'] -> Ruby <| |>
       ensure_resource('package', 'readline')
       Package['readline'] -> Ruby <| |>
     }
