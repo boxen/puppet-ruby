@@ -42,10 +42,10 @@ Puppet::Type.type(:ruby).provide(:rubybuild) do
         raise Puppet::Error, "Can't install ruby because we're offline and the tarball isn't cached"
       end
     else
-      try_to_download_precompiled_ruby || build_ruby
+      build_ruby
     end
   rescue => e
-    raise Puppet::Error, "install failed with a crazy error: #{e.message} #{e.backtrace}"
+    raise Puppet::Error, "install failed with an error: #{e.message} #{e.backtrace}"
   end
 
   def destroy
@@ -53,17 +53,9 @@ Puppet::Type.type(:ruby).provide(:rubybuild) do
   end
 
 private
-  def try_to_download_precompiled_ruby
-    Puppet.debug("Trying to download precompiled ruby for #{version}")
-    output = execute "curl --silent --fail #{precompiled_url} >#{tmp} && tar xjf #{tmp} -C /opt/rubies", command_options.merge(:failonfail => false)
-
-    output.exitstatus == 0
-  ensure
-    FileUtils.rm_f tmp
-  end
 
   def build_ruby
-    execute "#{ruby_build} #{version} #{prefix}", command_options.merge(:failonfail => true)
+    execute "#{ruby_build} #{version} #{prefix} --verbose", command_options.merge(:failonfail => true)
   end
 
   def tmp
@@ -79,24 +71,6 @@ private
     when "/usr/local/Cellar" then "default/"
     else "#{Base64.strict_encode64(homebrew_cellar)}/"
     end
-  end
-
-  def precompiled_url
-    base = Facter.value(:boxen_download_url_base) ||
-      "https://#{Facter.value(:boxen_s3_host)}/#{Facter.value(:boxen_s3_bucket)}"
-
-    %W(
-      #{base}
-      /
-      rubies
-      /
-      #{Facter.value(:operatingsystem)}
-      /
-      #{s3_cellar}
-      #{os_release}
-      /
-      #{CGI.escape(version)}.tar.bz2
-    ).join("")
   end
 
   def os_release
