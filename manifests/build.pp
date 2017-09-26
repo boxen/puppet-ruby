@@ -10,7 +10,7 @@ class ruby::build(
   repository { $prefix:
     ensure => $ensure,
     force  => true,
-    source => 'sstephenson/ruby-build',
+    source => 'rbenv/ruby-build',
     user   => $user,
   }
 

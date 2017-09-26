@@ -22,7 +22,7 @@ describe "ruby::rbenv" do
         should contain_repository('/test/boxen/rbenv').with({
           :ensure => 'v0.4.0',
           :force  => true,
-          :source => 'sstephenson/rbenv',
+          :source => 'rbenv/rbenv',
           :user   => 'testuser'
         })
 

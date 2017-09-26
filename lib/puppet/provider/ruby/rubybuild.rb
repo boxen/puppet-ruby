@@ -55,7 +55,7 @@ Puppet::Type.type(:ruby).provide(:rubybuild) do
 private
 
   def build_ruby
-    execute "#{ruby_build} #{version} #{prefix} --verbose", command_options.merge(:failonfail => true)
+    execute "#{ruby_build} #{version} #{prefix}", command_options.merge(:failonfail => true)
   end
 
   def tmp
