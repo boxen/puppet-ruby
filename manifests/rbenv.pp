@@ -19,7 +19,7 @@ class ruby::rbenv(
   repository { $prefix:
     ensure => $ensure,
     force  => true,
-    source => 'sstephenson/rbenv',
+    source => 'rbenv/rbenv',
     user   => $user
   }
 
