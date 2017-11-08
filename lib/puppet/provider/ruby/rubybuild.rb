@@ -103,6 +103,12 @@ private
     @environment = Hash.new
 
     @environment["RUBY_BUILD_CACHE_PATH"] = cache_path
+    @environment["GEM_HOME"] = nil
+    @environment["GEM_PATH"] = nil
+    @environment["BUNDLE_GEMFILE"] = nil
+    @environment["BUNDLE_BIN_PATH"] = nil
+    @environment["RUBYOPT"] = nil
+    @environment["RUBYLIB"] = nil
 
     @environment.merge!(@resource[:environment])
   end

@@ -144,8 +144,13 @@ private
       :override_locale    => false,
       :custom_environment => {
         "PATH" => env_path(bindir),
+        "LANG" => "en_US.UTF-8",
+        "GEM_HOME" => nil,
         "GEM_PATH" => nil,
-        "LANG" => "en_US.UTF-8"
+        "BUNDLE_GEMFILE" => nil,
+        "BUNDLE_BIN_PATH" => nil,
+        "RUBYOPT" => nil,
+        "RUBYLIB" => nil
       }
     }
   end
