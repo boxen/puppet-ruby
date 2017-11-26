@@ -102,6 +102,8 @@ private
 
     @environment = Hash.new
 
+    @environment["HOME"] = prefix
+    @environment["BUNDLE_BIN_PATH"] = ""
     @environment["RUBY_BUILD_CACHE_PATH"] = cache_path
     @environment["GEM_HOME"] = nil
     @environment["GEM_PATH"] = nil
@@ -126,6 +128,10 @@ private
   end
 
   def prefix
-    "/opt/rubies/#{version}"
+    if Facter.value(:boxen_home)
+      "#{Facter.value(:boxen_home)}/rbenv"
+    else
+      "/opt/rubies"
+    end
   end
 end
