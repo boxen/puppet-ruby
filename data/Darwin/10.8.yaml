@@ -1,6 +1,0 @@
-ruby::version::env:
-  1.8.7-p375:
-    CC: "gcc-4.2"
-
-  ree-1.8.7-2012.02:
-    CC: "gcc-4.2"
